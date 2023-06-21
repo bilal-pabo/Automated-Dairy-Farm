@@ -1,6 +1,6 @@
 <main>
     <h1>Add New Animal</h1>
-    <div class="warning msg"> <?php if(isset($_SESSION['msg'])) { echo $_SESSION['msg']; unset($_SESSION['msg']); } ?> </div>
+    <div class=" msg"> <?php if(isset($_SESSION['msg'])) { echo $_SESSION['msg']; unset($_SESSION['msg']); } ?> </div>
     <form action="#" method="POST">
         <header>Animal Information</header>
         <div class="item">
@@ -11,16 +11,20 @@
             <label for="breed"><span class="star">*</span>Breed : </label>
             <select name="breed" id="breed" class="breed" required>
                 <option value="">Select breed</option>
-                <option value="breed2">Breed 2</option>
-                <option value="breed3">Breed 3</option>
+                <?php 
+                    for ($i = 0; $i < sizeof($breeds); $i++)
+                    {
+                       ?> <option value="<?= $breeds[$i] ?>"><?php echo $breeds[$i] ?></option> <?php
+                    }
+                ?>
             </select>
         </div>
         <div class="item">
             <label for="gender"><span class="star">*</span>Gender : </label>
             <select name="gender" id="gender" class="gender" required>
                 <option value="">Select animal type</option>
-                <option id="cow" value="cow">Cow</option>
-                <option id="bull" value="bull">Bull</option>
+                <option id="cow" value="Cow">Cow</option>
+                <option id="bull" value="Bull">Bull</option>
             </select>
         </div>
         <div class="item">
@@ -56,8 +60,8 @@
                 <select name="insemination" id="insemination" class="insemination">
                     <option value="">Select insemination type</option>
 
-                    <option value="artificial">Artificial Insemination</option>
-                    <option value="natural">Natural Insemination</option>
+                    <option value="Artificial Insemination">Artificial Insemination</option>
+                    <option value="Natural Insemination">Natural Insemination</option>
                 </select>
             </div>
             <div class="bullid">

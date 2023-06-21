@@ -1,7 +1,7 @@
 const sideMenu = document.querySelector("aside");
 const menuBtn = document.querySelector("#menu-btn");
 const closeBtn = document.querySelector("#close-btn");
-const theme = document.querySelector(".theme-toggler");
+const Theme = document.querySelector(".theme-toggler");
 const onlyCow = document.querySelector(".onlyCow");
 const date = document.querySelector(".pregYes");
 const insdate = document.querySelector(".insDate");
@@ -15,19 +15,43 @@ closeBtn.addEventListener('click', () => {
     sideMenu.style.display = 'none';
 })
 
-theme.addEventListener('click', () => {
-    document.body.classList.toggle('dark-theme-variables');
-    theme.querySelector('span:nth-child(1)').classList.toggle('active');
-    theme.querySelector('span:nth-child(2)').classList.toggle('active');
-})
+// Function to set the theme class on the body element
+function setTheme(theme) {
+    document.body.classList.toggle('dark-theme-variables', theme === 'dark');
+    Theme.querySelector('span:nth-child(1)').classList.toggle('active', theme === 'light');
+    Theme.querySelector('span:nth-child(2)').classList.toggle('active', theme === 'dark');
+  }
+  
+  // Function to handle the click event on the theme element
+  function toggleTheme() {
+    const currentTheme = localStorage.getItem('theme');
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('theme', newTheme);
+    setTheme(newTheme);
+  }
+  
+  // Add event listener to the theme element
+  Theme.addEventListener('click', toggleTheme);
+  
+  // Apply the theme when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else {
+      // If no theme preference is saved, default to light theme
+      localStorage.setItem('theme', 'light');
+    }
+  });
 
 document.getElementById("gender").addEventListener('change', function() {
     var value = this.value;
-    if (value == 'cow') 
+    if (value === 'Cow') 
     {
-        onlyCow.style.display = 'block';
+      console.log(value)  
+      onlyCow.style.display = 'block';
     }
-    else onlyCow.style.display = 'none';
+    else console.log(value);
 })
 
 document.getElementById("pregnant").addEventListener('change', function() {
@@ -38,12 +62,12 @@ document.getElementById("pregnant").addEventListener('change', function() {
 
 document.getElementById("insemination").addEventListener('change', function() {
     var value = this.value;
-    if (value == 'artificial') 
+    if (value == 'Artificial Insemination') 
     {
         bullid.style.display = 'none';
         insdate.style.display = 'block';
     }
-    else if (value == 'natural')
+    else if (value == 'Natural Insemination')
     {
         bullid.style.display = 'block';
         insdate.style.display = 'block'; 
