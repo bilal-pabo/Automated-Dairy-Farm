@@ -1,5 +1,5 @@
 <main>
-    <h1>Dashboard</h1>
+    <h1>Dashboard</h1> <?php echo date('Y-m-d'); ?>
     <div class="cardBox">
         <div class="card" onclick="window.location='pregnantCows';">
             <div>
@@ -32,6 +32,12 @@
             <div class="iconBx">
             <img src=<?php echo $dots.'./components/icons/low.png' ?> alt="">
             </div>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <h4><?php if (isset($_SESSION['todayMilk']) && $_SESSION['date'] == date('Y-m-d')) echo $_SESSION['todayMilk']; else echo 0; ?>.ltr milk today</h4>
         </div>
     </div>
 

@@ -20,7 +20,7 @@
             for ($i = 0; $i < sizeof($records); $i++) {
                 ?>
                 
-                <tr onclick="window.location='animalProfile';">
+                <tr onclick="redirectToProfile('<?php echo $records[$i]->id; ?>');">
                     <td><?= $i+1 ?></td>
                     <td><?= $records[$i]->id ?></td>
                     <td><?= $records[$i]->breed ?></td>

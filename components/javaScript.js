@@ -15,6 +15,12 @@ closeBtn.addEventListener('click', () => {
     sideMenu.style.display = 'none';
 })
 
+function redirectToProfile(cowid)
+{  
+  window.location.href = 'animalProfile?cowid=' + cowid;
+}
+
+
 // Function to set the theme class on the body element
 function setTheme(theme) {
     document.body.classList.toggle('dark-theme-variables', theme === 'dark');
@@ -78,3 +84,5 @@ document.getElementById("insemination").addEventListener('change', function() {
         insdate.style.display = 'none'; 
     }
 })
+
+

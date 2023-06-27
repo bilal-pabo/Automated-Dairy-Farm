@@ -128,5 +128,150 @@ class Model
         }
     }
 
+    function getAnimalData($id)
+    {
+        try {
+            $query = "select * from animalinfo where id='$id'";
+            $result = mysqli_query($this->connection, $query);
+            $data = mysqli_fetch_object($result);
+            return $data;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getSeminationRecord($id)
+    {
+        try {
+            $query = "select * from insemination where cowid='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if (mysqli_num_rows($result) > 0) {
+                $response['data'] = mysqli_fetch_object($result);
+                $response['code'] = true;
+                return $response;
+            } else {
+                $response['code'] = false;
+                return $response;
+            }
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getPregnancyInfo($id)
+    {
+        try {
+            $query = "select * from pregnantcows where cowid='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if (mysqli_num_rows($result) > 0) {
+                $response['data'] = mysqli_fetch_object($result);
+                $response['code'] = true;
+                return $response;
+            } else {
+                $response['code'] = false;
+                return $response;
+            }
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getAllCows()
+    {
+        try {
+            $query = "select id from animalinfo where gender='Cow'";
+            $cows = array();
+            $result = mysqli_query($this->connection, $query);
+            while ($row = mysqli_fetch_assoc($result))
+            {
+                $cows[] = $row['id'];
+            }
+            return $cows;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function addMilkRecord($id, $date, $amount, $times)
+    {
+        try {
+            $query = "insert into milkrecords (cowid, date, milkamount, times) values('$id', '$date', '$amount', '$times')";
+            mysqli_query($this->connection, $query);
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    // function totalMilkByDay()
+    // {
+    //     try {
+    //         $query = "select milkamount, date from milkrecords where date = (select max(date) from milkrecords)";
+    //         $result = mysqli_query($this->connection, $query);
+    //         while ($row = mysqli_fetch_assoc($result))
+    //         {
+    //             $response['milk'] += $row['milkamount'];
+    //             $response['date'] = $row['date'];
+    //         }
+    //         return $response;
+
+    //     } catch (Exception $e) {
+    //         echo "Database error : " . $e->getMessage();
+    //     }
+    // }
+
+    function recordValid($date) {
+        try {
+            $query = "select times from milkrecords where date='$date'";
+            $result = mysqli_query($this->connection, $query);
+            if (mysqli_num_rows($result) > 0) {
+                $row = mysqli_fetch_assoc($result);
+                $times = $row['times'];
+                return $times;
+            }
+            else {
+                $times = 0;
+                return $times;
+            }
+
+
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    
+    }
+
+    function updateMilkRecord($key, $date, $quantity, $count)
+    {
+        try {
+            $query = "update milkrecords set milkamount = milkamount + $quantity, times = $count where cowid = '$key' and date = '$date'";
+            $result = mysqli_query($this->connection, $query);
+            
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function addTotalMilk($date, $amount)
+    {
+        try {
+            $query = "insert into milkperday (date, amount) values('$date', '$amount')";
+            $result = mysqli_query($this->connection, $query);
+            
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function updateTotalMilk($date, $amount)
+    {
+        try {
+            $query = "update milkperday set amount = amount + $amount where date = '$date'";
+            $result = mysqli_query($this->connection, $query);
+            
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
 }
 ?>
