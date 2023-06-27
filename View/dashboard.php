@@ -1,5 +1,11 @@
 <main>
-    <h1>Dashboard</h1> <?php $yesterday = date('Y-m-d', strtotime('-6 day')); echo $yesterday ?>
+    <div class="topBar">
+        <div class="pageTitle">Page Title</div>
+        <div class="search">
+            <input type="search" placeholder="search anything">
+            <button>Search</button>
+        </div>
+    </div>
     <div class="cardBox">
         <div class="card" onclick="window.location='pregnantCows';">
             <div>
@@ -8,7 +14,7 @@
             </div>
 
             <div class="iconBx">
-            <img src=<?php echo $dots.'./components/icons/cow.png' ?> alt="">
+                <img src=<?php echo $dots . './components/icons/cow.png' ?> alt="">
             </div>
         </div>
 
@@ -19,7 +25,7 @@
             </div>
 
             <div class="iconBx">
-            <img src=<?php echo $dots.'./components/icons/temperature.png' ?> alt="">
+                <img src=<?php echo $dots . './components/icons/temperature.png' ?> alt="">
             </div>
         </div>
 
@@ -30,7 +36,7 @@
             </div>
 
             <div class="iconBx">
-            <img src=<?php echo $dots.'./components/icons/low.png' ?> alt="">
+                <img src=<?php echo $dots . './components/icons/low.png' ?> alt="">
             </div>
         </div>
     </div>
@@ -40,21 +46,29 @@
             <div class="milkqnt"><?= $_SESSION['todayMilk'] ?> L</div>
             <div class="text">Milk Today</div>
         </div>
+
+        <div class="smallcard">
+            <div class="milkqnt"><?= $_SESSION['todayMilk'] * 150 ?> Rs</div>
+            <div class="text">Sale Price</div>
+        </div>
     </div>
 
-    <canvas id="weekBarChart"></canvas>
+    <div class="chart-container">
+        <canvas id="weekBarChart"></canvas>
+        <span class="text-muted"><i>Weekly Milk Record</i></span>
+    </div>
+
     <script>
         var labels = <?php echo json_encode($labels); ?>;
         var chartData = <?php echo json_encode($chartData); ?>;
 
-        // Create a bar chart
         var ctx = document.getElementById('weekBarChart').getContext('2d');
         var myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Chart Data',
+                    label: 'Milk Quantity',
                     data: chartData,
                     backgroundColor: 'rgba(0, 123, 255, 0.5)',
                 }]

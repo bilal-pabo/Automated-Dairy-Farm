@@ -26,16 +26,13 @@
             </div>
 
             <div class="profile-photo">
-            <?php 
-              if ($_SESSION['user']->email == 'farwa@gmail.com')
-              { 
-                ?> <a href="profile"><img src=<?php echo $dots . 'components/profiles/admin.jpg' ?>></a> <?php
-              }
-              else 
-              {
-                ?> <a href="profile"><img src=<?php echo $dots . 'components/profiles/admin.jpg' ?>></a> <?php
-              }  
-            ?>
+                <?php
+                if ($_SESSION['user']->email == 'farwa@gmail.com') {
+                    ?> <a href="profile"><img src=<?php echo $dots . 'components/profiles/admin.jpg' ?>></a> <?php
+                } else {
+                    ?> <a href="profile"><img src=<?php echo $dots . 'components/profiles/admin.jpg' ?>></a> <?php
+                }
+                ?>
             </div>
 
         </div>
@@ -46,6 +43,18 @@
         <span class="material-icons-sharp">add</span>
         <h3>Add Milk Record</h3>
     </div>
+    <form method="post">
+        <div class="addDailyExpense">
+            <h3>Daily Farm Expense</h3>
+            <input type="date" name="expenseDate" required>
+            <div>
+                <input type="number" name="dailyExpence" placeholder="Expenses (Rs)" required>
+                <button name="addExpense">Add</button>
+            </div>
+
+        </div>
+    </form>
+
     <?php
     if (isset($_SESSION['location'])) {
         if ($_SESSION['location'] == 'breeds') { ?>

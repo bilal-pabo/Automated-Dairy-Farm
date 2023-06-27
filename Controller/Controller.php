@@ -42,7 +42,7 @@ class Controller extends Model
                     for ($i = 0; $i < 7; $i++)
                     {
                         $date = strtotime("+$i day", strtotime($sixDaysBack));
-                        $labels[] = date('Y-m-d', $date);
+                        $labels[] = date('D', $date);
                         $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date));
                     }
 
