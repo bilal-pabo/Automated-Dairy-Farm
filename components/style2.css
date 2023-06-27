@@ -75,8 +75,40 @@ main #addmilkform label {
   font-weight: 500;
 }
 
+main .smallcardbox {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+main .smallcardbox .smallcard {
+  background: #202528;
+  height: 6rem;
+  border-radius: var(--border-radius-1);
+  box-shadow: var(--box-shadow);
+}
+
+main .smallcardbox .smallcard .milkqnt {
+  color: white;
+  font-size: 2rem;
+  font-weight: 500;
+  margin-top: 0.7rem;
+  margin-left: 0.7rem;
+}
+
+main .smallcardbox .smallcard .text {
+  font-size: white;
+  font-weight: 500;
+  color: var(--color-dark);
+  margin-left: 0.7rem;
+}
+
 main #addmilkform table tbody input[type="number"]::-webkit-inner-spin-button,
     input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         margin: 0;
     }
+

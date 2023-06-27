@@ -1,5 +1,5 @@
 <main>
-    <h1>Dashboard</h1> <?php echo date('Y-m-d'); ?>
+    <h1>Dashboard</h1> <?php $yesterday = date('Y-m-d', strtotime('-6 day')); echo $yesterday ?>
     <div class="cardBox">
         <div class="card" onclick="window.location='pregnantCows';">
             <div>
@@ -35,10 +35,39 @@
         </div>
     </div>
 
-    <div>
-        <div>
-            <h4><?php if (isset($_SESSION['todayMilk']) && $_SESSION['date'] == date('Y-m-d')) echo $_SESSION['todayMilk']; else echo 0; ?>.ltr milk today</h4>
+    <div class="smallcardbox">
+        <div class="smallcard">
+            <div class="milkqnt"><?= $_SESSION['todayMilk'] ?> L</div>
+            <div class="text">Milk Today</div>
         </div>
     </div>
+
+    <canvas id="weekBarChart"></canvas>
+    <script>
+        var labels = <?php echo json_encode($labels); ?>;
+        var chartData = <?php echo json_encode($chartData); ?>;
+
+        // Create a bar chart
+        var ctx = document.getElementById('weekBarChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Chart Data',
+                    data: chartData,
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
 </main>

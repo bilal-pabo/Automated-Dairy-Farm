@@ -34,6 +34,18 @@ class Controller extends Model
                     break;
 
                 case '/dashboard':
+                    $today = date('Y-m-d');
+                    $todayMilk = parent::getTotalMilkByDay($today);
+                    $_SESSION['todayMilk'] = $todayMilk;
+                    $sixDaysBack = date('Y-m-d', strtotime('-6 day'));
+                    $labels = array(); $chartData = array();
+                    for ($i = 0; $i < 7; $i++)
+                    {
+                        $date = strtotime("+$i day", strtotime($sixDaysBack));
+                        $labels[] = date('Y-m-d', $date);
+                        $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date));
+                    }
+
                     $pregnantCows = parent::getPregnantCows();
                     include './View/header2.php';
                     include './View/sidebar.php';
@@ -163,22 +175,10 @@ class Controller extends Model
                             if ($times == 0)
                             {
                                 parent::addTotalMilk($date, $totalmilk);
-                                if (date('Y-m-d') == $date)
-                                {
-                                    $_SESSION['todayMilk'] = $totalmilk;
-                                    $_SESSION['time'] = "M";
-                                    $_SESSION['date'] = $date;
-                                }
                             }
                             if ($times == 1) 
                             {
                                 parent::updateTotalMilk($date, $totalmilk);
-                                if (date('Y-m-d') == $date)
-                                {
-                                    $_SESSION['todayMilk'] = $_SESSION['todayMilk'] + $totalmilk;
-                                    $_SESSION['time'] = "M+E";
-                                    $_SESSION['date'] = $date;
-                                }
                             } 
                         }
                         ?> <script> window.location.href = 'addMilkRecord'; </script> <?php

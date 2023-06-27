@@ -597,7 +597,7 @@ main form .insDate {
   box-shadow: var(--box-shadow);
   padding: 1.4rem var(--card-padding);
   cursor: pointer;
-  
+  width: 6cm;
 }
 
 .right .add-milk:hover {

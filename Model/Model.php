@@ -273,5 +273,35 @@ class Model
         }
     }
 
+    function getTotalMilkByDay($date)
+    {
+        try {
+            $query = "select amount from milkperday where date = '$date'";
+            $result = mysqli_query($this->connection, $query);
+            if ($row = mysqli_fetch_array($result))
+            {
+                return $row['amount'];
+            }
+            else return 0;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getWeeklyRecord($start, $end)
+    {
+        try {
+            $query = "select * from milkperday where date between '$start' and '$end'";
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
+            while ($row = mysqli_fetch_array($result))
+            {
+                $records[] = $row;
+            }
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
 }
 ?>
