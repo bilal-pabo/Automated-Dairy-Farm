@@ -34,16 +34,31 @@ class Controller extends Model
                     break;
 
                 case '/dashboard':
+                    if (isset($_POST['addExpense']))
+                    {
+                        $expenseDate = $_POST['expenseDate'];
+                        $dailyExpense = $_POST['dailyExpense'];
+                        parent::addDailyExpense($expenseDate, $dailyExpense);
+                        
+                    }
                     $today = date('Y-m-d');
                     $todayMilk = parent::getTotalMilkByDay($today);
+                    $todayExpense = parent::getExpenseByDay($today);
+                    $todayProfit = parent::getProfitByDay($today);
                     $_SESSION['todayMilk'] = $todayMilk;
-                    $sixDaysBack = date('Y-m-d', strtotime('-6 day'));
-                    $labels = array(); $chartData = array();
+                    $_SESSION['todayExpense'] = $todayExpense;
+                    $_SESSION['todayProfit'] = $todayProfit;
+                    $sevenDaysBack = date('Y-m-d', strtotime('-7 day'));
+                    $labels = array(); $chartData = array(); $expenseReport = array(); $profit = array();
                     for ($i = 0; $i < 7; $i++)
                     {
-                        $date = strtotime("+$i day", strtotime($sixDaysBack));
-                        $labels[] = date('D', $date);
+                        $date = strtotime("+$i day", strtotime($sevenDaysBack));
+                        $labels[] = date('M d', $date);
                         $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date));
+                        $expense = parent::getExpenseByDay(date('Y-m-d', $date));
+                        $earned = parent::getProfitByDay(date('Y-m-d', $date));
+                        $expenseReport[] = $expense;
+                        $profit[] = $earned - $expense;
                     }
 
                     $pregnantCows = parent::getPregnantCows();
@@ -150,6 +165,7 @@ class Controller extends Model
                         $totalmilk = 0;
                         $data = $_POST;
                         $date = $data['milkDate'];
+                        $price = $data['milkPrice'];
                         $times = parent::recordValid($date);
                         if ($times == 2) 
                         {
@@ -158,7 +174,7 @@ class Controller extends Model
                         else
                         {
                             foreach ($data as $key => $value) {
-                                if ($key == 'addRecord' || $key == 'milkDate') {
+                                if ($key == 'addRecord' || $key == 'milkDate' || $key == 'milkPrice') {
                                     continue;
                                 }
     
@@ -175,10 +191,14 @@ class Controller extends Model
                             if ($times == 0)
                             {
                                 parent::addTotalMilk($date, $totalmilk);
+                                $profit = $price * $totalmilk;
+                                parent::addTotalProfit($date, $profit);
                             }
                             if ($times == 1) 
                             {
                                 parent::updateTotalMilk($date, $totalmilk);
+                                $profit = $price * $totalmilk;
+                                parent::updateProfit($date, $profit);
                             } 
                         }
                         ?> <script> window.location.href = 'addMilkRecord'; </script> <?php

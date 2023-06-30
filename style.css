@@ -585,18 +585,19 @@ main form .insDate {
 
 .right .add-milk {
   margin-top: 3rem;
+  background: transparent;
   border: 2px dashed var(--color-primary);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   margin-bottom: 0.7rem;
+  justify-content: center;
+  height: 4rem;
   border-radius: var(--border-radius-3);
   box-shadow: var(--box-shadow);
   padding: 1.4rem var(--card-padding);
   cursor: pointer;
   width: 6cm;
-  margin-left: 4cm;
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: center;
-  align-items: center;
 }
 
 .right .add-milk:hover {

@@ -182,8 +182,7 @@ class Model
             $query = "select id from animalinfo where gender='Cow'";
             $cows = array();
             $result = mysqli_query($this->connection, $query);
-            while ($row = mysqli_fetch_assoc($result))
-            {
+            while ($row = mysqli_fetch_assoc($result)) {
                 $cows[] = $row['id'];
             }
             return $cows;
@@ -219,7 +218,8 @@ class Model
     //     }
     // }
 
-    function recordValid($date) {
+    function recordValid($date)
+    {
         try {
             $query = "select times from milkrecords where date='$date'";
             $result = mysqli_query($this->connection, $query);
@@ -227,8 +227,7 @@ class Model
                 $row = mysqli_fetch_assoc($result);
                 $times = $row['times'];
                 return $times;
-            }
-            else {
+            } else {
                 $times = 0;
                 return $times;
             }
@@ -237,7 +236,7 @@ class Model
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
-    
+
     }
 
     function updateMilkRecord($key, $date, $quantity, $count)
@@ -245,7 +244,7 @@ class Model
         try {
             $query = "update milkrecords set milkamount = milkamount + $quantity, times = $count where cowid = '$key' and date = '$date'";
             $result = mysqli_query($this->connection, $query);
-            
+
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
@@ -256,7 +255,7 @@ class Model
         try {
             $query = "insert into milkperday (date, amount) values('$date', '$amount')";
             $result = mysqli_query($this->connection, $query);
-            
+
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
@@ -267,7 +266,7 @@ class Model
         try {
             $query = "update milkperday set amount = amount + $amount where date = '$date'";
             $result = mysqli_query($this->connection, $query);
-            
+
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
@@ -278,11 +277,10 @@ class Model
         try {
             $query = "select amount from milkperday where date = '$date'";
             $result = mysqli_query($this->connection, $query);
-            if ($row = mysqli_fetch_array($result))
-            {
+            if ($row = mysqli_fetch_assoc($result)) {
                 return $row['amount'];
-            }
-            else return 0;
+            } else
+                return 0;
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
@@ -294,10 +292,73 @@ class Model
             $query = "select * from milkperday where date between '$start' and '$end'";
             $result = mysqli_query($this->connection, $query);
             $records = array();
-            while ($row = mysqli_fetch_array($result))
-            {
+            while ($row = mysqli_fetch_array($result)) {
                 $records[] = $row;
             }
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function addDailyExpense($expenseDate, $dailyExpense)
+    {
+        try {
+            $query = "insert into expenseperday (expensedate, expenseamount) values('$expenseDate', '$dailyExpense')";
+            mysqli_query($this->connection, $query);
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    } 
+
+    function getExpenseByDay($date)
+    {
+        try {
+            $query = "select expenseamount from expenseperday where expensedate = '$date'";
+            $result = mysqli_query($this->connection, $query);
+            if ($row = mysqli_fetch_assoc($result))
+            {
+                return $row['expenseamount'];
+            }
+            else 
+                return 0;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function addTotalProfit($date, $amount)
+    {
+        try {
+            $query = "insert into dailyprofit (date, profit) values('$date', '$amount')";
+            $result = mysqli_query($this->connection, $query);
+
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function updateProfit($date, $amount)
+    {
+        try {
+            $query = "update dailyprofit set profit = profit + $amount where date = '$date'";
+            $result = mysqli_query($this->connection, $query);
+
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getProfitByDay($date)
+    {
+        try {
+            $query = "select profit from dailyprofit where date = '$date'";
+            $result = mysqli_query($this->connection, $query);
+            if ($row = mysqli_fetch_assoc($result))
+            {
+                return $row['profit'];
+            }
+            else 
+                return 0;
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }

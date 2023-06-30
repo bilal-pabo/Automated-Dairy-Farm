@@ -48,7 +48,7 @@
             <h3>Daily Farm Expense</h3>
             <input type="date" name="expenseDate" required>
             <div>
-                <input type="number" name="dailyExpence" placeholder="Expenses (Rs)" required>
+                <input type="number" name="dailyExpense" placeholder="Expenses (Rs)" required>
                 <button name="addExpense">Add</button>
             </div>
 

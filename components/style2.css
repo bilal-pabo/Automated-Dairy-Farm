@@ -69,10 +69,29 @@ main #addmilkform input[type="date"] {
   border-radius: var(--border-radius-1);
 }
 
+main #addmilkform .price {
+  background: var(--color-white);
+    color: var(--color-dark);
+    text-indent: 10px;
+    width: 20%;
+  height: 2rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-dark);
+  background: var(--color-background);
+  margin-left: 0.5rem;
+  outline: 2px solid var(--color-dark);
+  border-radius: var(--border-radius-1);
+}
+
 main #addmilkform label {
   font-size: 1.1rem;
   color: var(--color-dark);
   font-weight: 500;
+}
+
+main form .milkPrice {
+  margin-left: 1rem;
 }
 
 main .smallcardbox {
@@ -85,10 +104,25 @@ main .smallcardbox {
 }
 
 main .smallcardbox .smallcard {
-  background: #FFB74D;
   height: 6rem;
   border-radius: var(--border-radius-1);
   box-shadow: var(--box-shadow);
+}
+
+main .smallcardbox .milk {
+  background: #2196F3;
+}
+
+main .smallcardbox .expense {
+  background: #F44336;
+}
+
+main .smallcardbox .price {
+  background: #FF9800;
+}
+
+main .smallcardbox .profit {
+  background: #4CAF50;
 }
 
 main .smallcardbox .smallcard .milkqnt {
@@ -107,11 +141,10 @@ main .smallcardbox .smallcard .text {
 }
 
 main .chart-container {
-  margin: 20px;
-  width: 50%;
+  margin-top: 2rem;
   text-align: center;
+  width: 70%;
 }
-
 
 main .topBar {
   display: grid;
@@ -166,7 +199,7 @@ main .topBar .search button {
   width: 6cm;
   height: 4cm;
   gap: 1rem;
-
+  margin-left: 4cm;
 }
 
 .right .addDailyExpense:hover {
@@ -207,9 +240,9 @@ main .topBar .search button {
   margin-left: 0.2rem;
 }
 
-main #addmilkform table tbody input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+main form input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
