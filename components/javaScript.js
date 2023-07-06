@@ -53,11 +53,12 @@ function setTheme(theme) {
 document.getElementById("gender").addEventListener('change', function() {
     var value = this.value;
     if (value === 'Cow') 
-    {
-      console.log(value)  
+    {  
       onlyCow.style.display = 'block';
     }
-    else console.log(value);
+    else{
+      onlyCow.style.display = none;
+    }
 })
 
 document.getElementById("pregnant").addEventListener('change', function() {

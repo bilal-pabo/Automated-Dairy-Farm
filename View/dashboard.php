@@ -41,10 +41,10 @@
         </div>
     </div>
 
-    
+
     <div class="todayStats titles">Statistics</div>
     <div class="smallcardbox">
-        
+
         <div class="smallcard milk">
             <div class="milkqnt"><?= $_SESSION['todayMilk'] ?> L</div>
             <div class="text">Milk Today</div>
@@ -88,6 +88,7 @@
                     label: 'Milk (Liters)',
                     data: chartData,
                     backgroundColor: 'blue',
+                    barThickness: 20,
                 }, {
                     label: 'Expenses (Rs)',
                     data: expenseReport,
@@ -105,19 +106,67 @@
                     y: {
                         beginAtZero: true
                     }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: "Last Seven Days' Record",
-                        font: {
-                            size: 15,
-                            style: 'italic'
-                        }
+                }
+            }
+        });
+    </script>
+
+    <div class="groupsTitle titles">Groups</div>
+    <div class="groupsDash">
+        <canvas id="groupsPieChart"></canvas>
+        <!-- <div class="groupADash groupDash">
+            <div class="groupName">
+                Group A
+            </div>
+            <div class="groupCount">
+                numbers
+            </div>
+        </div>
+
+        <div class="groupBDash groupDash">
+            <div class="groupName">
+                Group B
+            </div>
+            <div class="groupCount">
+                numbers
+            </div>
+        </div>
+
+        <div class="groupCDash groupDash">
+            <div class="groupName">
+                Group C
+            </div>
+            <div class="groupCount">
+                numbers
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+        var labels = ['Group A', 'Group B', 'Group C'];
+        var chartData = [5, 4, 6];
+        var backgroundColors = ['#EF5350', '#42A5F5', '#E64A19'];
+        var ctx = document.getElementById('groupsPieChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cows',
+                    data: chartData,
+                    backgroundColor: backgroundColors,
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        display:false
                     }
                 }
             }
         });
+
     </script>
 
 </main>

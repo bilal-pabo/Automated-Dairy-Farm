@@ -374,8 +374,7 @@ class Model
             if (mysqli_num_rows($result) > 0)
             {
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                $milkamount = array_column($rows, 'milkamount');
-                $response["data"] = $milkamount;
+                $response["data"] = $rows;
                 $response["code"] = true;
                 return $response;
             }

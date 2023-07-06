@@ -256,16 +256,51 @@ main .topBar .search button {
   margin-left: 0.2rem;
 }
 
+main .subtitles:first-child {
+  margin-top: 2rem;
+}
+
+main .subtitles {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-left: 0.8cm;
+}
+
+.cardA{
+  background: #FFCDD2;
+}
+
+.cardB{
+  background: #BBDEFB;
+}
+
+.cardC{
+  background: #FFCCBC;
+}
+
+.groupA {
+  color: #EF5350;
+}
+
+.groupB {
+  color: #42A5F5;
+}
+
+.groupC {
+  color: #E64A19;
+}
+
 main .group {
-  width: 100%;
+  width: 90%;
   padding: 20px;
-  margin: 2rem;
+  margin-bottom: 2rem;
+  margin-left: 0.8cm;
+  margin-top: 1rem;
   border-radius: var(--card-border-radius);
   box-shadow: var(--box-shadow);
   display: grid;
-  grid-template-columns: auto auto;
-  background: var(--color-info-light);
-  gap: 0.8rem 0;
+  grid-template-columns: 30% 70%;
+  gap: 1rem 0;
 }
 
 main .group .groupName {
@@ -273,9 +308,38 @@ main .group .groupName {
   font-weight: 500;
 }
 
+main .group .graph {
+  margin-right: 1rem;
+  margin-top: 0.6rem;
+}
+
+main .group .cowList {
+  margin-top: 0.8rem;
+}
+
 main .group .cowList ul li {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 400;
+  margin-left: 1rem;
+  padding: 1px;
+  color: black;
+}
+
+main .group .cowList ul li:hover {
+  cursor: pointer;
+  color: darkblue;
+  transform: scale(1.02);
+}
+
+main .group .cowList ul h2 {
+  color: black;
+}
+
+.empty {
+  text-align: center;
+  color: black;
+  font-size: 1.8rem;
+  font-weight: 500;
 }
 
 
@@ -285,3 +349,42 @@ input[type="number"]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+main .groupsTitle {
+  margin-top: 2rem;
+}
+
+main .groupsDash {
+  width: 50%;
+  margin-top: 2rem;
+}
+
+main .groupsDash .groupADash
+{
+  background: #EF5350;
+}
+
+main .groupsDash .groupBDash
+{
+  background: #42A5F5;
+}
+
+main .groupsDash .groupCDash
+{
+  background: #E64A19;
+}
+
+main .profileChartHolder {
+  margin-top: 2rem;
+  width: 100%;
+  text-align: center;
+  margin-left: 1cm;
+}
+
+main .profileChartHolder .profileChart {
+  margin-top: 2rem;
+  text-align: center;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  width: 90%;
+}

@@ -34,12 +34,11 @@ class Controller extends Model
                     break;
 
                 case '/dashboard':
-                    if (isset($_POST['addExpense']))
-                    {
+                    if (isset($_POST['addExpense'])) {
                         $expenseDate = $_POST['expenseDate'];
                         $dailyExpense = $_POST['dailyExpense'];
                         parent::addDailyExpense($expenseDate, $dailyExpense);
-                        
+
                     }
                     $today = date('Y-m-d');
                     $todayMilk = parent::getTotalMilkByDay($today);
@@ -49,9 +48,11 @@ class Controller extends Model
                     $_SESSION['todayExpense'] = $todayExpense;
                     $_SESSION['todayProfit'] = $todayProfit;
                     $sevenDaysBack = date('Y-m-d', strtotime('-7 day'));
-                    $labels = array(); $chartData = array(); $expenseReport = array(); $profit = array();
-                    for ($i = 0; $i < 7; $i++)
-                    {
+                    $labels = array();
+                    $chartData = array();
+                    $expenseReport = array();
+                    $profit = array();
+                    for ($i = 0; $i < 7; $i++) {
                         $date = strtotime("+$i day", strtotime($sevenDaysBack));
                         $labels[] = date('M d', $date);
                         $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date));
@@ -147,10 +148,18 @@ class Controller extends Model
                 case '/animalProfile':
                     $breeds = parent::getBreeds();
                     $id = $_GET['cowid'];
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
                     $animalInfo = parent::getAnimalData($id);
                     if ($animalInfo->gender == 'Cow') {
                         $semInfo = parent::getSeminationRecord($id);
                         $pregInfo = parent::getPregnancyInfo($id);
+                        $response = parent::getCowRecordsByDuration($id, $start, $end);
+                        for ($i = 0; $i < 7; $i++) 
+                        {
+                            $date = strtotime("+$i day", strtotime($start));
+                            $labels[] = date('M d', $date);
+                        }
                     }
                     include './View/header2.php';
                     include './View/sidebar.php';
@@ -167,43 +176,44 @@ class Controller extends Model
                         $date = $data['milkDate'];
                         $price = $data['milkPrice'];
                         $times = parent::recordValid($date);
-                        if ($times == 2) 
-                        {
-                            $_SESSION['msg'] = "Milk records of ".$date. " are already added!";
-                        } 
-                        else
-                        {
+                        if ($times == 2) {
+                            $_SESSION['msg'] = "Milk records of " . $date . " are already added!";
+                        } else {
                             foreach ($data as $key => $value) {
                                 if ($key == 'addRecord' || $key == 'milkDate' || $key == 'milkPrice') {
                                     continue;
                                 }
-    
-                                $quantity = 0; $getQuantity = $value; if ($getQuantity > $quantity) $quantity = $getQuantity;
+
+                                $quantity = 0;
+                                $getQuantity = $value;
+                                if ($getQuantity > $quantity)
+                                    $quantity = $getQuantity;
                                 $totalmilk += $quantity;
                                 if ($times == 0) {
                                     parent::addMilkRecord($key, $date, $quantity, 1);
-                                    $_SESSION['msg'] = "Morning milk records of ".$date. " are added successfully!"; }
-                                else if ($times == 1) {
+                                    $_SESSION['msg'] = "Morning milk records of " . $date . " are added successfully!";
+                                } else if ($times == 1) {
                                     parent::updateMilkRecord($key, $date, $quantity, 2);
-                                    $_SESSION['msg'] = "Evening milk records of ".$date. " are added successfully!"; }
-                                else { $_SESSION['msg'] = "Invalid Milk Record!"; }
+                                    $_SESSION['msg'] = "Evening milk records of " . $date . " are added successfully!";
+                                } else {
+                                    $_SESSION['msg'] = "Invalid Milk Record!";
+                                }
                             }
-                            if ($times == 0)
-                            {
+                            if ($times == 0) {
                                 parent::addTotalMilk($date, $totalmilk);
                                 $profit = $price * $totalmilk;
                                 parent::addTotalProfit($date, $profit);
                             }
-                            if ($times == 1) 
-                            {
+                            if ($times == 1) {
                                 parent::updateTotalMilk($date, $totalmilk);
                                 $profit = $price * $totalmilk;
                                 parent::updateProfit($date, $profit);
-                            } 
+                            }
                         }
-                        ?> <script> window.location.href = 'addMilkRecord'; </script> <?php
-                        
-                        
+                        ?>
+                        <script> window.location.href = 'addMilkRecord'; </script> <?php
+
+
                     } else {
 
                         include './View/header2.php';
@@ -215,17 +225,20 @@ class Controller extends Model
                     break;
 
                 case '/groups':
-                    $groupA = array(); $groupB = array(); $groupC = array();
+                    $groupA = array();
+                    $groupB = array();
+                    $groupC = array();
                     $start = date('Y-m-d', strtotime('-7 day'));
                     $end = date('Y-m-d', strtotime('-1 day'));
 
                     $groupA = parent::getGroupCows($start, $end, 10, 25);
                     $groupB = parent::getGroupCows($start, $end, 25, 35);
                     $groupC = parent::getGroupCows($start, $end, 35, 45);
-                
+
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/groups.php';
+                    include './View/rightbar.php';
                     include './View/footer.php';
                     break;
 

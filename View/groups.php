@@ -34,19 +34,27 @@
         $sizeC = 0;
     }
     ?>
-
-    <div class="group">
-        <div class="groupName">Group A (10 to 25 Liters)</div>
-        <div></div>
+    <div class="subtitles groupA">Group A (10 to 25 Liters)</div>
+    <div class="group cardA">
+    
         <div class="cowList">
             <ul>
-                <?php
-                for ($i = 0; $i < $sizeA; $i++) {
-                    ?>
-                    <li> <?= $cowA[$i] ?> </li>
-                    <?php
-                }
-                ?>
+            <h2>Cows' List</h2>
+            <?php
+                    if ($sizeA == 0)
+                    {
+                        ?> <h2 class="empty">No cows here!</h2> <?php
+                    }
+                    else
+                    {
+                        for ($i = 0; $i < $sizeA; $i++) {
+                            ?>
+                            <li onclick="redirectToProfile('<?php echo $cowA[$i]; ?>');"> <?php echo ($i+1) . ". " . $cowA[$i] ?> </li>
+                            <?php
+                        }
+                    }
+                
+            ?>
             </ul>
         </div>
         <div class="graph">
@@ -65,7 +73,7 @@
                 datasets: [{
                     label: 'Average (Liters)',
                     data: chartData,
-                    backgroundColor: '#FF6F00',
+                    backgroundColor: '#EF5350',
                     barThickness: 20,
                 }]
             },
@@ -82,18 +90,28 @@
 
     </script>
 
-    <div class="group">
-        <div class="groupName">Group B (25 to 35 Liters)</div>
-        <div></div>
+    <div class="subtitles groupB">Group B (25 to 35 Liters)</div>
+    <div class="group cardB">
+        
+       
         <div class="cowList">
             <ul>
-                <?php
-                for ($i = 0; $i < $sizeB; $i++) {
-                    ?>
-                    <li> <?= $cowB[$i] ?> </li>
-                    <?php
-                }
-                ?>
+            <h2>Cows' List</h2>
+            <?php
+                    if ($sizeB == 0)
+                    {
+                        ?> <h2 class="empty">No cows here!</h2> <?php
+                    }
+                    else
+                    {
+                        for ($i = 0; $i < $sizeB; $i++) {
+                            ?>
+                            <li onclick="redirectToProfile('<?php echo $cowB[$i]; ?>');"> <?php echo ($i+1) . ". " . $cowB[$i] ?> </li>
+                            <?php
+                        }
+                    }
+                
+            ?>
             </ul>
         </div>
         <div class="graph">
@@ -112,7 +130,7 @@
                 datasets: [{
                     label: 'Average (Liters)',
                     data: chartData,
-                    backgroundColor: '#004D40',
+                    backgroundColor: '#42A5F5',
                     barThickness: 20,
                 }]
             },
@@ -129,17 +147,26 @@
 
     </script>
 
-    <div class="group">
-        <div class="groupName">Group C (35 to 45 Liters)</div>
-        <div></div>
+    <div class="subtitles groupC">Group C (35 to 45 Liters)</div>
+    <div class="group cardC">
+        
         <div class="cowList">
             <ul>
+            <h2>Cows' List</h2>
                 <?php
-                for ($i = 0; $i < $sizeC; $i++) {
-                    ?>
-                    <li> <?= $cowC[$i] ?> </li>
-                    <?php
-                }
+                    if ($sizeC == 0)
+                    {
+                        ?> <h2 class="empty">No cows here!</h2> <?php
+                    }
+                    else
+                    {
+                        for ($i = 0; $i < $sizeC; $i++) {
+                            ?>
+                            <li onclick="redirectToProfile('<?php echo $cowC[$i]; ?>');"> <?php echo ($i+1) . ". " . $cowC[$i] ?> </li>
+                            <?php
+                        }
+                    }
+                
                 ?>
             </ul>
         </div>
@@ -159,7 +186,7 @@
                 datasets: [{
                     label: 'Average (Liters)',
                     data: chartData,
-                    backgroundColor: '#263238',
+                    backgroundColor: '#E64A19',
                     barThickness: 20,
                 }]
             },
