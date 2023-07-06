@@ -1,6 +1,6 @@
 <main>
     <div class="topBar">
-        <div class="pageTitle">Page Title</div>
+        <div class="pageTitle">Dashboard</div>
         <div class="search">
             <input type="search" placeholder="search anything">
             <button>Search</button>
@@ -41,7 +41,10 @@
         </div>
     </div>
 
+    
+    <div class="todayStats titles">Statistics</div>
     <div class="smallcardbox">
+        
         <div class="smallcard milk">
             <div class="milkqnt"><?= $_SESSION['todayMilk'] ?> L</div>
             <div class="text">Milk Today</div>
@@ -62,10 +65,12 @@
             <div class="text">Profit Today</div>
         </div>
     </div>
-    
-    <div class="chart-container">
-        <canvas id="weekBarChart"></canvas>
-        <span class="text-muted"><i>Last Seven Days' Record</i></span>
+
+    <div class="outerContainer">
+        <div class="chart-container">
+            <canvas id="weekBarChart"></canvas>
+            <span class="text-muted"><i>Last Seven Days' Record</i></span>
+        </div>
     </div>
 
     <script>
@@ -89,6 +94,7 @@
                     backgroundColor: 'red',
                 }, {
                     label: 'Profit (Rs)',
+                    type: 'line',
                     data: profit,
                     backgroundColor: 'green',
                 }]
@@ -98,6 +104,16 @@
                 scales: {
                     y: {
                         beginAtZero: true
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Last Seven Days' Record",
+                        font: {
+                            size: 15,
+                            style: 'italic'
+                        }
                     }
                 }
             }

@@ -140,10 +140,26 @@ main .smallcardbox .smallcard .text {
   margin-left: 0.7rem;
 }
 
-main .chart-container {
+main .titles {
+  font-size: 1.8rem;
+  font-weight: 500;
+  color: var(--color-dark);
+  margin-left: 0.8cm;
+}
+
+main .outerContainer {
+  width: 100%;
+  text-align: center;
+  margin-left: 1cm;
+}
+
+main .outerContainer .chart-container {
   margin-top: 2rem;
   text-align: center;
-  width: 70%;
+  display: grid;
+  grid-template-columns: auto;
+  justify-content: center;
+  width: 90%;
 }
 
 main .topBar {
@@ -239,6 +255,29 @@ main .topBar .search button {
   border-radius: var(--border-radius-1);
   margin-left: 0.2rem;
 }
+
+main .group {
+  width: 100%;
+  padding: 20px;
+  margin: 2rem;
+  border-radius: var(--card-border-radius);
+  box-shadow: var(--box-shadow);
+  display: grid;
+  grid-template-columns: auto auto;
+  background: var(--color-info-light);
+  gap: 0.8rem 0;
+}
+
+main .group .groupName {
+  font-size: 1.6rem;
+  font-weight: 500;
+}
+
+main .group .cowList ul li {
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
 
 main form input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {

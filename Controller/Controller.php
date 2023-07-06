@@ -215,8 +215,17 @@ class Controller extends Model
                     break;
 
                 case '/groups':
+                    $groupA = array(); $groupB = array(); $groupC = array();
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
+
+                    $groupA = parent::getGroupCows($start, $end, 10, 25);
+                    $groupB = parent::getGroupCows($start, $end, 25, 35);
+                    $groupC = parent::getGroupCows($start, $end, 35, 45);
+                
                     include './View/header2.php';
                     include './View/sidebar.php';
+                    include './View/groups.php';
                     include './View/footer.php';
                     break;
 
