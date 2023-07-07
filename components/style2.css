@@ -388,3 +388,7 @@ main .profileChartHolder .profileChart {
   justify-content: center;
   width: 90%;
 }
+
+main .breed{
+  margin-top: 2rem;
+}

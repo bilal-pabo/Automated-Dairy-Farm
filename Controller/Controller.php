@@ -244,7 +244,7 @@ class Controller extends Model
 
                 case '/breeds':
                     $breeds = parent::getBreeds();
-                    $_SESSION['location'] = "breeds";
+                    $cows = parent::getAllCows();
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/breeds.php';

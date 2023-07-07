@@ -1,14 +1,19 @@
 <main>
-    <h1>Breeds</h1>
-    <div class="cardBox">
-        <?php for ($i = 0; $i < sizeof($breeds); $i++) { ?>
-        <div class="card" onclick="window.location='';">
-            <div>
-                <div class="numbers darkred"><?= $breeds[$i] ?></div>
-                <div class="cardName">Counts (pending)</div>
-            </div>
+    <div class="titles">Groups</div>
 
-        </div> <?php } ?>
-    </div>   
+    <?php
+    for ($i = 0; $i < sizeof($breeds); $i++) { ?>
+        <div class="breed">
+            <div class="titles"> <?= $breeds[$i] ?> </div>
+            <div class="cows">
+                <?php 
+                for ($i = 0; $i < sizeof($cows); $i++)
+                {
+                
+                } ?>
+            </div>
+        </div> <?php
+    }
+    ?>
 
 </main>
