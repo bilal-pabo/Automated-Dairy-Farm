@@ -66,7 +66,7 @@ document.getElementById("pregnant").addEventListener('change', function() {
     if (value == 'yes') date.style.display = 'block';
     else date.style.display = 'none';
 
-    // just for fun...
+    // just for fun...okie now
 })
 
 document.getElementById("insemination").addEventListener('change', function() {
