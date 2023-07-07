@@ -43,17 +43,16 @@
         <span class="material-icons-sharp">add</span>
         <h3>Add Milk Record</h3>
     </div>
-    <form method="post">
-        <div class="addDailyExpense">
-            <h3>Daily Farm Expense</h3>
-            <input type="date" name="expenseDate" required>
-            <div>
-                <input type="number" name="dailyExpense" placeholder="Expenses (Rs)" required>
-                <button name="addExpense">Add</button>
-            </div>
-
+    <div class="addDailyExpense">
+        <h3>Daily Farm Expense</h3>
+        <input type="date" id="expensedate" name="expenseDate" required>
+        <div>
+            <input type="number" id="dailyexpense" name="dailyExpense" placeholder="Expenses (Rs)" required>
+            <button id="expenseButton" name="addExpense">Add</button>
         </div>
-    </form>
+        <span id="expenseMsg"></span>
+
+    </div>
 
     <?php
     if (isset($_SESSION['location'])) {
@@ -67,3 +66,45 @@
     }
     unset($_SESSION['location']); ?>
 </div>
+
+<script>
+
+    function Add_expenses(event) {
+
+        var expensedate = $("#expensedate").val();
+        var dailyexpense = $("#dailyexpense").val();
+        var msg = document.getElementById("expenseMsg");
+        if (!expensedate || !dailyexpense) {
+            msg.innerText = "Both fields required";
+            return;
+        }
+
+
+        var formdata = new FormData();
+        formdata.append("expenseDate", expensedate);
+        formdata.append("dailyExpense", dailyexpense);
+
+        $.ajax({
+            url: './expense',
+            contentType: false,
+            processData: false,
+            data: formdata,
+            type: "POST",
+            success: (message) => {
+                var Msg = JSON.parse(message);
+                msg.innerText = Msg.message;
+            },
+            error: (message) => {
+                var Msg = JSON.parse(message);
+                msg.innerText = Msg.message;
+            }
+        });
+    }
+
+
+    $(document).ready(() => {
+        $("#expenseButton").on("click", event => {
+            Add_expenses(event);
+        })
+    });
+</script>

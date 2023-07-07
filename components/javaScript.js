@@ -20,6 +20,45 @@ function redirectToProfile(cowid)
   window.location.href = 'animalProfile?cowid=' + cowid;
 }
 
+function reloadDashboardChart()
+{
+        var labels = JSON.parse(labels);
+        var chartData = JSON.parse(chartData);
+        var expenseReport = JSON.parse(expenseReport);
+        var profit = JSON.parse(profit);
+
+        var ctx = document.getElementById('weekBarChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Milk (Liters)',
+                    data: chartData,
+                    backgroundColor: 'blue',
+                    barThickness: 20,
+                }, {
+                    label: 'Expenses (Rs)',
+                    data: expenseReport,
+                    backgroundColor: 'red',
+                }, {
+                    label: 'Profit (Rs)',
+                    type: 'line',
+                    data: profit,
+                    backgroundColor: 'green',
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+}
+
 
 // Function to set the theme class on the body element
 function setTheme(theme) {
@@ -57,7 +96,7 @@ document.getElementById("gender").addEventListener('change', function() {
       onlyCow.style.display = 'block';
     }
     else{
-      onlyCow.style.display = none;
+      onlyCow.style.display = 'none';
     }
 })
 

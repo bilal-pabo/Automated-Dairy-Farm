@@ -34,12 +34,7 @@ class Controller extends Model
                     break;
 
                 case '/dashboard':
-                    if (isset($_POST['addExpense'])) {
-                        $expenseDate = $_POST['expenseDate'];
-                        $dailyExpense = $_POST['dailyExpense'];
-                        parent::addDailyExpense($expenseDate, $dailyExpense);
-
-                    }
+            
                     $today = date('Y-m-d');
                     $todayMilk = parent::getTotalMilkByDay($today);
                     $todayExpense = parent::getExpenseByDay($today);
@@ -62,12 +57,39 @@ class Controller extends Model
                         $profit[] = $earned - $expense;
                     }
 
+                    json_encode([
+                        "labels"=>$labels,
+                        "chartData"=>$chartData,
+                        "expenseReport"=>$expenseReport,
+                        "profit"=>$profit
+                    ]);
+
+                    // rs=JSON.parse(data);    labels=rs['labels]; cdata=rs['chartData];
+
                     $pregnantCows = parent::getPregnantCows();
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/dashboard.php';
                     include './View/rightbar.php';
                     include './View/footer.php';
+                    break;
+                case '/expense':
+
+                    $expenseDate = $_POST['expenseDate'];
+                    $dailyExpense = $_POST['dailyExpense'];
+                    $code = parent::addDailyExpense($expenseDate, $dailyExpense);
+
+                    if ($code)
+                    {
+                        http_response_code(200);
+                        echo json_encode(["message" => "Expense added!"]);
+                    }
+                    else 
+                    {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Record already exist!"]);
+                    }
+
                     break;
 
                 case '/profile':
@@ -155,8 +177,7 @@ class Controller extends Model
                         $semInfo = parent::getSeminationRecord($id);
                         $pregInfo = parent::getPregnancyInfo($id);
                         $response = parent::getCowRecordsByDuration($id, $start, $end);
-                        for ($i = 0; $i < 7; $i++) 
-                        {
+                        for ($i = 0; $i < 7; $i++) {
                             $date = strtotime("+$i day", strtotime($start));
                             $labels[] = date('M d', $date);
                         }

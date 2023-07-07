@@ -17,8 +17,10 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Sharp" rel="stylesheet">
     <link rel="stylesheet" href=<?php echo $dots.'components/style.css' ?>>
     <link rel="stylesheet" href=<?php echo $dots.'components/style2.css' ?>>
+    <script src=<?php echo $dots.'components/javaScript.js' ?>></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    
     
 </head>
 <body>

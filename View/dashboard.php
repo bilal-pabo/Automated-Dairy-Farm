@@ -74,41 +74,44 @@
     </div>
 
     <script>
-        var labels = <?php echo json_encode($labels); ?>;
-        var chartData = <?php echo json_encode($chartData); ?>;
-        var expenseReport = <?php echo json_encode($expenseReport); ?>;
-        var profit = <?php echo json_encode($profit); ?>;
-
-        var ctx = document.getElementById('weekBarChart').getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [{
-                    label: 'Milk (Liters)',
-                    data: chartData,
-                    backgroundColor: 'blue',
-                    barThickness: 20,
-                }, {
-                    label: 'Expenses (Rs)',
-                    data: expenseReport,
-                    backgroundColor: 'red',
-                }, {
-                    label: 'Profit (Rs)',
-                    type: 'line',
-                    data: profit,
-                    backgroundColor: 'green',
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
+        $(document).ready(() => {
+            reloadDashboardChart();
         });
+        // var labels = <?php // echo json_encode($labels); ?>;
+        // var chartData = <?php // echo json_encode($chartData); ?>;
+        // var expenseReport = <?php // echo json_encode($expenseReport); ?>;
+        // var profit = <?php // echo json_encode($profit); ?>;
+
+        // var ctx = document.getElementById('weekBarChart').getContext('2d');
+        // var myChart = new Chart(ctx, {
+        //     type: 'bar',
+        //     data: {
+        //         labels: labels,
+        //         datasets: [{
+        //             label: 'Milk (Liters)',
+        //             data: chartData,
+        //             backgroundColor: 'blue',
+        //             barThickness: 20,
+        //         }, {
+        //             label: 'Expenses (Rs)',
+        //             data: expenseReport,
+        //             backgroundColor: 'red',
+        //         }, {
+        //             label: 'Profit (Rs)',
+        //             type: 'line',
+        //             data: profit,
+        //             backgroundColor: 'green',
+        //         }]
+        //     },
+        //     options: {
+        //         responsive: true,
+        //         scales: {
+        //             y: {
+        //                 beginAtZero: true
+        //             }
+        //         }
+        //     }
+        // });
     </script>
 
     <div class="groupsTitle titles">Groups</div>
@@ -161,7 +164,7 @@
                 responsive: true,
                 scales: {
                     y: {
-                        display:false
+                        display: false
                     }
                 }
             }
