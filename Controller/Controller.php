@@ -244,12 +244,27 @@ class Controller extends Model
 
                 case '/breeds':
                     $breeds = parent::getBreeds();
-                    $cows = parent::getAllCows();
+                    $records = parent::allAnimals();
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/breeds.php';
                     include './View/rightbar.php';
                     include './View/footer.php';
+                    break;
+
+                case '/addnewbreed':
+                    $breed = $_POST["breed"];
+                    $result = parent::addBreed($breed);
+                    if ($result)
+                    {
+                        http_response_code(200);
+                        echo json_encode(["message" => "Breed added successfully!"]);
+                    }
+                    else 
+                    {
+                        http_response_code(500);
+                        echo json_encode(["message" => "Breed already exist!"]);
+                    }
                     break;
 
                 case '/reports':

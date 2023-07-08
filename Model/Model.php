@@ -308,18 +308,16 @@ class Model
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
-    } 
+    }
 
     function getExpenseByDay($date)
     {
         try {
             $query = "select expenseamount from expenseperday where expensedate = '$date'";
             $result = mysqli_query($this->connection, $query);
-            if ($row = mysqli_fetch_assoc($result))
-            {
+            if ($row = mysqli_fetch_assoc($result)) {
                 return $row['expenseamount'];
-            }
-            else 
+            } else
                 return 0;
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
@@ -353,11 +351,9 @@ class Model
         try {
             $query = "select profit from dailyprofit where date = '$date'";
             $result = mysqli_query($this->connection, $query);
-            if ($row = mysqli_fetch_assoc($result))
-            {
+            if ($row = mysqli_fetch_assoc($result)) {
                 return $row['profit'];
-            }
-            else 
+            } else
                 return 0;
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
@@ -366,34 +362,27 @@ class Model
 
     function getCowRecordsByDuration($cowid, $start, $end)
     {
-        try
-        {
+        try {
             $query = "select milkamount from milkrecords where cowid='$cowid' and date between '$start' and '$end'";
             $result = mysqli_query($this->connection, $query);
             $milkamount = array();
-            if (mysqli_num_rows($result) > 0)
-            {
+            if (mysqli_num_rows($result) > 0) {
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $response["data"] = $rows;
                 $response["code"] = true;
                 return $response;
-            }
-            else
-            {
+            } else {
                 $response["code"] = false;
                 return $response;
             }
-        }
-        catch (Exception $e) 
-        {
+        } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
     }
 
     function getGroupCows($start, $end, $min, $max)
     {
-        try 
-        {
+        try {
             $query = "SELECT cowid, AVG(milkamount) AS average
                       FROM milkrecords
                       WHERE date BETWEEN '$start' AND '$end'
@@ -401,26 +390,40 @@ class Model
                       HAVING average >= $min AND average < $max";
 
             $result = mysqli_query($this->connection, $query);
-            if (mysqli_num_rows($result) > 0)
-            {
+            if (mysqli_num_rows($result) > 0) {
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $response["data"] = $rows;
                 $response["code"] = true;
                 return $response;
-            }
-            else
-            {
+            } else {
                 $response["code"] = false;
                 //$response["data"] = null;
                 return $response;
             }
-        }
-        catch (Exception $e) 
-        {
+        } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
         }
     }
-    
+
+    function addBreed($breed)
+    {
+        try {
+            $checkQuery = "SELECT * FROM breeds WHERE breedName = '$breed'";
+            $result = mysqli_query($this->connection, $checkQuery);
+
+            if (mysqli_num_rows($result) > 0) {
+                return false;
+            } else {
+                $query = "INSERT INTO breeds (breedName) VALUES ('$breed')";
+                mysqli_query($this->connection, $query);
+                return true;
+            }
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+
 
 }
 ?>

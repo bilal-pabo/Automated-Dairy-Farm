@@ -392,3 +392,58 @@ main .profileChartHolder .profileChart {
 main .breed{
   margin-top: 2rem;
 }
+
+main .breed .cows table {
+  width: 100%;
+  text-align: center;
+  margin: 1rem;
+}
+
+main .breed .cows table thead {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+
+main .breed .cows table tbody {
+  border: 2px solid var(--color-dark);
+}
+
+main .addnewbreed {
+  padding: 20px;
+}
+
+main .addnewbreed div {
+  font-size: 1.3rem;
+  font-weight: 500;
+}
+
+main .addnewbreed .newbreedgrid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 6cm 3cm;
+  align-items: center;
+  gap: 1rem;
+}
+
+main .addnewbreed .newbreedgrid input
+{
+  width: 6cm;
+  height: 2rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-dark);
+  background: var(--color-background);
+  text-indent: 10px;
+  outline: 1.2px solid var(--color-dark);
+  border-radius: var(--border-radius-1);
+}
+
+main .addnewbreed .newbreedgrid button {
+  cursor: pointer;
+  width: 3cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-dark);
+  border-radius: var(--border-radius-1);
+}
+
