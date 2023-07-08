@@ -1,5 +1,5 @@
 <main>
-    <?php 
+    <?php
     $_SESSION['animalid'] = $animalInfo->id;
     ?>
     <div class="titles">Animal Profile</div>
@@ -14,12 +14,12 @@
         ?>
     </span>
 
-    <div class="profileTop">
-        <h2 class="subHead primary">General Information</h2>
-        <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
-    </div>
+    <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
 
-    <form id="profileForm" method="post">
+    <form actaction="/update" id="profileForm" method="POST">
+
+        <div class="headinside">General Information</div>
+        <div></div>
 
         <div class="formitem">
             <label for="id">Animal ID :</label>
@@ -34,7 +34,8 @@
                 <?php
                 for ($i = 0; $i < sizeof($breeds); $i++) {
                     ?> <option value="<?= $breeds[$i] ?>" <?php if ($breeds[$i] == $animalInfo->breed)
-                           echo 'selected' ?>><?php echo $breeds[$i] ?></option> <?php
+                           echo 'selected' ?>>
+                    <?php echo $breeds[$i] ?></option> <?php
                 }
                 ?>
             </select>
@@ -74,118 +75,77 @@
             else
                 echo $animalInfo->price; ?>" id="price" class="price" placeholder="N/A" readonly>
         </div>
-        <button class="general-btn" id="general-btn">Update</button>
 
-    </form>
-    <?php
-    if ($animalInfo->gender == 'Cow') { ?>
-        <div class="profileTop">
-            <h2 class="subHead primary">Insemination Record</h2>
-            <button onclick="edit2()" class="ins-btn" id="profileEditButton">Edit</button>
-        </div>
-
-        <form id="profileForm">
-
-            <?php if ($semInfo['code'] == false) { ?>
-                <div class="formitem">
-                    <label for="insemination">Type :</label>
-                    <select name="insemination" id="insemination" required disabled>
-                        <option value="">N/A</option>
-                        <option value="Natural Insemination">Natural Insemination</option>
-                        <option value="Artificial Insemination">Artificial Insemination</option>
+        <!-- 2nd part -->
+        <?php
+        if ($animalInfo->gender == 'Cow') { ?>
+            <div class="headinside">Insemination Details</div>
+            <div></div>
+            <div class="formitem">
+                <label for="insemination">Type :</label>
+                <select name="insemination" id="insemination" disabled>
+                    <option value="">Select insemination type</option>
+                    <option value="Natural Insemination" <?php if ($animalInfo->insemination == 'Natural Insemination')
+                        echo 'selected' ?>>Natural Insemination</option>
+                        <option value="Artificial Insemination" <?php if ($animalInfo->insemination == 'Artificial Insemination')
+                        echo 'selected' ?>>Artificial Insemination</option>
                     </select>
                 </div>
                 <div class="formitem">
                     <label for="bid">Bull ID :</label>
-                    <input type="text" name="bid" value="" id="bid" class="bid" placeholder="N/A" readonly>
+                    <input type="text" name="bid" value="<?= $animalInfo->bullid ?>" id="bid" class="bid" placeholder="N/A"
+                    readonly>
+            </div>
+            <div class="formitem">
+                <label for="date">Date :</label>
+                <input type="date" name="date" value="<?php if ($animalInfo->insdate == date('0001-01-01'))
+                    echo null;
+                else
+                    echo $animalInfo->insdate; ?>" id="date" class="date" readonly>
+            </div>
+            <div></div>
+            <!-- 3rd part -->
+            <div class="headinside">Pregnancy Details</div>
+            <div></div>
+
+            <div class="formitem">
+                <label for="pregnant">Pregnant :</label>
+                <select name="pregnant" id="pregnant" disabled>
+                    <option value="">Select pregnancy status</option>
+                    <option value="Yes" <?php if ($animalInfo->pregnant == 'Yes')
+                        echo 'selected' ?>>Yes</option>
+                        <option value="No" <?php if ($animalInfo->pregnant == 'No')
+                        echo 'selected' ?>>No</option>
+                    </select>
                 </div>
-                <div class="formitem">
-                    <label for="date">Date :</label>
-                    <input type="date" name="date" value="" id="date" class="date" readonly>
-                </div> <div></div>
-                <button class="ins-btn" id="ins-btn">Update</button>
-                <?php } else { ?>
-
-
-                <div class="formitem">
-                    <label for="insemination">Type :</label>
-                    <select name="insemination" id="insemination" disabled>
-                        <option value="">Select insemination type</option>
-                        <option value="Natural Insemination" <?php if ($semInfo['data']->type == 'Natural Insemination')
-                            echo 'selected' ?>>Natural Insemination</option>
-                            <option value="Artificial Insemination" <?php if ($semInfo['data']->type == 'Artificial Insemination')
-                            echo 'selected' ?>>Artificial Insemination</option>
-                        </select>
-                    </div>
-                    <div class="formitem">
-                        <label for="bid">Bull ID :</label>
-                        <input type="text" name="bid" value="<?= $semInfo['data']->bullid ?>" id="bid" class="bid" placeholder="N/A"
-                        readonly>
-                </div>
-                <div class="formitem">
-                    <label for="date">Date :</label>
-                    <input type="date" name="date" value="<?php if ($semInfo['data']->date == date('0001-01-01'))
-                        echo null;
-                    else
-                        echo $semInfo['data']->date; ?>" id="date" class="date" readonly>
-                </div>
-                <div></div>
-                <button class="ins-btn" id="ins-btn">Update</button> <?php } ?>
-        </form>
-
-
-        <div class="profileTop">
-            <h2 class="subHead primary">Pregnancy Record</h2>
-            <button onclick="edit3()" id="profileEditButton">Edit</button>
-            
-        </div>
-
-        <form id="profileForm">
-            <?php if ($pregInfo['code'] == false) { ?>
                 <div class="formitem">
                     <label for="startDate">From :</label>
-                    <input type="date" name="startDate" value="" id="startDate" class="startDate" readonly>
-                </div>
-
-                <div class="formitem">
-                    <label for="deliveryDate">Delivery :</label>
-                    <input type="date" name="deliveryDate" value="" id="deliveryDate" class="deliveryDate" readonly>
-                </div>
-
-                <div class="formitem">
-                    <label for="abortionDate">Abortion :</label>
-                    <input type="date" name="abortionDate" value="" id="abortionDate" class="abortionDate" readonly>
-                </div> <div></div>
-                <button class="preg-btn" id="preg-btn">Update</button>
-                <?php } else { ?>
-
-                <div class="formitem">
-                    <label for="startDate">From :</label>
-                    <input type="date" name="startDate" value="<?php if ($pregInfo['data']->startdate == date('0001-01-01'))
+                    <input type="date" name="startDate" value="<?php if ($animalInfo->startdate == date('0001-01-01'))
                         echo null;
                     else
-                        echo $pregInfo['data']->startdate; ?>" id="startDate" class="startDate" readonly>
-                </div>
+                        echo $animalInfo->startdate; ?>" id="startDate" class="startDate" readonly>
+            </div>
 
-                <div class="formitem">
-                    <label for="deliveryDate">Delivery :</label>
-                    <input type="date" name="deliveryDate" value="<?php if ($pregInfo['data']->delivery == date('0001-01-01'))
-                        echo null;
-                    else
-                        echo $pregInfo['data']->delivery; ?>" id="deliveryDate" class="deliveryDate" readonly>
-                </div>
+            <div class="formitem">
+                <label for="deliveryDate">Delivery :</label>
+                <input type="date" name="deliveryDate" value="<?php if ($animalInfo->deliverydate == date('0001-01-01'))
+                    echo null;
+                else
+                    echo $animalInfo->deliverydate; ?>" id="deliveryDate" class="deliveryDate" readonly>
+            </div>
 
-                <div class="formitem">
-                    <label for="abortionDate">Abortion :</label>
-                    <input type="date" name="abortionDate" value="<?php if ($pregInfo['data']->abortion == date('0001-01-01'))
-                        echo null;
-                    else
-                        echo $pregInfo['data']->abortion; ?>" id="abortionDate" class="abortionDate" readonly>
-                </div> <div></div>
-                <button class="preg-btn" id="preg-btn">Update</button>
-                <?php } ?>
+            <div class="formitem">
+                <label for="abortionDate">Abortion :</label>
+                <input type="date" name="abortionDate" value="<?php if ($animalInfo->abortiondate == date('0001-01-01'))
+                    echo null;
+                else
+                    echo $animalInfo->abortiondate; ?>" id="abortionDate" class="abortionDate" readonly>
+            </div>
+            <div></div>
+            <button name="updatebtn" class="general-btn" id="general-btn">Update</button>
 
         </form>
+
 
         <div class="profileChartHolder">
             <div class="profileChart">
@@ -204,8 +164,8 @@
         } else {
             $size = 0;
         }
-    }
-    ?>
+        }
+        ?>
 
 
 
@@ -232,35 +192,62 @@
                         text: "Last Seven Days' Milk Records",
                         font: {
                             size: 15,
-                            style: 'italic'
+                            style: 'italic',
+                            weight: 'bold'
                         },
                         align: 'end'
+                    },
+                    legend: {
+                        labels: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
                     }
                 },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
                     }
                 }
-
             }
         });
+
     </script>
 </main>
 
 <script>
     function Update_record(event) {
+
         var id = $("#id").val();
         var breed = $("#breed").val();
         var gender = $("#gender").val();
         var color = $("#color").val();
         var dob = $("#dob").val();
         var price = $("#price").val();
+        var insemination = $("#insemination").val();
+        var insdate = $("#insdate").val();
+        var bullid = $("#bullid").val();
+        var pregnant = $("#pregnant").val();
+        var startdate = $("#startdate").val();
+        var abortiondate = $("#abortiondate").val();
+        var deliverydate = $("#deliverydate").val();
         var msg = document.getElementById("updatemsg");
-        if (!breed || !gender) {
-            msg.innerText = "Breed and gender are required!";
-            return;
-        }
 
 
         var formdata = new FormData();
@@ -270,9 +257,16 @@
         formdata.append("color", color);
         formdata.append("dob", dob);
         formdata.append("price", price);
+        formdata.append("insemination", insemination);
+        formdata.append("insdate", insdate);
+        formdata.append("bullid", bullid);
+        formdata.append("pregnant", pregnant);
+        formdata.append("startdate", startdate);
+        formdata.append("abortiondate", abortiondate);
+        formdata.append("deliverydate", deliverydate);
 
         $.ajax({
-            url: './update?record=general',
+            url: './update',
             contentType: false,
             processData: false,
             data: formdata,
@@ -288,47 +282,11 @@
         });
     }
 
-    function Update_record2(event) {
-        var insemination = $("#insemination").val();
-        var bid = $("#bid").val();
-        var date = $("#date").val();
-        var msg = document.getElementById("updatemsg");
-        if (!insemination) {
-            msg.innerText = "Insemination type is required!";
-            return;
-        }
 
+    // $(document).ready(() => {
+    //     $("#general-btn").on("click", event => {
+    //         Update_record(event);
+    //     })
 
-        var formdata = new FormData();
-        formdata.append("insemination", insemination);
-        formdata.append("bid", bid);
-        formdata.append("date", date);
-
-        $.ajax({
-            url: './update?record=insemination',
-            contentType: false,
-            processData: false,
-            data: formdata,
-            type: "POST",
-            success: (message) => {
-                //var Msg = JSON.parse(message);
-                //msg.innerText = Msg.message;
-            },
-            error: (message) => {
-                //var Msg = JSON.parse(message);
-                //msg.innerText = "Updation Failed!";
-            }
-        });
-    }
-
-
-    $(document).ready(() => {
-        $("#general-btn").on("click", event => {
-            Update_record(event);
-        })
-
-        $("#ins-btn").on("click", event => {
-            Update_record2(event);
-        })
-    });
+    // });
 </script>

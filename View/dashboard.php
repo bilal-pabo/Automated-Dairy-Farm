@@ -93,6 +93,7 @@
                     label: 'Expenses (Rs)',
                     data: expenseReport,
                     backgroundColor: 'red',
+                    barThickness: 20,
                 }, {
                     label: 'Profit (Rs)',
                     type: 'line',
@@ -111,40 +112,18 @@
         });
     </script>
 
-    <div class="groupsTitle titles">Groups</div>
     <div class="groupsDash">
-        <canvas id="groupsPieChart"></canvas>
-        <!-- <div class="groupADash groupDash">
-            <div class="groupName">
-                Group A
-            </div>
-            <div class="groupCount">
-                numbers
-            </div>
+        <div>
+            <canvas id="groupsPieChart"></canvas>
         </div>
-
-        <div class="groupBDash groupDash">
-            <div class="groupName">
-                Group B
-            </div>
-            <div class="groupCount">
-                numbers
-            </div>
+        <div>
+            <canvas id="breedsChart"></canvas>
         </div>
-
-        <div class="groupCDash groupDash">
-            <div class="groupName">
-                Group C
-            </div>
-            <div class="groupCount">
-                numbers
-            </div>
-        </div> -->
     </div>
 
     <script>
         var labels = ['Group A', 'Group B', 'Group C'];
-        var chartData = [5, 4, 6];
+        var chartData = <?php echo json_encode($counts); ?>;
         var backgroundColors = ['#EF5350', '#42A5F5', '#E64A19'];
         var ctx = document.getElementById('groupsPieChart').getContext('2d');
         var myChart = new Chart(ctx, {
@@ -159,13 +138,72 @@
             },
             options: {
                 responsive: true,
-                scales: {
-                    y: {
-                        display:false
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Groups' Frequency",
+                        font: {
+                            size: 16,
+                            weight: 'bold',
+                            family: 'Arial, sans-serif'
+                        }
+                    },
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        }
                     }
                 }
             }
         });
+
+
+        var labels = <?php echo json_encode($breeds); ?>;
+        var chartData = <?php echo json_encode($Counts); ?>;
+        var backgroundColors = generateRandomColors(labels.length);
+        var ctx = document.getElementById('breedsChart').getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cattles',
+                    data: chartData,
+                    backgroundColor: backgroundColors,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: "Breeds' Frequency",
+                        font: {
+                            size: 16,
+                            weight: 'bold',
+                            family: 'Arial, sans-serif'
+                        }
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                cutout: 80
+            }
+        });
+        function generateRandomColors(count) {
+            var colors = [];
+            for (var i = 0; i < count; i++) {
+                var color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+                colors.push(color);
+            }
+            return colors;
+        }
+
 
     </script>
 

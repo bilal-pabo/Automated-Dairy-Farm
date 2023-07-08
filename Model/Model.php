@@ -346,10 +346,15 @@ class Model
         }
     }
 
-    function updateAnimalInfo($id, $breed, $gender, $color, $dob, $price)
+    function updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, 
+    $insemination, $insdate, $bullid, 
+    $pregnant, $startDate, $abortiondate, $deliverydate)
     {
         try {
-            $query = "update animalinfo set breed='$breed', gender='$gender', color='$color', dob='$dob', price='$price' where id='$id'";
+            $query = "update animalinfo set breed='$breed', gender='$gender', color='$color', 
+            dob='$dob', price='$price', insemination='$insemination', insdate='$insdate', 
+            bullid='$bullid', pregnant='$pregnant', startDate='$startDate', 
+            abortiondate='$abortiondate', deliverydate='$deliverydate' where id='$id'";
             $result = mysqli_query($this->connection, $query);
             if ($result) return true;
             else return false;
@@ -359,18 +364,6 @@ class Model
         }
     }
 
-    function updateInsRecord($id, $insType, $bullid, $insdate)
-    {
-        try {
-            $query = "update insemination set type='$insType', date='$insdate', bullid='$bullid' where cowid='$id'";
-            $result = mysqli_query($this->connection, $query);
-            if ($result) return true;
-            else return false;
-        } catch (Exception $e) {
-            echo "Database error : " . $e->getMessage();
-            return false;
-        }
-    }
 
     function getProfitByDay($date)
     {
@@ -430,6 +423,42 @@ class Model
             echo "Database error : " . $e->getMessage();
         }
     }
+
+    function getGroupCounts($start, $end, $min, $max)
+    {
+        try {
+            $query = "SELECT cowid, AVG(milkamount) AS average
+                      FROM milkrecords
+                      WHERE date BETWEEN '$start' AND '$end'
+                      GROUP BY cowid
+                      HAVING average >= $min AND average < $max";
+
+            $result = mysqli_query($this->connection, $query);
+            return mysqli_num_rows($result);
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
+    function getBreedsAndCounts() {
+        try {
+            $query = "SELECT breed, COUNT(*) AS count FROM animalinfo GROUP BY breed";
+            $result = mysqli_query($this->connection, $query);
+    
+            $breedsAndCounts = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                $breed = $row['breed'];
+                $count = $row['count'];
+                $breedsAndCounts[$breed] = $count;
+            }
+    
+            return $breedsAndCounts;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+            return array();
+        }
+    }
+    
 
     function addBreed($breed)
     {

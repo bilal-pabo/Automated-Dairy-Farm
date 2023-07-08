@@ -40,6 +40,7 @@ class Controller extends Model
                         parent::addDailyExpense($expenseDate, $dailyExpense);
 
                     }
+                    
                     $today = date('Y-m-d');
                     $todayMilk = parent::getTotalMilkByDay($today);
                     $todayExpense = parent::getExpenseByDay($today);
@@ -47,11 +48,29 @@ class Controller extends Model
                     $_SESSION['todayMilk'] = $todayMilk;
                     $_SESSION['todayExpense'] = $todayExpense;
                     $_SESSION['todayProfit'] = $todayProfit;
+                    
                     $sevenDaysBack = date('Y-m-d', strtotime('-7 day'));
                     $labels = array();
                     $chartData = array();
                     $expenseReport = array();
                     $profit = array();
+
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
+
+                    $groupACount = parent::getGroupCounts($start, $end, 10, 25);
+                    $groupBCount = parent::getGroupCounts($start, $end, 25, 35);
+                    $groupCCount = parent::getGroupCounts($start, $end, 35, 45);
+
+                    $breedsAndCounts = parent::getBreedsAndCounts(); $breeds = array(); $Counts = array();
+                    foreach ($breedsAndCounts as $breed=>$count)
+                    {
+                        $breeds[] = $breed;
+                        $Counts[] = $count;
+                    }
+
+                    $counts = array($groupACount, $groupBCount, $groupCCount);
+
                     for ($i = 0; $i < 7; $i++) {
                         $date = strtotime("+$i day", strtotime($sevenDaysBack));
                         $labels[] = date('M d', $date);
@@ -145,25 +164,70 @@ class Controller extends Model
                     break;
 
                 case '/animalProfile':
-                    $breeds = parent::getBreeds();
-                    $id = $_GET['cowid'];
-                    $start = date('Y-m-d', strtotime('-7 day'));
-                    $end = date('Y-m-d', strtotime('-1 day'));
-                    $animalInfo = parent::getAnimalData($id);
-                    if ($animalInfo->gender == 'Cow') {
-                        $semInfo = parent::getSeminationRecord($id);
-                        $pregInfo = parent::getPregnancyInfo($id);
-                        $response = parent::getCowRecordsByDuration($id, $start, $end);
-                        for ($i = 0; $i < 7; $i++) {
-                            $date = strtotime("+$i day", strtotime($start));
-                            $labels[] = date('M d', $date);
-                        }
+                    if (isset($_POST["updatebtn"]))
+                    {
+                        $id = $_POST["id"];
+                        $color = '';
+                    $dob = date('0001-01-01');
+                    $price = -1;
+                    if ($_POST['color'])
+                        $color = $_POST['color'];
+                    if ($_POST['dob'])
+                        $dob = $_POST['dob'];
+                    if ($_POST['price'])
+                        $price = $_POST['price'];
+                    $breed = $_POST["breed"];
+                    $gender = $_POST["gender"];
+                    $insemination = "";
+                    if ($_POST['insemination'])
+                        $insemination = $_POST['insemination'];
+                    $insdate = date('0001-01-01');
+                    $bullid = '';
+                    if ($_POST['insdate'])
+                        $insdate = $_POST['insdate'];
+                    if ($_POST['bid'])
+                        $bullid = $_POST['bid'];
+                    $pregnant = "";
+                    if ($_POST['pregnant'])
+                        $pregnant = $_POST['pregnant'];
+                    $startdate = date('0001-01-01');
+                    if ($_POST['startDate'])
+                        $startdate = $_POST['startdate'];
+                    $deliverydate = date('0001-01-01');
+                    if ($_POST['deliverydate'])
+                        $deliverydate = $_POST['deliverydate'];
+                    $abortiondate = date('0001-01-01');
+                    if ($_POST['abortiondate'])
+                        $abortiondate = $_POST['abortiondate'];
+
+                    //$result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
+                    //if ($result)
+                    //    $_SESSION['msg'] = "Updation Successfull!";
+                    //else
+                    //    $_SESSION['msg'] = "Updation Failed!";
+
                     }
-                    include './View/header2.php';
-                    include './View/sidebar.php';
-                    include './View/animalProfile.php';
-                    include './View/rightbar.php';
-                    include './View/footer.php';
+                    else
+                    {
+                        $breeds = parent::getBreeds();
+                        $id = $_GET['cowid'];
+                        $start = date('Y-m-d', strtotime('-7 day'));
+                        $end = date('Y-m-d', strtotime('-1 day'));
+                        $animalInfo = parent::getAnimalData($id);
+                        
+                            $response = parent::getCowRecordsByDuration($id, $start, $end);
+                            for ($i = 0; $i < 7; $i++) {
+                                $date = strtotime("+$i day", strtotime($start));
+                                $labels[] = date('M d', $date);
+                            }
+                        
+                        include './View/header2.php';
+                        include './View/sidebar.php';
+                        include './View/animalProfile.php';
+                        include './View/rightbar.php';
+                        include './View/footer.php';
+                    }
+                    
                     break;
 
                 case '/addMilkRecord':
@@ -278,53 +342,57 @@ class Controller extends Model
                     break;
 
                 case '/update':
-                    if ($_GET["record"] == "general") {
-                        $id = $_POST["id"];
-                        $color = '';
-                        $dob = date('0001-01-01');
-                        $price = -1;
-                        if ($_POST['color'])
-                            $color = $_POST['color'];
-                        if ($_POST['dob'])
-                            $dob = $_POST['dob'];
-                        if ($_POST['price'])
-                            $price = $_POST['price'];
-                        $breed = $_POST["breed"];
-                        $gender = $_POST["gender"];
-                        //$ddd =  $id . $breed . $gender . $color . $dob . $price;
-                        //$_SESSION['msg'] = $ddd;
-                        $result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price);
-                        if ($result)
-                            $_SESSION['msg'] = "Updation Successfull!";
-                        else
-                            $_SESSION['msg'] = "Updation Failed!";
-                    } else if ($_GET["record"] == "insemination") {
-                        //$insType = $_POST["insemination"];
-                        $id = $_SESSION['animalid'];
-                        // $insdate = date('0001-01-01');
-                        // $bullid = '';
-                        // if ($_POST['date'])
-                        //     $insdate = $_POST['date'];
-                        // if ($_POST['bid'])
-                        //     $bullid = $_POST['bid'];
-                        // $result = parent::updateInsRecord($id, $insType, $bullid, $insdate);
-                        // if ($result)
-                        //     $_SESSION['msg'] = "Updation Successfull!";
-                        // else
-                        //     $_SESSION['msg'] = "Updation Failed!";
 
-                    } else if ($_GET["record"] == "pregnancy") {
-                        
-                    } ?>
-                    <script>
-                        window.location.href = "animalProfile";
-                    </script>
-<?php
-                                        break;
+                    $id = $_POST["id"];
+                    echo "aaaaaaaaaaaaaa";
+                    $color = '';
+                    $dob = date('0001-01-01');
+                    $price = -1;
+                    if ($_POST['color'])
+                        $color = $_POST['color'];
+                    if ($_POST['dob'])
+                        $dob = $_POST['dob'];
+                    if ($_POST['price'])
+                        $price = $_POST['price'];
+                    $breed = $_POST["breed"];
+                    $gender = $_POST["gender"];
+                    $insemination = "";
+                    if ($_POST['insemination'])
+                        $insemination = $_POST['insemination'];
+                    $insdate = date('0001-01-01');
+                    $bullid = '';
+                    if ($_POST['semDate'])
+                        $insdate = $_POST['insdate'];
+                    if ($_POST['bullId'])
+                        $bullid = $_POST['bullid'];
+                    $pregnant = "";
+                    if ($_POST['pregnant'])
+                        $pregnant = $_POST['pregnant'];
+                    $startdate = date('0001-01-01');
+                    if ($_POST['startDate'])
+                        $startDate = $_POST['startdate'];
+                    $deliverydate = date('0001-01-01');
+                    if ($_POST['deliverydate'])
+                        $deliverydate = $_POST['deliverydate'];
+                    $abortiondate = date('0001-01-01');
+                    if ($_POST['abortiondate'])
+                        $abortiondate = $_POST['abortiondate'];
+
+                    $result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate, $abortiondate, $deliverydate);
+                    if ($result)
+                        $_SESSION['msg'] = "Updation Successfull!";
+                    else
+                        $_SESSION['msg'] = "Updation Failed!";
+
+                    break;
 
                 case '/reports':
+                    $breeds = parent::getBreeds();
+                    $cows = parent::getAllCows();
                     include './View/header2.php';
                     include './View/sidebar.php';
+                    include './View/reports.php';
+                    include './View/rightbar.php';
                     include './View/footer.php';
                     break;
 

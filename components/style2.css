@@ -267,6 +267,40 @@ main .group {
   gap: 1rem 0;
 }
 
+main .subtitles:first-child {
+  margin-top: 2rem;
+}
+
+main .subtitles {
+  font-size: 1.6rem;
+  font-weight: 500;
+  margin-left: 0.8cm;
+}
+
+.cardA{
+  background: #FFCDD2;
+}
+
+.cardB{
+  background: #BBDEFB;
+}
+
+.cardC{
+  background: #FFCCBC;
+}
+
+.groupA {
+  color: #EF5350;
+}
+
+.groupB {
+  color: #42A5F5;
+}
+
+.groupC {
+  color: #E64A19;
+}
+
 main .group .groupName {
   font-size: 1.6rem;
   font-weight: 500;
@@ -317,8 +351,10 @@ main .groupsTitle {
 }
 
 main .groupsDash {
-  width: 50%;
+  width: 100%;
   margin-top: 2rem;
+  display: grid;
+  grid-template-columns: 52% 48%;
 }
 
 main .groupsDash .groupADash {
@@ -430,9 +466,12 @@ main #profileEditButton {
   color: var(--color-white);
   background: var(--color-primary);
   border-radius: var(--border-radius-1);
+  margin-left: 40px;
+  margin-bottom: -1rem;
+  margin-top: 3rem;
 }
 
-main #general-btn, #ins-btn, #preg-btn {
+main #general-btn {
   cursor: pointer;
   width: 2cm;
   height: 2rem;
@@ -440,6 +479,8 @@ main #general-btn, #ins-btn, #preg-btn {
   background: var(--color-danger);
   border-radius: var(--border-radius-1);
   display: none;
+  margin-top: 1rem;
+  margin-left: 2rem;
 }
 
 main .profileTop {
@@ -458,4 +499,52 @@ main form .headinside {
   font-size: 1.2rem;
   font-weight: 400;
   color: var(--color-primary);
+}
+
+main .topOfReports {
+  margin-top: 3rem;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: max-content max-content max-content max-content;
+  gap: 0.6rem;
+  background: var(--color-dark);
+  border-radius: var(--border-radius-1);
+  align-items: first baseline;
+  justify-content: start;
+}
+
+main .topOfReports select {
+  height: 2rem;
+  text-indent: 10px;
+  border-radius: none;
+  color: var(--color-dark);
+  background: var(--color-white);
+}
+
+main .topOfReports select:hover {
+  cursor: pointer;
+}
+
+main .underTop {
+  width: 100%;
+  text-align: right;
+}
+
+main .underTop input[type="button"] {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-dark);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
+  margin-top: 1rem;
+  margin-left: 2rem;
+}
+
+main .duration {
+  font-weight: 500;
+  font-size: 1.8rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  margin-bottom: -2rem;
 }

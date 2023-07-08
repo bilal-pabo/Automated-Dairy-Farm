@@ -16,26 +16,14 @@ function edit()
   $(".color").prop("readonly", false).addClass("glow");
   $(".dob").prop("readonly", false).addClass("glow");
   $(".price").prop("readonly", false).addClass("glow");
-  $(".general-btn").css("display", "block");
-}
-
-function edit2()
-{
-  console.log("hehehe");
   $("#insemination").prop("disabled", false).addClass("glow");
   $("#bid").prop("readonly", false).addClass("glow");
   $("#date").prop("readonly", false).addClass("glow");
-  $(".ins-btn").css("display", "block");
-
-}
-
-function edit3()
-{
-  console.log("hehehe");
+  $("#pregnant").prop("disabled", false).addClass("glow");
   $("#startDate").prop("readonly", false).addClass("glow");
   $("#deliveryDate").prop("readonly", false).addClass("glow");
   $("#abortionDate").prop("readonly", false).addClass("glow");
-  $(".preg-btn").css("display", "block");
+  $(".general-btn").css("display", "block");
 }
 
 menuBtn.addEventListener('click', () => {
