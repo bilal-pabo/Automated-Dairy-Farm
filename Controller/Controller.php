@@ -86,21 +86,21 @@ class Controller extends Model
                     $breeds = parent::getBreeds();
                     if (isset($_POST['add'])) {
                         $data = $_POST;
-                        if ($data['pregnant'] == 'yes') {
-                            $startDate = date('0001-01-01');
-                            if ($data['startDate'])
-                                $startDate = $data['startDate'];
-                            parent::addPregnant($data['id'], $startDate);
-                        }
-                        if ($data['insemination']) {
-                            $insdate = date('0001-01-01');
-                            $bullid = '';
-                            if ($data['semDate'])
-                                $insdate = $data['semDate'];
-                            if ($data['bullId'])
-                                $bullid = $data['bullId'];
-                            parent::addSeminationRecord($data['id'], $data['insemination'], $insdate, $bullid);
-                        }
+                        $insemination = "";
+                        if ($data['insemination'])
+                            $insemination = $data['insemination'];
+                        $insdate = date('0001-01-01');
+                        $bullid = '';
+                        if ($data['semDate'])
+                            $insdate = $data['semDate'];
+                        if ($data['bullId'])
+                            $bullid = $data['bullId'];
+                        $pregnant = "";
+                        if ($data['pregnant'])
+                            $pregnant = $data['pregnant'];
+                        $startDate = date('0001-01-01');
+                        if ($data['startDate'])
+                            $startDate = $data['startDate'];
                         $color = '';
                         $dob = date('0001-01-01');
                         $price = -1;
@@ -110,9 +110,8 @@ class Controller extends Model
                             $dob = $data['dob'];
                         if ($data['price'])
                             $price = $data['price'];
-                        $result = parent::addAnimal($data['id'], $data['breed'], $data['gender'], $color, $dob, $price);
+                        $result = parent::addAnimal($data['id'], $data['breed'], $data['gender'], $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate);
                         $_SESSION['msg'] = $result['Message'];
-                        $_SESSION['color'] = $result['color'];
 
                         ?>
                         <script> window.location.href = 'addAnimal'; </script> <?php

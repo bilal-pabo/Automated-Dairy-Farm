@@ -254,40 +254,6 @@ main .topBar .search button {
   margin-left: 0.2rem;
 }
 
-main .subtitles:first-child {
-  margin-top: 2rem;
-}
-
-main .subtitles {
-  font-size: 1.6rem;
-  font-weight: 500;
-  margin-left: 0.8cm;
-}
-
-.cardA {
-  background: #ffcdd2;
-}
-
-.cardB {
-  background: #bbdefb;
-}
-
-.cardC {
-  background: #ffccbc;
-}
-
-.groupA {
-  color: #ef5350;
-}
-
-.groupB {
-  color: #42a5f5;
-}
-
-.groupC {
-  color: #e64a19;
-}
-
 main .group {
   width: 90%;
   padding: 20px;
@@ -487,4 +453,9 @@ main .profileTop {
 
 .glow {
   box-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
+}
+main form .headinside {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--color-primary);
 }
