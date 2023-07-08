@@ -38,7 +38,7 @@ class Model
         }
     }
 
-    function addAnimal($id, $breed, $gender, $color, $dob, $price)
+    function addAnimal($id, $breed, $gender, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate)
     {
         $query = "select * from animalinfo where id='$id'";
         $result = mysqli_query($this->connection, $query);
@@ -48,7 +48,7 @@ class Model
             $response['Message'] = "Animal id already exist!";
             $response['color'] = 'warning';
         } else {
-            $query2 = "insert into animalinfo (id, breed, gender, color, dob, price) values('$id', '$breed', '$gender', '$color', '$dob', '$price')";
+            $query2 = "insert into animalinfo (id, breed, gender, color, dob, price, insemination, insdate, bullid, pregnant, startDate) values('$id', '$breed', '$gender', '$color', '$dob', '$price', '$insemination', '$insdate', '$bullid', '$pregnant', '$startDate')";
             if (mysqli_query($this->connection, $query2)) {
                 $response['Code'] = true;
                 $response['Message'] = "Animal added successfully!";

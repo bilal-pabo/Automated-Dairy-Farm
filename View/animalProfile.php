@@ -1,7 +1,9 @@
 <main>
     <h1>Animal Profile</h1>
-    <h2 class="subHead primary" >General Information</h2>
     <form id="profileForm">
+
+        <div class="headinside">General Information</div>
+        <div></div>
         
         <div class="formitem">
             <label for="id">Animal ID :</label>
@@ -45,83 +47,47 @@
             <input type="number" name="price" value="<?php if ($animalInfo->price == -1) echo null; else echo $animalInfo->price; ?>" id="price" class="price" placeholder="N/A" readonly>
         </div>
 
-    </form>
+<!-- 2nd part -->
     <?php 
         if ($animalInfo->gender == 'Cow')
-        { ?>
-            <h2 class="subHead primary">Insemination Record</h2>
-            <form id="profileForm">
-
-                 <?php if ($semInfo['code'] == false) { ?>
+        { ?> 
+<div class="headinside">Insemination Details</div>
+<div></div>
                 <div class="formitem">
                     <label for="insemination">Type :</label>
-                    <select name="insemination" id="insemination" required disabled>
-                        <option value="">N/A</option>
-                        <option value="Natural Insemination">Natural Insemination</option>
-                        <option value="Artificial Insemination">Artificial Insemination</option>
-                    </select>
-                </div>
-                <div class="formitem">
-                    <label for="bid">Bull ID :</label>
-                    <input type="text" name="bid" value="" id="bid" class="bid" placeholder="N/A" readonly>
-                </div>
-                <div class="formitem">
-                    <label for="date">Date :</label>
-                    <input type="date" name="date" value="" id="date" class="date" readonly>
-                </div>  <?php } else { ?>
-
-
-                <div class="formitem">
-                    <label for="insemination">Type :</label>
-                    <select name="insemination" id="insemination" required disabled>
+                    <select name="insemination" id="insemination" disabled>
                         <option value="">Select insemination type</option>
-                        <option value="Natural Insemination" <?php if ($semInfo['data']->type == 'Natural Insemination') echo 'selected' ?> >Natural Insemination</option>
-                        <option value="Artificial Insemination" <?php if ($semInfo['data']->type == 'Artificial Insemination') echo 'selected' ?> >Artificial Insemination</option>
+                        <option value="Natural Insemination" <?php if ($animalInfo->insemination == 'Natural Insemination') echo 'selected' ?> >Natural Insemination</option>
+                        <option value="Artificial Insemination" <?php if ($animalInfo->insemination == 'Artificial Insemination') echo 'selected' ?> >Artificial Insemination</option>
                     </select>
                 </div>
                 <div class="formitem">
                     <label for="bid">Bull ID :</label>
-                    <input type="text" name="bid" value="<?= $semInfo['data']->bullid ?>" id="bid" class="bid" placeholder="N/A" readonly>
+                    <input type="text" name="bid" value="<?= $animalInfo->bullid ?>" id="bid" class="bid" placeholder="N/A" readonly>
                 </div>
                 <div class="formitem">
                     <label for="date">Date :</label>
-                    <input type="date" name="date" value="<?php if ($semInfo['data']->date == date('0001-01-01')) echo null; else echo $semInfo['data']->date; ?>" id="date" class="date" readonly>
-                </div> <?php } ?>
-            </form>
-
-
-            <h2 class="subHead primary">Pregnancy Record</h2>
-            <form id="profileForm">
-                 <?php if($pregInfo['code'] == false) { ?>
-                <div class="formitem">
-                    <label for="startDate">From :</label>
-                    <input type="date" name="startDate" value="" id="startDate" class="startDate" readonly>
+                    <input type="date" name="date" value="<?php if ($animalInfo->insdate == date('0001-01-01')) echo null; else echo $animalInfo->insdate; ?>" id="date" class="date" readonly>
                 </div> 
-
-                <div class="formitem">
-                    <label for="deliveryDate">Delivery :</label>
-                    <input type="date" name="deliveryDate" value="" id="deliveryDate" class="deliveryDate" readonly>
-                </div> 
-
-                <div class="formitem">
-                    <label for="abortionDate">Abortion :</label>
-                    <input type="date" name="abortionDate" value="" id="abortionDate" class="abortionDate" readonly>
-                </div> <?php } else { ?>
+                 <div></div>
+                  <!-- 3rd part -->
+                  <div class="headinside">Pregnancy Details</div>
+                  <div></div>
                     
                 <div class="formitem">
                     <label for="startDate">From :</label>
-                    <input type="date" name="startDate" value="<?php if ($pregInfo['data']->startdate == date('0001-01-01')) echo null; else echo $pregInfo['data']->startdate; ?>" id="startDate" class="startDate" readonly>
+                    <input type="date" name="startDate" value="<?php if ($animalInfo->startdate == date('0001-01-01')) echo null; else echo $animalInfo->startdate; ?>" id="startDate" class="startDate" readonly>
                 </div> 
 
                 <div class="formitem">
                     <label for="deliveryDate">Delivery :</label>
-                    <input type="date" name="deliveryDate" value="<?php if ($pregInfo['data']->delivery == date('0001-01-01')) echo null; else echo $pregInfo['data']->delivery; ?>" id="deliveryDate" class="deliveryDate" readonly>
+                    <input type="date" name="deliveryDate" value="<?php if ($animalInfo->deliverydate == date('0001-01-01')) echo null; else echo $animalInfo->deliverydate; ?>" id="deliveryDate" class="deliveryDate" readonly>
                 </div> 
 
                 <div class="formitem">
                     <label for="abortionDate">Abortion :</label>
-                    <input type="date" name="abortionDate" value="<?php if ($pregInfo['data']->abortion == date('0001-01-01')) echo null; else echo $pregInfo['data']->abortion; ?>" id="abortionDate" class="abortionDate" readonly>
-                </div> <?php } ?>
+                    <input type="date" name="abortionDate" value="<?php if ($animalInfo->abortiondate == date('0001-01-01')) echo null; else echo $animalInfo->abortiondate; ?>" id="abortionDate" class="abortionDate" readonly>
+                </div> 
             
             </form>
   <?php }

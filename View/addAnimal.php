@@ -45,8 +45,8 @@
                 <label for="pregnant">Pregnant : </label>
                 <select name="pregnant" id="pregnant" class="pregnant">
                     <option value="">Select pregnancy status</option>
-                    <option value="no">No</option>
-                    <option value="yes">Yes</option>
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
                 </select>
             </div>
             <div class="pregYes">
