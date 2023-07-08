@@ -1,19 +1,39 @@
 <main>
-    <div class="titles">Groups</div>
+    <div class="titles">Breeds</div>
 
     <div class="addnewbreed">
         <div>Add new breed</div>
-        <div class="newbreedgrid">
-            <input type="text" placeholder="Enter breed" id="newbreed" name="newbreed">
-            <button id="addbreedbtn">Add</button>
-        </div>
-        <span id="addbreedmsg"></span>
-    </div>
+        <form method="post">
+            <div class="newbreedgrid">
 
+                <input type="text" placeholder="Enter breed" id="newbreed" name="newbreed" required>
+                <button name="addbreedbtn" id="addbreedbtn">Add</button>
+
+            </div>
+        </form>
+        <span id="addbreedmsg"><?php
+        if (isset($_SESSION['msg'])) {
+            echo $_SESSION['msg'];
+            unset($_SESSION['msg']);
+
+        }
+        ?></span>
+    </div>
+    <span id="addbreedmsg"><?php
+        if (isset($_SESSION['Msg'])) {
+            echo $_SESSION['Msg'];
+            unset($_SESSION['Msg']);
+
+        }
+        ?></span>
     <?php
+
     for ($i = 0; $i < sizeof($breeds); $i++) { ?>
         <div class="breed">
-            <div class="titles"> <?= $breeds[$i] ?> </div>
+            <div class="breedTop">
+                <div class="titles"> <?= $breeds[$i] ?> </div>
+                <button class="deletebreedbtn" onclick="deleteBreed('<?php echo $breeds[$i]; ?>');">Delete</button>
+            </div>
             <div class="cows">
                 <table>
                     <thead>
@@ -69,40 +89,40 @@
 </main>
 
 <script>
-    function Add_breed(event) {
+    // function Add_breed(event) {
 
-        var breed = $("#newbreed").val();
-        var msg = document.getElementById("addbreedmsg");
-        if (!breed) {
-            msg.innerText = "Breed is required!";
-            return;
-        }
-
-
-        var formdata = new FormData();
-        formdata.append("breed", breed);
-
-        $.ajax({
-            url: './addnewbreed',
-            contentType: false,
-            processData: false,
-            data: formdata,
-            type: "POST",
-            success: (message) => {
-                var Msg = JSON.parse(message);
-                msg.innerText = Msg.message;
-            },
-            error: (message) => {
-                //var Msg = JSON.parse(message);
-                msg.innerText = "Breed already exist!";
-            }
-        });
-    }
+    //     var breed = $("#newbreed").val();
+    //     var msg = document.getElementById("addbreedmsg");
+    //     if (!breed) {
+    //         msg.innerText = "Breed is required!";
+    //         return;
+    //     }
 
 
-    $(document).ready(() => {
-        $("#addbreedbtn").on("click", event => {
-            Add_breed(event);
-        })
-    });
+    //     var formdata = new FormData();
+    //     formdata.append("breed", breed);
+
+    //     $.ajax({
+    //         url: './addnewbreed',
+    //         contentType: false,
+    //         processData: false,
+    //         data: formdata,
+    //         type: "POST",
+    //         success: (message) => {
+    //             var Msg = JSON.parse(message);
+    //             msg.innerText = Msg.message;
+    //         },
+    //         error: (message) => {
+    //             //var Msg = JSON.parse(message);
+    //             msg.innerText = "Breed already exist!";
+    //         }
+    //     });
+    // }
+
+
+    // $(document).ready(() => {
+    //     $("#addbreedbtn").on("click", event => {
+    //         Add_breed(event);
+    //     })
+    // });
 </script>

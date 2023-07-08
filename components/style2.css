@@ -36,29 +36,29 @@ main #addmilkform #addmilktable {
 }
 
 main #addmilkform #addmilktable:hover {
-    box-shadow: none;
+  box-shadow: none;
 }
 
 main #addmilkform table tbody tr:hover {
-    transform: none;
-  }
+  transform: none;
+}
 
 main #addmilkform #addmilktable tbody td {
-    height: 2.8rem;
+  height: 2.8rem;
   border-bottom: 1px solid var(--color-light);
   color: var(--color-dark-variant);
 }
 
 main #addmilkform table tbody input {
-    background: var(--color-white);
-    color: var(--color-dark);
+  background: var(--color-white);
+  color: var(--color-dark);
 }
 
 main #addmilkform input[type="date"] {
-    background: var(--color-white);
-    color: var(--color-dark);
-    text-indent: 10px;
-    width: 20%;
+  background: var(--color-white);
+  color: var(--color-dark);
+  text-indent: 10px;
+  width: 20%;
   height: 2rem;
   font-size: 1rem;
   font-weight: 400;
@@ -71,9 +71,9 @@ main #addmilkform input[type="date"] {
 
 main #addmilkform .price {
   background: var(--color-white);
-    color: var(--color-dark);
-    text-indent: 10px;
-    width: 20%;
+  color: var(--color-dark);
+  text-indent: 10px;
+  width: 20%;
   height: 2rem;
   font-size: 1rem;
   font-weight: 400;
@@ -110,19 +110,19 @@ main .smallcardbox .smallcard {
 }
 
 main .smallcardbox .milk {
-  background: #2196F3;
+  background: #2196f3;
 }
 
 main .smallcardbox .expense {
-  background: #F44336;
+  background: #f44336;
 }
 
 main .smallcardbox .price {
-  background: #FF9800;
+  background: #ff9800;
 }
 
 main .smallcardbox .profit {
-  background: #4CAF50;
+  background: #4caf50;
 }
 
 main .smallcardbox .smallcard .milkqnt {
@@ -203,7 +203,7 @@ main .topBar .search button {
 }
 
 .right .addDailyExpense {
-  background: #D7CCC8;
+  background: #cfd8dc;
   display: grid;
   grid-template-rows: auto auto auto;
   align-items: center;
@@ -233,14 +233,12 @@ main .topBar .search button {
   background: none;
 }
 
-.right .addDailyExpense input[type="date"]
-{
+.right .addDailyExpense input[type="date"] {
   text-indent: 5px;
   width: 3cm;
 }
 
-.right .addDailyExpense input[type="number"]
-{
+.right .addDailyExpense input[type="number"] {
   text-indent: 10px;
   width: 3cm;
   height: 2rem;
@@ -266,28 +264,28 @@ main .subtitles {
   margin-left: 0.8cm;
 }
 
-.cardA{
-  background: #FFCDD2;
+.cardA {
+  background: #ffcdd2;
 }
 
-.cardB{
-  background: #BBDEFB;
+.cardB {
+  background: #bbdefb;
 }
 
-.cardC{
-  background: #FFCCBC;
+.cardC {
+  background: #ffccbc;
 }
 
 .groupA {
-  color: #EF5350;
+  color: #ef5350;
 }
 
 .groupB {
-  color: #42A5F5;
+  color: #42a5f5;
 }
 
 .groupC {
-  color: #E64A19;
+  color: #e64a19;
 }
 
 main .group {
@@ -342,11 +340,10 @@ main .group .cowList ul h2 {
   font-weight: 500;
 }
 
-
 main form input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 main .groupsTitle {
@@ -358,19 +355,16 @@ main .groupsDash {
   margin-top: 2rem;
 }
 
-main .groupsDash .groupADash
-{
-  background: #EF5350;
+main .groupsDash .groupADash {
+  background: #ef5350;
 }
 
-main .groupsDash .groupBDash
-{
-  background: #42A5F5;
+main .groupsDash .groupBDash {
+  background: #42a5f5;
 }
 
-main .groupsDash .groupCDash
-{
-  background: #E64A19;
+main .groupsDash .groupCDash {
+  background: #e64a19;
 }
 
 main .profileChartHolder {
@@ -389,8 +383,24 @@ main .profileChartHolder .profileChart {
   width: 90%;
 }
 
-main .breed{
+main .breed {
   margin-top: 2rem;
+}
+
+main .breed .breedTop {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: 1rem;
+  align-items: center;
+}
+
+main .breed .breedTop .deletebreedbtn {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
 }
 
 main .breed .cows table {
@@ -402,10 +412,6 @@ main .breed .cows table {
 main .breed .cows table thead {
   background: var(--color-dark);
   color: var(--color-white);
-}
-
-main .breed .cows table tbody {
-  border: 2px solid var(--color-dark);
 }
 
 main .addnewbreed {
@@ -425,8 +431,7 @@ main .addnewbreed .newbreedgrid {
   gap: 1rem;
 }
 
-main .addnewbreed .newbreedgrid input
-{
+main .addnewbreed .newbreedgrid input {
   width: 6cm;
   height: 2rem;
   font-size: 1rem;
@@ -440,10 +445,46 @@ main .addnewbreed .newbreedgrid input
 
 main .addnewbreed .newbreedgrid button {
   cursor: pointer;
-  width: 3cm;
+  width: 2cm;
   height: 2rem;
   color: var(--color-white);
   background: var(--color-dark);
   border-radius: var(--border-radius-1);
 }
 
+main .addnewbreed #addbreedmsg {
+  margin-left: 30px;
+  margin-top: 0.4rem;
+}
+
+main #profileEditButton {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-primary);
+  border-radius: var(--border-radius-1);
+}
+
+main #general-btn, #ins-btn, #preg-btn {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
+  display: none;
+}
+
+main .profileTop {
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  align-items: baseline;
+  gap: 3rem;
+}
+
+.glow {
+  box-shadow: 0 0 10px rgba(0, 0, 255, 0.7);
+}

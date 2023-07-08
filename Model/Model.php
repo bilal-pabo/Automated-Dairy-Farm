@@ -346,6 +346,32 @@ class Model
         }
     }
 
+    function updateAnimalInfo($id, $breed, $gender, $color, $dob, $price)
+    {
+        try {
+            $query = "update animalinfo set breed='$breed', gender='$gender', color='$color', dob='$dob', price='$price' where id='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if ($result) return true;
+            else return false;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+            return false;
+        }
+    }
+
+    function updateInsRecord($id, $insType, $bullid, $insdate)
+    {
+        try {
+            $query = "update insemination set type='$insType', date='$insdate', bullid='$bullid' where cowid='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if ($result) return true;
+            else return false;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+            return false;
+        }
+    }
+
     function getProfitByDay($date)
     {
         try {
@@ -423,7 +449,19 @@ class Model
         }
     }
 
-
+    function deleteBreed($breed)
+    {
+        try {
+            $query = "delete from breeds where breedName='$breed'";
+            $result = mysqli_query($this->connection, $query);
+            if ($result)
+                return true;
+            else
+                return false;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
 
 }
 ?>

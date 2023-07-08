@@ -1,7 +1,25 @@
 <main>
-    <h1>Animal Profile</h1>
-    <h2 class="subHead primary">General Information</h2>
-    <form id="profileForm">
+    <?php 
+    $_SESSION['animalid'] = $animalInfo->id;
+    ?>
+    <div class="titles">Animal Profile</div>
+
+    <span class="updatemsg">
+        <?php
+        if (isset($_SESSION['msg'])) {
+            echo $_SESSION['msg'];
+            unset($_SESSION['msg']);
+
+        }
+        ?>
+    </span>
+
+    <div class="profileTop">
+        <h2 class="subHead primary">General Information</h2>
+        <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
+    </div>
+
+    <form id="profileForm" method="post">
 
         <div class="formitem">
             <label for="id">Animal ID :</label>
@@ -56,11 +74,16 @@
             else
                 echo $animalInfo->price; ?>" id="price" class="price" placeholder="N/A" readonly>
         </div>
+        <button class="general-btn" id="general-btn">Update</button>
 
     </form>
     <?php
     if ($animalInfo->gender == 'Cow') { ?>
-        <h2 class="subHead primary">Insemination Record</h2>
+        <div class="profileTop">
+            <h2 class="subHead primary">Insemination Record</h2>
+            <button onclick="edit2()" class="ins-btn" id="profileEditButton">Edit</button>
+        </div>
+
         <form id="profileForm">
 
             <?php if ($semInfo['code'] == false) { ?>
@@ -79,12 +102,14 @@
                 <div class="formitem">
                     <label for="date">Date :</label>
                     <input type="date" name="date" value="" id="date" class="date" readonly>
-                </div> <?php } else { ?>
+                </div> <div></div>
+                <button class="ins-btn" id="ins-btn">Update</button>
+                <?php } else { ?>
 
 
                 <div class="formitem">
                     <label for="insemination">Type :</label>
-                    <select name="insemination" id="insemination" required disabled>
+                    <select name="insemination" id="insemination" disabled>
                         <option value="">Select insemination type</option>
                         <option value="Natural Insemination" <?php if ($semInfo['data']->type == 'Natural Insemination')
                             echo 'selected' ?>>Natural Insemination</option>
@@ -103,11 +128,18 @@
                         echo null;
                     else
                         echo $semInfo['data']->date; ?>" id="date" class="date" readonly>
-                </div> <?php } ?>
+                </div>
+                <div></div>
+                <button class="ins-btn" id="ins-btn">Update</button> <?php } ?>
         </form>
 
 
-        <h2 class="subHead primary">Pregnancy Record</h2>
+        <div class="profileTop">
+            <h2 class="subHead primary">Pregnancy Record</h2>
+            <button onclick="edit3()" id="profileEditButton">Edit</button>
+            
+        </div>
+
         <form id="profileForm">
             <?php if ($pregInfo['code'] == false) { ?>
                 <div class="formitem">
@@ -123,7 +155,9 @@
                 <div class="formitem">
                     <label for="abortionDate">Abortion :</label>
                     <input type="date" name="abortionDate" value="" id="abortionDate" class="abortionDate" readonly>
-                </div> <?php } else { ?>
+                </div> <div></div>
+                <button class="preg-btn" id="preg-btn">Update</button>
+                <?php } else { ?>
 
                 <div class="formitem">
                     <label for="startDate">From :</label>
@@ -147,7 +181,9 @@
                         echo null;
                     else
                         echo $pregInfo['data']->abortion; ?>" id="abortionDate" class="abortionDate" readonly>
-                </div> <?php } ?>
+                </div> <div></div>
+                <button class="preg-btn" id="preg-btn">Update</button>
+                <?php } ?>
 
         </form>
 
@@ -193,7 +229,7 @@
                 plugins: {
                     title: {
                         display: true,
-                        text: "Last Seven Days' Performance",
+                        text: "Last Seven Days' Milk Records",
                         font: {
                             size: 15,
                             style: 'italic'
@@ -211,3 +247,88 @@
         });
     </script>
 </main>
+
+<script>
+    function Update_record(event) {
+        var id = $("#id").val();
+        var breed = $("#breed").val();
+        var gender = $("#gender").val();
+        var color = $("#color").val();
+        var dob = $("#dob").val();
+        var price = $("#price").val();
+        var msg = document.getElementById("updatemsg");
+        if (!breed || !gender) {
+            msg.innerText = "Breed and gender are required!";
+            return;
+        }
+
+
+        var formdata = new FormData();
+        formdata.append("id", id);
+        formdata.append("breed", breed);
+        formdata.append("gender", gender);
+        formdata.append("color", color);
+        formdata.append("dob", dob);
+        formdata.append("price", price);
+
+        $.ajax({
+            url: './update?record=general',
+            contentType: false,
+            processData: false,
+            data: formdata,
+            type: "POST",
+            success: (message) => {
+                // var Msg = JSON.parse(message);
+                // msg.innerText = Msg.message;
+            },
+            error: (message) => {
+                //var Msg = JSON.parse(message);
+                //msg.innerText = "Updation Failed!";
+            }
+        });
+    }
+
+    function Update_record2(event) {
+        var insemination = $("#insemination").val();
+        var bid = $("#bid").val();
+        var date = $("#date").val();
+        var msg = document.getElementById("updatemsg");
+        if (!insemination) {
+            msg.innerText = "Insemination type is required!";
+            return;
+        }
+
+
+        var formdata = new FormData();
+        formdata.append("insemination", insemination);
+        formdata.append("bid", bid);
+        formdata.append("date", date);
+
+        $.ajax({
+            url: './update?record=insemination',
+            contentType: false,
+            processData: false,
+            data: formdata,
+            type: "POST",
+            success: (message) => {
+                //var Msg = JSON.parse(message);
+                //msg.innerText = Msg.message;
+            },
+            error: (message) => {
+                //var Msg = JSON.parse(message);
+                //msg.innerText = "Updation Failed!";
+            }
+        });
+    }
+
+
+    $(document).ready(() => {
+        $("#general-btn").on("click", event => {
+            Update_record(event);
+        })
+
+        $("#ins-btn").on("click", event => {
+            Update_record2(event);
+        })
+    });
+</script>

@@ -1,5 +1,5 @@
 <main>
-    <h1>All Animals</h1>
+    <div class="titles">All Animals</div>
 
     <div class="animalTable">
         

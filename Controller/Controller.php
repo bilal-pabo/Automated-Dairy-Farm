@@ -155,8 +155,7 @@ class Controller extends Model
                         $semInfo = parent::getSeminationRecord($id);
                         $pregInfo = parent::getPregnancyInfo($id);
                         $response = parent::getCowRecordsByDuration($id, $start, $end);
-                        for ($i = 0; $i < 7; $i++) 
-                        {
+                        for ($i = 0; $i < 7; $i++) {
                             $date = strtotime("+$i day", strtotime($start));
                             $labels[] = date('M d', $date);
                         }
@@ -243,6 +242,16 @@ class Controller extends Model
                     break;
 
                 case '/breeds':
+                    if (isset($_POST["addbreedbtn"])) {
+                        $breed = $_POST["newbreed"];
+
+                        $result = parent::addBreed($breed);
+                        if ($result) {
+                            $_SESSION["msg"] = "Breed added successfully!";
+                        } else {
+                            $_SESSION["msg"] = "Breed already exist!";
+                        }
+                    }
                     $breeds = parent::getBreeds();
                     $records = parent::allAnimals();
                     include './View/header2.php';
@@ -252,20 +261,67 @@ class Controller extends Model
                     include './View/footer.php';
                     break;
 
-                case '/addnewbreed':
-                    $breed = $_POST["breed"];
-                    $result = parent::addBreed($breed);
-                    if ($result)
-                    {
-                        http_response_code(200);
-                        echo json_encode(["message" => "Breed added successfully!"]);
-                    }
-                    else 
-                    {
-                        http_response_code(500);
-                        echo json_encode(["message" => "Breed already exist!"]);
+                case '/delete':
+                    if ($_GET["breedName"]) {
+                        $breed = $_GET["breedName"];
+                        $result = parent::deleteBreed($breed);
+                        if ($result) {
+                            $_SESSION['Msg'] = $breed . " deleted successfully!";
+                        } else {
+                            $_SESSION['Msg'] = "Something went wrong!";
+                        }
+                        ?>
+                        <script>
+                            window.location.href = "breeds";
+                        </script>
+                        <?php
                     }
                     break;
+
+                case '/update':
+                    if ($_GET["record"] == "general") {
+                        $id = $_POST["id"];
+                        $color = '';
+                        $dob = date('0001-01-01');
+                        $price = -1;
+                        if ($_POST['color'])
+                            $color = $_POST['color'];
+                        if ($_POST['dob'])
+                            $dob = $_POST['dob'];
+                        if ($_POST['price'])
+                            $price = $_POST['price'];
+                        $breed = $_POST["breed"];
+                        $gender = $_POST["gender"];
+                        //$ddd =  $id . $breed . $gender . $color . $dob . $price;
+                        //$_SESSION['msg'] = $ddd;
+                        $result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price);
+                        if ($result)
+                            $_SESSION['msg'] = "Updation Successfull!";
+                        else
+                            $_SESSION['msg'] = "Updation Failed!";
+                    } else if ($_GET["record"] == "insemination") {
+                        //$insType = $_POST["insemination"];
+                        $id = $_SESSION['animalid'];
+                        // $insdate = date('0001-01-01');
+                        // $bullid = '';
+                        // if ($_POST['date'])
+                        //     $insdate = $_POST['date'];
+                        // if ($_POST['bid'])
+                        //     $bullid = $_POST['bid'];
+                        // $result = parent::updateInsRecord($id, $insType, $bullid, $insdate);
+                        // if ($result)
+                        //     $_SESSION['msg'] = "Updation Successfull!";
+                        // else
+                        //     $_SESSION['msg'] = "Updation Failed!";
+
+                    } else if ($_GET["record"] == "pregnancy") {
+                        
+                    } ?>
+                    <script>
+                        window.location.href = "animalProfile";
+                    </script>
+<?php
+                                        break;
 
                 case '/reports':
                     include './View/header2.php';

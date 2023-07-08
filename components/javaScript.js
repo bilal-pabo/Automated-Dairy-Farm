@@ -7,6 +7,37 @@ const date = document.querySelector(".pregYes");
 const insdate = document.querySelector(".insDate");
 const bullid = document.querySelector(".bullid");
 
+function edit()
+{
+  console.log("hehehe");
+  //$("#id").prop("readonly", false).addClass("glow");
+  $("#breed").prop("disabled", false).addClass("glow");
+  //$("#gender").prop("disabled", false).addClass("glow");
+  $(".color").prop("readonly", false).addClass("glow");
+  $(".dob").prop("readonly", false).addClass("glow");
+  $(".price").prop("readonly", false).addClass("glow");
+  $(".general-btn").css("display", "block");
+}
+
+function edit2()
+{
+  console.log("hehehe");
+  $("#insemination").prop("disabled", false).addClass("glow");
+  $("#bid").prop("readonly", false).addClass("glow");
+  $("#date").prop("readonly", false).addClass("glow");
+  $(".ins-btn").css("display", "block");
+
+}
+
+function edit3()
+{
+  console.log("hehehe");
+  $("#startDate").prop("readonly", false).addClass("glow");
+  $("#deliveryDate").prop("readonly", false).addClass("glow");
+  $("#abortionDate").prop("readonly", false).addClass("glow");
+  $(".preg-btn").css("display", "block");
+}
+
 menuBtn.addEventListener('click', () => {
     sideMenu.style.display = 'block';
 })
@@ -18,6 +49,17 @@ closeBtn.addEventListener('click', () => {
 function redirectToProfile(cowid)
 {  
   window.location.href = 'animalProfile?cowid=' + cowid;
+}
+
+function deleteBreed(breed)
+{
+  window.location.href = 'delete?breedName=' + breed;
+}
+
+function update(id)
+{
+  console.log("whyyyy");
+  window.location.href = 'update?record=general&id=' + id;
 }
 
 
@@ -57,7 +99,7 @@ document.getElementById("gender").addEventListener('change', function() {
       onlyCow.style.display = 'block';
     }
     else{
-      onlyCow.style.display = none;
+      onlyCow.style.display = 'none';
     }
 })
 
