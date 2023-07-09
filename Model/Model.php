@@ -346,12 +346,12 @@ class Model
         }
     }
 
-    function updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, 
+    function updateAnimalInfo($id, $breed, $color, $dob, $price, 
     $insemination, $insdate, $bullid, 
     $pregnant, $startDate, $abortiondate, $deliverydate)
     {
         try {
-            $query = "update animalinfo set breed='$breed', gender='$gender', color='$color', 
+            $query = "update animalinfo set breed='$breed', color='$color', 
             dob='$dob', price='$price', insemination='$insemination', insdate='$insdate', 
             bullid='$bullid', pregnant='$pregnant', startDate='$startDate', 
             abortiondate='$abortiondate', deliverydate='$deliverydate' where id='$id'";

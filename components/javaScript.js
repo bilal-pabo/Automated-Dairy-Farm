@@ -7,6 +7,30 @@ const date = document.querySelector(".pregYes");
 const insdate = document.querySelector(".insDate");
 const bullid = document.querySelector(".bullid");
 
+function showNotification(message, duration) {
+  var notificationContainer = document.getElementById("notificationContainer");
+
+  var notification = document.createElement("div");
+  notification.className = "notification";
+  notification.textContent = message;
+
+  notificationContainer.appendChild(notification);
+
+  notification.classList.add("show");
+
+  setTimeout(function () {
+
+    notification.classList.remove("show");
+    notification.classList.add("hide");
+  }, duration - 1000);
+
+  setTimeout(function () {
+    notificationContainer.removeChild(notification);
+  }, duration);
+}
+
+
+
 function edit()
 {
   console.log("hehehe");

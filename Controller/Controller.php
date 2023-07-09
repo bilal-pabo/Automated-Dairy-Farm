@@ -166,7 +166,9 @@ class Controller extends Model
                 case '/animalProfile':
                     if (isset($_POST["updatebtn"]))
                     {
-                        $id = $_POST["id"];
+                        //   $array = $_POST;
+                        //     print_r($array);
+                            $id = $_POST["id"];
                         $color = '';
                     $dob = date('0001-01-01');
                     $price = -1;
@@ -177,14 +179,14 @@ class Controller extends Model
                     if ($_POST['price'])
                         $price = $_POST['price'];
                     $breed = $_POST["breed"];
-                    $gender = $_POST["gender"];
+                    //$gender = $_POST["gender"];
                     $insemination = "";
                     if ($_POST['insemination'])
                         $insemination = $_POST['insemination'];
                     $insdate = date('0001-01-01');
                     $bullid = '';
-                    if ($_POST['insdate'])
-                        $insdate = $_POST['insdate'];
+                    if ($_POST['date'])
+                        $insdate = $_POST['date'];
                     if ($_POST['bid'])
                         $bullid = $_POST['bid'];
                     $pregnant = "";
@@ -200,22 +202,29 @@ class Controller extends Model
                     if ($_POST['abortiondate'])
                         $abortiondate = $_POST['abortiondate'];
 
-                    //$result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
-                    //if ($result)
-                    //    $_SESSION['msg'] = "Updation Successfull!";
-                    //else
-                    //    $_SESSION['msg'] = "Updation Failed!";
-
-                    }
+                    $result = parent::updateAnimalInfo($id, $breed, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
+                    if ($result)
+                       $_SESSION['msg'] = "Updation Successfull!";
                     else
-                    {
+                       $_SESSION['msg'] = "Updation Failed!";
+
+
+                       ?>
+                             <script>
+                                window.location.href = <?php echo "animalProfle?cowid=". $id ?>;
+                             </script>
+                       <?php
+                    }
+                    
                         $breeds = parent::getBreeds();
-                        $id = $_GET['cowid'];
+
+                        $cid = $_GET['cowid'];
+
                         $start = date('Y-m-d', strtotime('-7 day'));
                         $end = date('Y-m-d', strtotime('-1 day'));
-                        $animalInfo = parent::getAnimalData($id);
+                        $animalInfo = parent::getAnimalData($cid);
                         
-                            $response = parent::getCowRecordsByDuration($id, $start, $end);
+                            $response = parent::getCowRecordsByDuration($cid, $start, $end);
                             for ($i = 0; $i < 7; $i++) {
                                 $date = strtotime("+$i day", strtotime($start));
                                 $labels[] = date('M d', $date);
@@ -226,7 +235,7 @@ class Controller extends Model
                         include './View/animalProfile.php';
                         include './View/rightbar.php';
                         include './View/footer.php';
-                    }
+                    
                     
                     break;
 

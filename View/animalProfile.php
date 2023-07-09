@@ -4,17 +4,25 @@
     ?>
     <div class="titles">Animal Profile</div>
 
-    <span class="updatemsg">
-        <?php
-        if (isset($_SESSION['msg'])) {
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
 
-        }
-        ?>
-    </span>
 
     <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
+
+    <div id="notificationContainer">
+        <?php
+        if (isset($_SESSION['msg'])) {
+            $message = $_SESSION['msg'];
+            unset($_SESSION['msg']);
+        }
+        ?>
+        <script>
+            var message = "<?php echo $message; ?>";
+
+
+            showNotification(message, 3000);
+
+        </script>
+    </div>
 
     <form actaction="/update" id="profileForm" method="POST">
 
@@ -127,19 +135,19 @@
             </div>
 
             <div class="formitem">
-                <label for="deliveryDate">Delivery :</label>
-                <input type="date" name="deliveryDate" value="<?php if ($animalInfo->deliverydate == date('0001-01-01'))
+                <label for="deliverydate">Delivery :</label>
+                <input type="date" name="deliverydate" value="<?php if ($animalInfo->deliverydate == date('0001-01-01'))
                     echo null;
                 else
-                    echo $animalInfo->deliverydate; ?>" id="deliveryDate" class="deliveryDate" readonly>
+                    echo $animalInfo->deliverydate; ?>" id="deliverydate" class="deliverydate" readonly>
             </div>
 
             <div class="formitem">
-                <label for="abortionDate">Abortion :</label>
-                <input type="date" name="abortionDate" value="<?php if ($animalInfo->abortiondate == date('0001-01-01'))
+                <label for="abortiondate">Abortion :</label>
+                <input type="date" name="abortiondate" value="<?php if ($animalInfo->abortiondate == date('0001-01-01'))
                     echo null;
                 else
-                    echo $animalInfo->abortiondate; ?>" id="abortionDate" class="abortionDate" readonly>
+                    echo $animalInfo->abortiondate; ?>" id="abortiondate" class="abortiondate" readonly>
             </div>
             <div></div>
             <button name="updatebtn" class="general-btn" id="general-btn">Update</button>
