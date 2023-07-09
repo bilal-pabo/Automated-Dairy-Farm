@@ -50,3 +50,29 @@
 
     </form>
 </main>
+
+<script>
+    function showNotification(message, duration) {
+
+        console.log(message);
+        var notificationContainer = document.getElementById("notificationContainer");
+
+        var notification = document.createElement("div");
+        notification.className = "notification";
+        notification.textContent = message;
+
+        notificationContainer.appendChild(notification);
+
+        notification.classList.add("show");
+
+        setTimeout(function () {
+
+            notification.classList.remove("show");
+            notification.classList.add("hide");
+        }, duration - 1000);
+
+        setTimeout(function () {
+            notificationContainer.removeChild(notification);
+        }, duration);
+    }
+</script>

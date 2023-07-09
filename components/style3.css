@@ -35,7 +35,7 @@
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 9999;
-  display: none;
+  color: var(--color-warning);
 }
 
 notification {
@@ -91,4 +91,35 @@ main .reportCards .reportTable table thead {
 .dailyReportChart {
   width: 100%;
   overflow-x: scroll;
+  margin-bottom: 2rem;
+}
+
+.filter{
+    margin-top: 2rem;
+    margin-bottom: -1rem;
+    margin-left: 2rem;
+}
+
+#filterlabel {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+#cowFilter {
+    height: 2rem;
+  text-indent: 10px;
+  border-radius: none;
+  color: var(--color-dark);
+  background: var(--color-white);
+}
+
+.filter button {
+    cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-info-light);
+  background: var(--color-dark-variant);
+  border-radius: var(--border-radius-1);
+  margin-top: 1rem;
+  margin-left: 2rem;
 }

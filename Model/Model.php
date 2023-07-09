@@ -564,5 +564,41 @@ class Model
         }
     }
 
+    function cowRecordsPerDay()
+    {
+        try {
+            $query = "select cowid, date, milkamount, times from milkrecords order by date desc";
+            $result = mysqli_query($this->connection, $query);$records = array();
+            if (mysqli_num_rows($result) > 0) {
+                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response['code'] = true;
+                $response['data'] = $records;
+            } else
+                $response['code'] = false;
+
+            return $response;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function getCowRecords($id)
+    {
+        try {
+            $query = "select cowid, date, milkamount, times from milkrecords where cowid='$id' order by date desc";
+            $result = mysqli_query($this->connection, $query);$records = array();
+            if (mysqli_num_rows($result) > 0) {
+                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response['code'] = true;
+                $response['data'] = $records;
+            } else
+                $response['code'] = false;
+
+            return $response;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
 }
 ?>

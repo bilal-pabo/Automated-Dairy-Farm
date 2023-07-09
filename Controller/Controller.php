@@ -407,11 +407,13 @@ class Controller extends Model
                     break;
 
                 case '/reports':
+                    $cowRecords = parent::cowRecordsPerDay();
                     $breeds = parent::getBreeds();
                     $cows = parent::getAllCows();
                     $dailyMilkRecords = parent::allMilkRecords();
                     $profit = parent::allProfitRecords();
                     $expense = parent::allExpenseRecords();
+                    $cows = parent::getAllCows();
                     $days = array();
                     $milkAmount = array();
                     if ($dailyMilkRecords["code"] == true) {
@@ -423,6 +425,9 @@ class Controller extends Model
                         }
                     }
                     else $size = 0;
+
+                    
+
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/reports.php';
@@ -430,9 +435,19 @@ class Controller extends Model
                     include './View/footer.php';
                     break;
 
-                case '/fetchReports':
-                    echo "Hello world";
-                    break;
+                    case '/fetchReports':
+                        $id = $_GET["cowid"];
+                        $records = parent::getCowRecords($id);
+                        if ($records["code"] == true) {
+                            $data = $records["data"];
+                            http_response_code(200);
+                            echo json_encode(["data"=>$data]);
+                        } else {
+                            http_response_code(400);
+                        }
+                        
+                        break;
+                    
                 case '/table':
                     include './View/table.php';
                     break;

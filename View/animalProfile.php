@@ -8,6 +8,15 @@
 
     <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
 
+    <div class="updatemsg">
+    <?php
+        if (isset($_SESSION['msg'])) {
+            echo $_SESSION['msg'];
+            unset($_SESSION['msg']);
+        }
+        ?>
+    </div>
+
     <div id="notificationContainer">
         <?php
         if (isset($_SESSION['msg'])) {
@@ -16,11 +25,8 @@
         }
         ?>
         <script>
-            var message = "<?php echo $message; ?>";
-
-
+            var message = "what the fuck";
             showNotification(message, 3000);
-
         </script>
     </div>
 
@@ -86,8 +92,7 @@
 
         <!-- 2nd part -->
         <?php
-        if ($animalInfo->gender == 'Cow') 
-        { ?>
+        if ($animalInfo->gender == 'Cow') { ?>
             <div class="headinside">Insemination Details</div>
             <div></div>
             <div class="formitem">
@@ -149,33 +154,32 @@
                     echo null;
                 else
                     echo $animalInfo->abortiondate; ?>" id="abortiondate" class="abortiondate" readonly>
-            </div>  
-             <?php } ?>
-            <button name="updatebtn" class="general-btn" id="general-btn">Update</button>
+            </div>
+        <?php } ?>
+        <button name="updatebtn" class="general-btn" id="general-btn">Update</button>
 
-        </form>
-        <?php
-        if ($animalInfo->gender == 'Cow') { ?>
+    </form>
+    <?php
+    if ($animalInfo->gender == 'Cow') { ?>
 
         <div class="profileChartHolder">
             <div class="profileChart">
                 <canvas id="cowPerformanceChart"></canvas>
             </div>
-        </div> <?php } 
+        </div> <?php }
 
-        
-        if ($response["code"] == true) 
-        {
-            $performanceRecord = $response["data"];
-            for ($i = 0; $i < sizeof($performanceRecord); $i++) {
-                $milkData[] = $performanceRecord[$i]["milkamount"];
-            }
-            $size = sizeof($performanceRecord);
-        } else {
-            $size = 0;
+
+    if ($response["code"] == true) {
+        $performanceRecord = $response["data"];
+        for ($i = 0; $i < sizeof($performanceRecord); $i++) {
+            $milkData[] = $performanceRecord[$i]["milkamount"];
         }
-        
-        ?>
+        $size = sizeof($performanceRecord);
+    } else {
+        $size = 0;
+    }
+
+    ?>
 
 
 
@@ -242,61 +246,28 @@
 </main>
 
 <script>
-    function Update_record(event) {
+    function showNotification(message, duration) {
 
-        var id = $("#id").val();
-        var breed = $("#breed").val();
-        var gender = $("#gender").val();
-        var color = $("#color").val();
-        var dob = $("#dob").val();
-        var price = $("#price").val();
-        var insemination = $("#insemination").val();
-        var insdate = $("#insdate").val();
-        var bullid = $("#bullid").val();
-        var pregnant = $("#pregnant").val();
-        var startdate = $("#startdate").val();
-        var abortiondate = $("#abortiondate").val();
-        var deliverydate = $("#deliverydate").val();
-        var msg = document.getElementById("updatemsg");
+        console.log(message);
+        var notificationContainer = document.getElementById("notificationContainer");
 
+        var notification = document.createElement("div");
+        notification.className = "notification";
+        notification.textContent = message;
 
-        var formdata = new FormData();
-        formdata.append("id", id);
-        formdata.append("breed", breed);
-        formdata.append("gender", gender);
-        formdata.append("color", color);
-        formdata.append("dob", dob);
-        formdata.append("price", price);
-        formdata.append("insemination", insemination);
-        formdata.append("insdate", insdate);
-        formdata.append("bullid", bullid);
-        formdata.append("pregnant", pregnant);
-        formdata.append("startdate", startdate);
-        formdata.append("abortiondate", abortiondate);
-        formdata.append("deliverydate", deliverydate);
+        notificationContainer.appendChild(notification);
 
-        $.ajax({
-            url: './update',
-            contentType: false,
-            processData: false,
-            data: formdata,
-            type: "POST",
-            success: (message) => {
-                // var Msg = JSON.parse(message);
-                // msg.innerText = Msg.message;
-            },
-            error: (message) => {
-                //var Msg = JSON.parse(message);
-                //msg.innerText = "Updation Failed!";
-            }
-        });
+        notification.classList.add("show");
+
+        setTimeout(function () {
+
+            notification.classList.remove("show");
+            notification.classList.add("hide");
+        }, duration - 1000);
+
+        setTimeout(function () {
+            notificationContainer.removeChild(notification);
+        }, duration);
     }
 
-
-    // $(document).ready(() => {
-    //     $("#general-btn").on("click", event => {
-    //         Update_record(event);
-    //     })
-
-    // });
 </script>
