@@ -250,10 +250,11 @@ class Model
         }
     }
 
-    function addTotalMilk($date, $amount)
+    function addTotalMilk($date, $amount, $profit, $expense)
     {
         try {
-            $query = "insert into milkperday (date, amount) values('$date', '$amount')";
+            $query = "insert into milkperday (date, amount, saleprice, expense)
+            values('$date', '$amount', '$profit', '$expense')";
             $result = mysqli_query($this->connection, $query);
 
         } catch (Exception $e) {
@@ -261,10 +262,11 @@ class Model
         }
     }
 
-    function updateTotalMilk($date, $amount)
+    function updateTotalMilk($date, $amount, $profit, $expense)
     {
         try {
-            $query = "update milkperday set amount = amount + $amount where date = '$date'";
+            $query = "update milkperday set amount = amount + $amount,
+             saleprice=saleprice+$profit, expense=expense+$expense where date = '$date'";
             $result = mysqli_query($this->connection, $query);
 
         } catch (Exception $e) {
@@ -346,18 +348,30 @@ class Model
         }
     }
 
-    function updateAnimalInfo($id, $breed, $color, $dob, $price, 
-    $insemination, $insdate, $bullid, 
-    $pregnant, $startDate, $abortiondate, $deliverydate)
-    {
+    function updateAnimalInfo(
+        $id,
+        $breed,
+        $color,
+        $dob,
+        $price,
+        $insemination,
+        $insdate,
+        $bullid,
+        $pregnant,
+        $startDate,
+        $abortiondate,
+        $deliverydate
+    ) {
         try {
             $query = "update animalinfo set breed='$breed', color='$color', 
             dob='$dob', price='$price', insemination='$insemination', insdate='$insdate', 
             bullid='$bullid', pregnant='$pregnant', startDate='$startDate', 
             abortiondate='$abortiondate', deliverydate='$deliverydate' where id='$id'";
             $result = mysqli_query($this->connection, $query);
-            if ($result) return true;
-            else return false;
+            if ($result)
+                return true;
+            else
+                return false;
         } catch (Exception $e) {
             echo "Database error : " . $e->getMessage();
             return false;
@@ -440,25 +454,26 @@ class Model
         }
     }
 
-    function getBreedsAndCounts() {
+    function getBreedsAndCounts()
+    {
         try {
             $query = "SELECT breed, COUNT(*) AS count FROM animalinfo GROUP BY breed";
             $result = mysqli_query($this->connection, $query);
-    
+
             $breedsAndCounts = array();
             while ($row = mysqli_fetch_assoc($result)) {
                 $breed = $row['breed'];
                 $count = $row['count'];
                 $breedsAndCounts[$breed] = $count;
             }
-    
+
             return $breedsAndCounts;
         } catch (Exception $e) {
             echo "Database error: " . $e->getMessage();
             return array();
         }
     }
-    
+
 
     function addBreed($breed)
     {
@@ -487,6 +502,63 @@ class Model
                 return true;
             else
                 return false;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function allMilkRecords()
+    {
+        try {
+            $query = "select * from milkperday order by date desc";
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
+            if (mysqli_num_rows($result) > 0) {
+                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response['code'] = true;
+                $response['data'] = $records;
+            } else
+                $response['code'] = false;
+
+            return $response;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function allExpenseRecords()
+    {
+        try {
+            $query = "select * from expenseperday order by expensedate desc";
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
+            if (mysqli_num_rows($result) > 0) {
+                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response['code'] = true;
+                $response['data'] = $records;
+            } else
+                $response['code'] = false;
+
+            return $response;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function allProfitRecords()
+    {
+        try {
+            $query = "select * from dailyprofit order by date desc";
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
+            if (mysqli_num_rows($result) > 0) {
+                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response['code'] = true;
+                $response['data'] = $records;
+            } else
+                $response['code'] = false;
+
+            return $response;
         } catch (Exception $e) {
             echo "Database error: " . $e->getMessage();
         }

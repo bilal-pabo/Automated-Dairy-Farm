@@ -40,7 +40,7 @@ class Controller extends Model
                         parent::addDailyExpense($expenseDate, $dailyExpense);
 
                     }
-                    
+
                     $today = date('Y-m-d');
                     $todayMilk = parent::getTotalMilkByDay($today);
                     $todayExpense = parent::getExpenseByDay($today);
@@ -48,7 +48,7 @@ class Controller extends Model
                     $_SESSION['todayMilk'] = $todayMilk;
                     $_SESSION['todayExpense'] = $todayExpense;
                     $_SESSION['todayProfit'] = $todayProfit;
-                    
+
                     $sevenDaysBack = date('Y-m-d', strtotime('-7 day'));
                     $labels = array();
                     $chartData = array();
@@ -62,9 +62,10 @@ class Controller extends Model
                     $groupBCount = parent::getGroupCounts($start, $end, 25, 35);
                     $groupCCount = parent::getGroupCounts($start, $end, 35, 45);
 
-                    $breedsAndCounts = parent::getBreedsAndCounts(); $breeds = array(); $Counts = array();
-                    foreach ($breedsAndCounts as $breed=>$count)
-                    {
+                    $breedsAndCounts = parent::getBreedsAndCounts();
+                    $breeds = array();
+                    $Counts = array();
+                    foreach ($breedsAndCounts as $breed => $count) {
                         $breeds[] = $breed;
                         $Counts[] = $count;
                     }
@@ -164,79 +165,78 @@ class Controller extends Model
                     break;
 
                 case '/animalProfile':
-                    if (isset($_POST["updatebtn"]))
-                    {
+                    if (isset($_POST["updatebtn"])) {
                         //   $array = $_POST;
                         //     print_r($array);
-                            $id = $_POST["id"];
+                        $id = $_POST["id"];
                         $color = '';
-                    $dob = date('0001-01-01');
-                    $price = -1;
-                    if ($_POST['color'])
-                        $color = $_POST['color'];
-                    if ($_POST['dob'])
-                        $dob = $_POST['dob'];
-                    if ($_POST['price'])
-                        $price = $_POST['price'];
-                    $breed = $_POST["breed"];
-                    //$gender = $_POST["gender"];
-                    $insemination = "";
-                    if ($_POST['insemination'])
-                        $insemination = $_POST['insemination'];
-                    $insdate = date('0001-01-01');
-                    $bullid = '';
-                    if ($_POST['date'])
-                        $insdate = $_POST['date'];
-                    if ($_POST['bid'])
-                        $bullid = $_POST['bid'];
-                    $pregnant = "";
-                    if ($_POST['pregnant'])
-                        $pregnant = $_POST['pregnant'];
-                    $startdate = date('0001-01-01');
-                    if ($_POST['startDate'])
-                        $startdate = $_POST['startdate'];
-                    $deliverydate = date('0001-01-01');
-                    if ($_POST['deliverydate'])
-                        $deliverydate = $_POST['deliverydate'];
-                    $abortiondate = date('0001-01-01');
-                    if ($_POST['abortiondate'])
-                        $abortiondate = $_POST['abortiondate'];
+                        $dob = date('0001-01-01');
+                        $price = -1;
+                        if ($_POST['color'])
+                            $color = $_POST['color'];
+                        if ($_POST['dob'])
+                            $dob = $_POST['dob'];
+                        if ($_POST['price'])
+                            $price = $_POST['price'];
+                        $breed = $_POST["breed"];
+                        //$gender = $_POST["gender"];
+                        $insemination = "";
+                        if ($_POST['insemination'])
+                            $insemination = $_POST['insemination'];
+                        $insdate = date('0001-01-01');
+                        $bullid = '';
+                        if ($_POST['date'])
+                            $insdate = $_POST['date'];
+                        if ($_POST['bid'])
+                            $bullid = $_POST['bid'];
+                        $pregnant = "";
+                        if ($_POST['pregnant'])
+                            $pregnant = $_POST['pregnant'];
+                        $startdate = date('0001-01-01');
+                        if ($_POST['startDate'])
+                            $startdate = $_POST['startdate'];
+                        $deliverydate = date('0001-01-01');
+                        if ($_POST['deliverydate'])
+                            $deliverydate = $_POST['deliverydate'];
+                        $abortiondate = date('0001-01-01');
+                        if ($_POST['abortiondate'])
+                            $abortiondate = $_POST['abortiondate'];
 
-                    $result = parent::updateAnimalInfo($id, $breed, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
-                    if ($result)
-                       $_SESSION['msg'] = "Updation Successfull!";
-                    else
-                       $_SESSION['msg'] = "Updation Failed!";
+                        $result = parent::updateAnimalInfo($id, $breed, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
+                        if ($result)
+                            $_SESSION['msg'] = "Updation Successfull!";
+                        else
+                            $_SESSION['msg'] = "Updation Failed!";
 
 
-                       ?>
-                             <script>
-                                window.location.href = <?php echo "animalProfle?cowid=". $id ?>;
-                             </script>
-                       <?php
+                        ?>
+                        <script>
+                            window.location.href = <?php echo "animalProfle?cowid=" . $id ?>;
+                        </script>
+                        <?php
                     }
-                    
-                        $breeds = parent::getBreeds();
 
-                        $cid = $_GET['cowid'];
+                    $breeds = parent::getBreeds();
 
-                        $start = date('Y-m-d', strtotime('-7 day'));
-                        $end = date('Y-m-d', strtotime('-1 day'));
-                        $animalInfo = parent::getAnimalData($cid);
-                        
-                            $response = parent::getCowRecordsByDuration($cid, $start, $end);
-                            for ($i = 0; $i < 7; $i++) {
-                                $date = strtotime("+$i day", strtotime($start));
-                                $labels[] = date('M d', $date);
-                            }
-                        
-                        include './View/header2.php';
-                        include './View/sidebar.php';
-                        include './View/animalProfile.php';
-                        include './View/rightbar.php';
-                        include './View/footer.php';
-                    
-                    
+                    $cid = $_GET['cowid'];
+
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
+                    $animalInfo = parent::getAnimalData($cid);
+
+                    $response = parent::getCowRecordsByDuration($cid, $start, $end);
+                    for ($i = 0; $i < 7; $i++) {
+                        $date = strtotime("+$i day", strtotime($start));
+                        $labels[] = date('M d', $date);
+                    }
+
+                    include './View/header2.php';
+                    include './View/sidebar.php';
+                    include './View/animalProfile.php';
+                    include './View/rightbar.php';
+                    include './View/footer.php';
+
+
                     break;
 
                 case '/addMilkRecord':
@@ -246,12 +246,19 @@ class Controller extends Model
                         $data = $_POST;
                         $date = $data['milkDate'];
                         $price = $data['milkPrice'];
+                        $expense = 0;
+                        $getExpense = $data['expense'];
+                        if ($getExpense > $expense)
+                            $expense = $getExpense;
                         $times = parent::recordValid($date);
                         if ($times == 2) {
                             $_SESSION['msg'] = "Milk records of " . $date . " are already added!";
                         } else {
                             foreach ($data as $key => $value) {
-                                if ($key == 'addRecord' || $key == 'milkDate' || $key == 'milkPrice') {
+                                if (
+                                    $key == 'addRecord' || $key == 'milkDate' ||
+                                    $key == 'milkPrice' || $key == 'expense'
+                                ) {
                                     continue;
                                 }
 
@@ -271,13 +278,17 @@ class Controller extends Model
                                 }
                             }
                             if ($times == 0) {
-                                parent::addTotalMilk($date, $totalmilk);
                                 $profit = $price * $totalmilk;
+
+
+                                parent::addTotalMilk($date, $totalmilk, $profit, $expense);
+
                                 parent::addTotalProfit($date, $profit);
                             }
                             if ($times == 1) {
-                                parent::updateTotalMilk($date, $totalmilk);
                                 $profit = $price * $totalmilk;
+                                parent::updateTotalMilk($date, $totalmilk, $profit, $expense);
+
                                 parent::updateProfit($date, $profit);
                             }
                         }
@@ -364,7 +375,7 @@ class Controller extends Model
                     if ($_POST['price'])
                         $price = $_POST['price'];
                     $breed = $_POST["breed"];
-                    $gender = $_POST["gender"];
+                    //$gender = $_POST["gender"];
                     $insemination = "";
                     if ($_POST['insemination'])
                         $insemination = $_POST['insemination'];
@@ -387,7 +398,7 @@ class Controller extends Model
                     if ($_POST['abortiondate'])
                         $abortiondate = $_POST['abortiondate'];
 
-                    $result = parent::updateAnimalInfo($id, $breed, $gender, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate, $abortiondate, $deliverydate);
+                    $result = parent::updateAnimalInfo($id, $breed, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate, $abortiondate, $deliverydate);
                     if ($result)
                         $_SESSION['msg'] = "Updation Successfull!";
                     else
@@ -398,11 +409,32 @@ class Controller extends Model
                 case '/reports':
                     $breeds = parent::getBreeds();
                     $cows = parent::getAllCows();
+                    $dailyMilkRecords = parent::allMilkRecords();
+                    $profit = parent::allProfitRecords();
+                    $expense = parent::allExpenseRecords();
+                    $days = array();
+                    $milkAmount = array();
+                    if ($dailyMilkRecords["code"] == true) {
+                        $Data = $dailyMilkRecords['data'];
+                        $Size = sizeof($Data);
+                        for ($i = 0; $i < $Size; $i++) {
+                            $days[] = $Data[$i]["date"];
+                            $milkAmount[] = $Data[$i]["amount"];
+                        }
+                    }
+                    else $size = 0;
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/reports.php';
                     include './View/rightbar.php';
                     include './View/footer.php';
+                    break;
+
+                case '/fetchReports':
+                    echo "Hello world";
+                    break;
+                case '/table':
+                    include './View/table.php';
                     break;
 
                 case '/health':

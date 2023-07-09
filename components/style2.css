@@ -54,11 +54,18 @@ main #addmilkform table tbody input {
   color: var(--color-dark);
 }
 
+main #addmilkform .header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 1rem 0;
+}
+
 main #addmilkform input[type="date"] {
   background: var(--color-white);
   color: var(--color-dark);
   text-indent: 10px;
-  width: 20%;
+  width: 4cm;
   height: 2rem;
   font-size: 1rem;
   font-weight: 400;
@@ -73,7 +80,20 @@ main #addmilkform .price {
   background: var(--color-white);
   color: var(--color-dark);
   text-indent: 10px;
-  width: 20%;
+  height: 2rem;
+  font-size: 1rem;
+  font-weight: 400;
+  color: var(--color-dark);
+  background: var(--color-background);
+  margin-left: 0.5rem;
+  outline: 2px solid var(--color-dark);
+  border-radius: var(--border-radius-1);
+}
+
+main #addmilkform .expense {
+  background: var(--color-white);
+  color: var(--color-dark);
+  text-indent: 10px;
   height: 2rem;
   font-size: 1rem;
   font-weight: 400;
@@ -530,7 +550,7 @@ main .underTop {
   text-align: right;
 }
 
-main .underTop input[type="button"] {
+main .underTop button {
   cursor: pointer;
   width: 2cm;
   height: 2rem;
@@ -557,28 +577,3 @@ main .updatemsg {
   margin-left: 2rem;
 }
 
-#notificationContainer {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  max-width: 300px;
-  padding: 10px;
-  background-color: #ffffff;
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-  display: none;
-}
-
-notification {
-  transition: opacity 0.3s ease;
-}
-
-.notification.show {
-  opacity: 1;
-}
-
-.notification.hide {
-  opacity: 0;
-}

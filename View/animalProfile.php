@@ -86,7 +86,8 @@
 
         <!-- 2nd part -->
         <?php
-        if ($animalInfo->gender == 'Cow') { ?>
+        if ($animalInfo->gender == 'Cow') 
+        { ?>
             <div class="headinside">Insemination Details</div>
             <div></div>
             <div class="formitem">
@@ -148,22 +149,23 @@
                     echo null;
                 else
                     echo $animalInfo->abortiondate; ?>" id="abortiondate" class="abortiondate" readonly>
-            </div>
-            <div></div>
+            </div>  
+             <?php } ?>
             <button name="updatebtn" class="general-btn" id="general-btn">Update</button>
 
         </form>
-
+        <?php
+        if ($animalInfo->gender == 'Cow') { ?>
 
         <div class="profileChartHolder">
             <div class="profileChart">
                 <canvas id="cowPerformanceChart"></canvas>
             </div>
-        </div>
+        </div> <?php } 
 
-        <?php
-
-        if ($response["code"] == true) {
+        
+        if ($response["code"] == true) 
+        {
             $performanceRecord = $response["data"];
             for ($i = 0; $i < sizeof($performanceRecord); $i++) {
                 $milkData[] = $performanceRecord[$i]["milkamount"];
@@ -172,7 +174,7 @@
         } else {
             $size = 0;
         }
-        }
+        
         ?>
 
 

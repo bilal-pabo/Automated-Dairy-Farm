@@ -1,0 +1,94 @@
+:root {
+  --color-primary: #7380ec;
+  --color-danger: #ff7782;
+  --color-success: #41f1b6;
+  --color-warning: #ffbb55;
+  --color-white: #fff;
+  --color-info-dark: #7d8da1;
+  --color-info-light: #dce1eb;
+  --color-dark: #363949;
+  --color-light: rgba(132, 139, 200, 0.18);
+  --color-primary-variant: #111e88;
+  --color-dark-variant: #677483;
+  --color-background: #f6f6f9;
+  --dark-red: #8b0000;
+
+  --card-border-radius: 2rem;
+  --border-radius-1: 0.4rem;
+  --border-radius-2: 0.8rem;
+  --border-radius-3: 1.2rem;
+
+  --card-padding: 1.8rem;
+  --padding: 1.2rem;
+
+  --box-shadow: 0 2rem 3rem var(var(--color-light));
+}
+
+#notificationContainer {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  max-width: 300px;
+  padding: 10px;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  display: none;
+}
+
+notification {
+  transition: opacity 0.3s ease;
+}
+
+.notification.show {
+  opacity: 1;
+}
+
+.notification.hide {
+  opacity: 0;
+}
+
+.main .reportCards {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 10px;
+}
+
+main .reportCards .reportTable table {
+  width: 90%;
+  text-align: center;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+
+main .reportCards .reportTable table thead {
+  background-color: var(--color-dark);
+  color: var(--color-white);
+  height: 2.5rem;
+}
+
+.pagination a {
+  padding: 5px 10px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+  color: #333;
+}
+
+.pagination .active {
+  background-color: #ccc;
+}
+
+.pagination {
+  width: 90%;
+  text-align: center;
+  margin-top: 0.8rem;
+  margin-bottom: 3rem;
+}
+
+.dailyReportChart {
+  width: 100%;
+  overflow-x: scroll;
+}

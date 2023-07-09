@@ -7,6 +7,8 @@ const date = document.querySelector(".pregYes");
 const insdate = document.querySelector(".insDate");
 const bullid = document.querySelector(".bullid");
 
+
+
 function showNotification(message, duration) {
   var notificationContainer = document.getElementById("notificationContainer");
 

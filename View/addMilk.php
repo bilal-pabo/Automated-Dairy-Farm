@@ -8,10 +8,18 @@
 
     <form id="addmilkform" method="POST">
         <div class="header">
-            <label for="milkDate">Select Date : </label>
-            <input type="date" name="milkDate" required>
-            <label class="milkPrice" for="price">Price : </label>
-            <input class="price" type="number" name="milkPrice" placeholder="Enter price" required>
+            <div>
+                <label for="milkDate">Select Date : </label>
+                <input type="date" name="milkDate" required>
+            </div>
+            <div>
+                <label class="milkPrice" for="price">Price : </label>
+                <input class="price" type="number" name="milkPrice" placeholder="Enter price" required>
+            </div>
+            <div>
+                <label class="expenseL" for="price">Expense : </label>
+                <input class="expense" type="number" name="expense" placeholder="Enter expense">
+            </div>
         </div>
         <table id="addmilktable">
             <thead>
@@ -25,12 +33,12 @@
                 <?php
                 for ($i = 0; $i < sizeof($cows); $i++) { ?>
                     <tr>
-                        <td><?= $i+1 ?></td>
+                        <td><?= $i + 1 ?></td>
                         <td><?= $cows[$i] ?></td>
                         <td><input type="number" name="<?= $cows[$i] ?>" placeholder="Enter milk quantity"></td>
-                </tr>
-                        
-                 <?php
+                    </tr>
+
+                    <?php
                 }
 
                 ?>
