@@ -41,10 +41,12 @@ class Controller extends Model
 
                     }
 
+
+
                     $today = date('Y-m-d');
-                    $todayMilk = parent::getTotalMilkByDay($today);
-                    $todayExpense = parent::getExpenseByDay($today);
-                    $todayProfit = parent::getProfitByDay($today);
+                    $todayMilk = parent::getTotalMilkByDay($today, 'amount');
+                    $todayExpense = parent::getTotalMilkByDay($today, 'expense');
+                    $todayProfit = parent::getTotalMilkByDay($today, 'saleprice');
                     $_SESSION['todayMilk'] = $todayMilk;
                     $_SESSION['todayExpense'] = $todayExpense;
                     $_SESSION['todayProfit'] = $todayProfit;
@@ -61,6 +63,8 @@ class Controller extends Model
                     $groupACount = parent::getGroupCounts($start, $end, 10, 25);
                     $groupBCount = parent::getGroupCounts($start, $end, 25, 35);
                     $groupCCount = parent::getGroupCounts($start, $end, 35, 45);
+                    $lowYieldCowsCount = parent::getGroupCounts($start, $end, 0, 10);
+                    $sickCount = parent::getSickCount();
 
                     $breedsAndCounts = parent::getBreedsAndCounts();
                     $breeds = array();
@@ -75,9 +79,9 @@ class Controller extends Model
                     for ($i = 0; $i < 7; $i++) {
                         $date = strtotime("+$i day", strtotime($sevenDaysBack));
                         $labels[] = date('M d', $date);
-                        $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date));
-                        $expense = parent::getExpenseByDay(date('Y-m-d', $date));
-                        $earned = parent::getProfitByDay(date('Y-m-d', $date));
+                        $chartData[] = parent::getTotalMilkByDay(date('Y-m-d', $date), 'amount');
+                        $expense = parent::getTotalMilkByDay(date('Y-m-d', $date), 'expense');
+                        $earned = parent::getTotalMilkByDay(date('Y-m-d', $date), 'saleprice');
                         $expenseReport[] = $expense;
                         $profit[] = $earned - $expense;
                     }
@@ -118,9 +122,17 @@ class Controller extends Model
                         $pregnant = "";
                         if ($data['pregnant'])
                             $pregnant = $data['pregnant'];
+
+
+
                         $startDate = date('0001-01-01');
                         if ($data['startDate'])
                             $startDate = $data['startDate'];
+
+                        if ($pregnant == "Yes") {
+                            parent::addPregnant($data['id'], $startDate);
+                        }
+
                         $color = '';
                         $dob = date('0001-01-01');
                         $price = -1;
@@ -132,6 +144,7 @@ class Controller extends Model
                             $price = $data['price'];
                         $result = parent::addAnimal($data['id'], $data['breed'], $data['gender'], $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startDate);
                         $_SESSION['msg'] = $result['Message'];
+                        $_SESSION['code'] = $result['Code'];
 
                         ?>
                         <script> window.location.href = 'addAnimal'; </script> <?php
@@ -160,6 +173,18 @@ class Controller extends Model
                     include './View/header2.php';
                     include './View/sidebar.php';
                     include './View/pregnantCows.php';
+                    include './View/rightbar.php';
+                    include './View/footer.php';
+                    break;
+
+                case '/lowYieldCows':
+                    $lowYieldCows = array();
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
+                    $lowYieldCows = parent::getGroupCows($start, $end, 0, 10);
+                    include './View/header2.php';
+                    include './View/sidebar.php';
+                    include './View/lowYieldCows.php';
                     include './View/rightbar.php';
                     include './View/footer.php';
                     break;
@@ -350,12 +375,31 @@ class Controller extends Model
                         $result = parent::deleteBreed($breed);
                         if ($result) {
                             $_SESSION['Msg'] = $breed . " deleted successfully!";
+                            $_SESSION['type'] = "success";
                         } else {
                             $_SESSION['Msg'] = "Something went wrong!";
+                            $_SESSION['type'] = "invalid";
                         }
                         ?>
                         <script>
                             window.location.href = "breeds";
+                        </script>
+                        <?php
+                    }
+
+                    if ($_GET["sickid"]) {
+                        $id = $_GET["sickid"];
+                        $result = parent::deleteSick($id);
+                        if ($result) {
+                            $_SESSION['Msg'] = $id . " removed successfully!";
+                            $_SESSION['type'] = "success";
+                        } else {
+                            $_SESSION['Msg'] = "Something went wrong!";
+                            $_SESSION['type'] = "invalid";
+                        }
+                        ?>
+                        <script>
+                            window.location.href = "health";
                         </script>
                         <?php
                     }
@@ -412,8 +456,20 @@ class Controller extends Model
                     $cows = parent::getAllCows();
                     $dailyMilkRecords = parent::allMilkRecords();
                     $profit = parent::allProfitRecords();
-                    $expense = parent::allExpenseRecords();
+                    //$expense = parent::allExpenseRecords();
                     $cows = parent::getAllCows();
+                    $monthlyRecords = parent::getMonthlyData();
+                    $monthlyMilk = array();
+                    $monthlyExpense = array();
+                    $monthlyProfit = array();
+                    for ($i = 0; $i < 12; $i++) {
+                        $monthlyMilk[] = parent::getMonthlyTotalMilk($i + 1, 'amount');
+                        $expense = parent::getMonthlyTotalMilk($i + 1, 'expense');
+                        $earned = parent::getMonthlyTotalMilk($i + 1, 'saleprice');
+                        $monthlyExpense[] = $expense;
+                        $monthlyProfit[] = $earned - $expense;
+                    }
+
                     $days = array();
                     $milkAmount = array();
                     if ($dailyMilkRecords["code"] == true) {
@@ -423,10 +479,10 @@ class Controller extends Model
                             $days[] = $Data[$i]["date"];
                             $milkAmount[] = $Data[$i]["amount"];
                         }
-                    }
-                    else $size = 0;
+                    } else
+                        $size = 0;
 
-                    
+
 
                     include './View/header2.php';
                     include './View/sidebar.php';
@@ -435,32 +491,88 @@ class Controller extends Model
                     include './View/footer.php';
                     break;
 
-                    case '/fetchReports':
-                        $id = $_GET["cowid"];
-                        $records = parent::getCowRecords($id);
-                        if ($records["code"] == true) {
-                            $data = $records["data"];
-                            http_response_code(200);
-                            echo json_encode(["data"=>$data]);
-                        } else {
-                            http_response_code(400);
-                        }
-                        
-                        break;
-                    
-                case '/table':
-                    include './View/table.php';
+                case '/fetchReports':
+                    $id = $_GET["cowid"];
+                    $records = parent::getCowRecords($id);
+                    if ($records["code"] == true) {
+                        $data = $records["data"];
+                        http_response_code(200);
+                        echo json_encode(["data" => $data]);
+                    } else {
+                        http_response_code(400);
+                    }
+
                     break;
 
-                case '/health':
-                    include './View/header2.php';
-                    include './View/sidebar.php';
-                    include './View/footer.php';
+                case '/addExamination':
+                    $id = $_POST["id"];
+                    $dis = $_POST["disease"];
+                    $med = $_POST["med"];
+                    $temp = $_POST["temp"];
+                    $date = $_POST["date"];
+                    $result = parent::addSick($id, $dis, $med, $temp, $date);
+                    if ($result == "updated")
+                    {
+                        $_SESSION["msg"] = "Record updated!";
+                    }
+                    if ($result == "added")
+                    {
+                        $_SESSION["msg"] = "Record added!";
+                    }  ?>
+                        <script>
+                            window.location.href = "health";
+                        </script>  <?php
+
+                    break;
+
+                case '/search':
+                    $what = $_GET['what'];
+                    $isAnimal = parent::searchAnimalTable($what);
+                    if ($isAnimal['what'] == 'id') { ?>
+                        <script>
+                            window.location.href = './animalProfile?cowid=<?= $what; ?>';
+                        </script>
+                    <?php } else if ($isAnimal['what'] == 'breed') { ?>
+                            <script>
+                                window.location.href = './breeds#<?= $what ?>';
+                            </script>
+                        <?php } else if ($isAnimal['what'] == 'gender' || $what == 'cow') {
+                        include './View/header2.php';
+                        include './View/sidebar.php';
+                        include './View/searchResults.php';
+                        include './View/rightbar.php';
+                        include './View/footer.php';
+                    } else if ($what == "pregnant" || $what == "Pregnant") {
+                        ?>
+                                    <script>
+                                        window.location.href = './pregnantCows';
+                                    </script>
+                                    <?php
+                    }
                     break;
 
                 case '/notifications':
                     include './View/header2.php';
                     include './View/sidebar.php';
+                    include './View/footer.php';
+                    break;
+
+                case '/health':
+                    $sickAnimals = parent::getSickAnimals();
+                    if ($sickAnimals["code"] == true)
+                    {
+                        $data = $sickAnimals["data"];
+                        $sickSize = sizeof($data);
+                    }
+                    else $sickSize = 0;
+                    $totalanimals = parent::allAnimals();
+                    $totalSize = sizeof($totalanimals);
+                    $labels = array("Sick", "Healthy");
+                    $chartData = array($sickSize, $totalSize);
+                    include './View/header2.php';
+                    include './View/sidebar.php';
+                    include './View/health.php';
+                    include './View/rightbar.php';
                     include './View/footer.php';
                     break;
 

@@ -1,6 +1,21 @@
 <main>
-    <h1>Add New Animal</h1>
-    <div class=" msg"> <?php if(isset($_SESSION['msg'])) { echo $_SESSION['msg']; unset($_SESSION['msg']); } ?> </div>
+    <div class="titles">Add New Animal</div>
+    <?php 
+    if (isset($_SESSION['msg'])) {
+        $msg = $_SESSION['msg'];
+        $type = $_SESSION['code'];
+        unset($_SESSION['msg']);
+        unset($_SESSION['code']); ?>
+        <script>
+            var msg = '<?php echo $msg; ?>';
+            var type = '<?php echo $type; ?>';
+            showToast(msg, type); 
+        </script> <?php
+
+    }
+    ?>
+
+
     <form action="#" method="POST">
         <header>Animal Information</header>
         <div class="item">
@@ -11,11 +26,10 @@
             <label for="breed"><span class="star">*</span>Breed : </label>
             <select name="breed" id="breed" class="breed" required>
                 <option value="">Select breed</option>
-                <?php 
-                    for ($i = 0; $i < sizeof($breeds); $i++)
-                    {
-                       ?> <option value="<?= $breeds[$i] ?>"><?php echo $breeds[$i] ?></option> <?php
-                    }
+                <?php
+                for ($i = 0; $i < sizeof($breeds); $i++) {
+                    ?> <option value="<?= $breeds[$i] ?>"><?php echo $breeds[$i] ?></option> <?php
+                }
                 ?>
             </select>
         </div>
@@ -40,7 +54,7 @@
             <input type="number" name="price" id="price" placeholder="Enter price">
         </div>
         <div class="onlyCow" id="onlyCow">
-            <header>Pregnancy Details</header>
+            <header>Other Details</header>
             <div class="item">
                 <label for="pregnant">Pregnant : </label>
                 <select name="pregnant" id="pregnant" class="pregnant">

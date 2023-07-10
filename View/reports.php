@@ -1,11 +1,17 @@
 <main>
     <div class="titles">Reports</div>
 
+    <div class="reportLinks">
+        <a id="d" href="#page1">Daily</a>
+        <a id="w" href="#page2">Weekly</a>
+        <a id="m" href="#page3">Monthly</a>
+    </div>
     <!-- Daily reports -->
 
-    <div class="duration">Daily Reports</div>
 
-    <div class="reportCards">
+
+    <div id="page1" class="reportCards dailyReports">
+        <div class="duration">Daily Reports</div>
         <?php
         if ($dailyMilkRecords['code'] == true) {
             $data = $dailyMilkRecords['data'];
@@ -290,7 +296,7 @@
                     paginationLinks2.forEach(link => {
                         link.addEventListener('click', e => {
                             e.preventDefault();
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                            window.scrollTo({ top: 200, behavior: 'smooth' });
                             const href = link.getAttribute('href');
                             window.history.pushState({}, '', href);
                             loadPage(href);
@@ -363,7 +369,7 @@
                                     cell3.textContent = record.milkamount;
                                     cell4.textContent = record.times;
                                 });
-                                
+
                             },
                             error: (message) => {
                                 console.log("uffffff");
@@ -386,4 +392,253 @@
         </div>
 
     </div>
+
+    <!-- weekly report -->
+
+    <div id="page2" class="weeklyReports reportCards">
+        <div class="duration">Weekly Reports</div>
+    </div>
+
+    <!-- monthly reports -->
+
+    <div id="page3" class="monthlyReports reportCards">
+        <div class="duration">Monthly Reports</div>
+        <div class="dailyMilkTable reportTable">
+            <table>
+                <thead>
+
+                    <th>Month</th>
+                    <th>Milk (L)</th>
+                    <th>Expense</th>
+                    <th>Profit</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $months = array(
+                        'January',
+                        'February',
+                        'March',
+                        'April',
+                        'May',
+                        'June',
+                        'July',
+                        'August',
+                        'September',
+                        'October',
+                        'November',
+                        'December'
+                    );
+                    $months2 = array(
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    );
+                    for ($j = 0; $j < 12; $j++) {
+                        $found = false;
+                        foreach ($monthlyRecords as $record) {
+                            if ($record["month"] == $j + 1) {
+                                $found = true;
+                                ?>
+                                <tr>
+
+                                    <td><?= $months[$j] ?></td>
+                                    <td><?= $record["total_milk"] ?></td>
+                                    <td><?= $record["total_expense"] ?></td>
+                                    <td><?= $record["total_profit"] ?></td>
+                                </tr>
+                                <?php
+                                break;
+                            }
+                        }
+                        if (!$found) {
+                            ?>
+                    <tr>
+
+                        <td><?= $months[$j] ?></td>
+                        <td>---</td>
+                        <td>---</td>
+                        <td>---</td>
+                    </tr>
+                    <?php
+                        }
+                    }
+                    ?>
+
+
+                </tbody>
+            </table>
+
+            <div class="chart">
+                <canvas id="monthlyChart"></canvas>
+            </div>
+
+            <script>
+                var labels = <?php echo json_encode($months2); ?>;
+                var chartData = <?php echo json_encode($monthlyMilk); ?>;
+                var expenseReport = <?php echo json_encode($monthlyExpense); ?>;
+                var profit = <?php echo json_encode($monthlyProfit); ?>;
+
+                var ctx = document.getElementById('monthlyChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Milk (Liters)',
+                                data: chartData,
+                                backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                borderWidth: 2,
+                                pointRadius: 3,
+                                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                                pointBorderColor: 'rgba(54, 162, 235, 1)',
+                                pointHoverRadius: 5,
+                                tension: 0.4,
+                            },
+                            {
+                                label: 'Expenses (Rs)',
+                                data: expenseReport,
+                                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                                borderColor: 'rgba(255, 99, 132, 1)',
+                                borderWidth: 2,
+                                pointRadius: 3,
+                                pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+                                pointBorderColor: 'rgba(255, 99, 132, 1)',
+                                pointHoverRadius: 5,
+                                tension: 0.4,
+                            },
+                            {
+                                label: 'Profit (Rs)',
+                                data: profit,
+                                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 2,
+                                pointRadius: 3,
+                                pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                                pointBorderColor: 'rgba(75, 192, 192, 1)',
+                                pointHoverRadius: 5,
+                                tension: 0.4,
+                            },
+                        ],
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            x: {
+                                grid: {
+                                    display: false,
+                                },
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function (value, index, values) {
+                                        if (profit[index] === Math.max(...profit)) {
+                                            return value + ' (High)';
+                                        } else {
+                                            return value;
+                                        }
+                                    },
+                                },
+                                grid: {
+                                    drawOnChartArea: true,
+                                },
+                            },
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Monthly record chart',
+                                font: {
+                                    size: 18,
+                                },
+                            },
+                            legend: {
+                                position: 'top',
+                                labels: {
+                                    usePointStyle: true,
+                                },
+                            },
+                            animation: {
+                                duration: 1000,
+                                easing: 'easeInOutQuart',
+                            },
+                        },
+                        
+                    },
+                });
+
+
+
+
+            </script>
+
+        </div>
+    </div>
 </main>
+
+<script>
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Get the active page from localStorage, or default to 'page1'
+        const activePage = localStorage.getItem('activePage') || 'page1';
+
+        // Hide all report pages initially
+        const reportPages = document.querySelectorAll('.reportCards');
+        reportPages.forEach(page => {
+            page.style.display = 'none';
+        });
+
+        // Show the active page
+        const activePageElement = document.getElementById(activePage);
+        if (activePageElement) {
+            activePageElement.style.display = 'block';
+
+        }
+
+        // Handle link clicks
+        const reportLinks = document.querySelectorAll('.reportLinks a');
+        reportLinks.forEach(link => {
+            link.addEventListener('click', function (event) {
+                event.preventDefault();
+
+                // Remove 'click' class from all links
+                reportLinks.forEach(link => {
+                    link.classList.remove('click');
+                });
+
+                // Add 'click' class to the clicked link
+                link.classList.add('click');
+
+                const targetPage = link.getAttribute('href').substring(1);
+                const targetPageElement = document.getElementById(targetPage);
+
+                if (targetPageElement) {
+                    // Hide all report pages
+                    reportPages.forEach(page => {
+                        page.style.display = 'none';
+                    });
+
+                    // Show the target page
+                    targetPageElement.style.display = 'block';
+
+                    // Store the active page in localStorage
+                    localStorage.setItem('activePage', targetPage);
+                }
+            });
+            if (link.getAttribute('href') === '#' + activePage) {
+                link.classList.add('click');
+            }
+        });
+    });
+</script>

@@ -2,8 +2,8 @@
     <div class="topBar">
         <div class="pageTitle">Dashboard</div>
         <div class="search">
-            <input type="search" placeholder="search anything">
-            <button>Search</button>
+            <input id="what" type="search" placeholder="search anything">
+            <button onclick="search()">Search</button>
         </div>
     </div>
     <div class="cardBox">
@@ -18,9 +18,9 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="window.location='health#sickAnimals';">
             <div>
-                <div class="numbers darkred">Pending</div>
+                <div class="numbers darkred"><?= $sickCount ?></div>
                 <div class="cardName">Sick Animals</div>
             </div>
 
@@ -29,9 +29,9 @@
             </div>
         </div>
 
-        <div class="card">
+        <div class="card" onclick="window.location='lowYieldCows';">
             <div>
-                <div class="numbers warning">Pending</div>
+                <div class="numbers warning"><?= $lowYieldCowsCount ?></div>
                 <div class="cardName">Low-Yield Cows</div>
             </div>
 
@@ -74,6 +74,16 @@
     </div>
 
     <script>
+        function search() {
+            var what = $("#what").val();
+            if (!what)
+            {
+                showToast("Search something!", "invalid");
+                return;
+            }
+            window.location.href = './search?what=' + what;
+        }
+
         var labels = <?php echo json_encode($labels); ?>;
         var chartData = <?php echo json_encode($chartData); ?>;
         var expenseReport = <?php echo json_encode($expenseReport); ?>;

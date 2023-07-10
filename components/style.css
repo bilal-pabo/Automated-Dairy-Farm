@@ -472,7 +472,7 @@ main form .item .star {
   color: var(--dark-red);
 }
 
-main form .item input {
+main form .item input[type="text"],input[type="date"],input[type="number"] {
   display: block;
   width: 50%;
   height: 2rem;
@@ -486,8 +486,10 @@ main form .item input {
   border-radius: var(--border-radius-1);
 }
 
+
 main form .item input[type="date"] {
   text-indent: 10px;
+  width: 9.3cm;
 }
 
 main form .item select {
@@ -504,6 +506,7 @@ main form .item select {
 }
 
 .button-primary {
+  cursor: pointer;
   background: var(--color-primary);
   color: var(--color-white);
   width: 3cm;

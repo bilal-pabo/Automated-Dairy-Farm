@@ -41,29 +41,7 @@
     <div class="add-milk" onclick="window.location='addMilkRecord'">
 
         <span class="material-icons-sharp">add</span>
-        <h3>Add Milk Record</h3>
+        <h3>Milk & Expense</h3>
     </div>
-    <form method="post">
-        <div class="addDailyExpense">
-            <h3>Daily Farm Expense</h3>
-            <input type="date" name="expenseDate" required>
-            <div>
-                <input type="number" name="dailyExpense" placeholder="Expenses (Rs)" required>
-                <button name="addExpense">Add</button>
-            </div>
 
-        </div>
-    </form>
-
-    <?php
-    if (isset($_SESSION['location'])) {
-        if ($_SESSION['location'] == 'breeds') { ?>
-
-            <div class="add-milk" onclick="window.location=''">
-
-                <span class="material-icons-sharp">add</span>
-                <h3>Add New Category</h3>
-            </div> <?php }
-    }
-    unset($_SESSION['location']); ?>
 </div>

@@ -17,18 +17,6 @@
         ?>
     </div>
 
-    <div id="notificationContainer">
-        <?php
-        if (isset($_SESSION['msg'])) {
-            $message = $_SESSION['msg'];
-            unset($_SESSION['msg']);
-        }
-        ?>
-        <script>
-            var message = "what the fuck";
-            showNotification(message, 3000);
-        </script>
-    </div>
 
     <form actaction="/update" id="profileForm" method="POST">
 

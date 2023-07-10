@@ -94,19 +94,19 @@ main .reportCards .reportTable table thead {
   margin-bottom: 2rem;
 }
 
-.filter{
-    margin-top: 2rem;
-    margin-bottom: -1rem;
-    margin-left: 2rem;
+.filter {
+  margin-top: 2rem;
+  margin-bottom: -1rem;
+  margin-left: 2rem;
 }
 
 #filterlabel {
-    font-size: 1.3rem;
-    font-weight: 500;
+  font-size: 1.3rem;
+  font-weight: 500;
 }
 
 #cowFilter {
-    height: 2rem;
+  height: 2rem;
   text-indent: 10px;
   border-radius: none;
   color: var(--color-dark);
@@ -114,7 +114,7 @@ main .reportCards .reportTable table thead {
 }
 
 .filter button {
-    cursor: pointer;
+  cursor: pointer;
   width: 2cm;
   height: 2rem;
   color: var(--color-info-light);
@@ -123,3 +123,171 @@ main .reportCards .reportTable table thead {
   margin-top: 1rem;
   margin-left: 2rem;
 }
+
+.searchTable table {
+  width: 100%;
+  text-align: center;
+  margin: 1rem;
+}
+
+.searchTable table thead {
+  background: var(--color-dark);
+  color: var(--color-white);
+}
+
+.reportLinks {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.reportLinks a {
+  font-size: 1.4rem;
+  color: black;
+  font-weight: 400;
+  outline: 2px solid black;
+  padding: 0 10px 0 10px;
+  border-radius: var(--border-radius-1);
+}
+
+.weeklyReports {
+  display: none;
+}
+
+.monthlyReports {
+  display: none;
+}
+
+.click {
+  background: #64b5f6;
+}
+
+.chart {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.low {
+  background: orange;
+}
+
+.intro {
+  width: 300px;
+  height: 50px;
+  font-size: 1rem;
+  color: var(--color-dark);
+  background: var(--color-light);
+  margin-left: 2rem;
+  margin-top: 2rem;
+  padding: 5px;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius-2);
+}
+
+.healthChart {
+  margin-top: 2rem;
+  margin-left: 2rem;
+  width: 40%;
+}
+
+.buttonsss {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 1rem;
+  margin-left: 2rem;
+  margin-top: 2rem;
+  justify-content: start;
+}
+
+.buttonsss h3 {
+  font-size: 1.4rem;
+  font-weight: 500;
+}
+.buttonsss button {
+  cursor: pointer;
+  width: 3cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-dark);
+  border-radius: var(--border-radius-1);
+  margin-left: 2rem;
+}
+
+.sicktable table {
+  width: 100%;
+  margin: 2rem;
+  text-align: center;
+}
+
+.sicktable table thead {
+  color: var(--color-white);
+  background: var(--color-dark);
+}
+
+.sicktable table tr:hover {
+  transform: none;
+}
+
+.sicktable table button {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
+}
+
+.animalTable button {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
+}
+
+.ffff form {
+  width: 100%;
+  margin: 2rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  justify-content: start;
+  gap: 1rem 0;
+}
+
+.ffff input[type="text"],input[type="date"]
+{
+  width: 6cm;
+  height: 0.8cm;
+  outline: 2px solid var(--color-dark);
+  color: var(--color-dark);
+  text-indent: 0.5rem;
+  margin-left: 0.5rem;
+  border-radius: var(--border-radius-1);
+  background: var(--color-background);
+  font-size: 1rem;
+
+}
+
+.ffff select {
+  width: 6cm;
+}
+
+.ffff input[type="submit"] {
+  cursor: pointer;
+  width: 2cm;
+  height: 2rem;
+  color: var(--color-white);
+  background: var(--color-danger);
+  border-radius: var(--border-radius-1);
+  margin-left: 0.5rem;
+}
+
+
+
+
+
+
+

@@ -19,19 +19,12 @@
         }
         ?></span>
     </div>
-    <span id="addbreedmsg"><?php
-        if (isset($_SESSION['Msg'])) {
-            echo $_SESSION['Msg'];
-            unset($_SESSION['Msg']);
-
-        }
-        ?></span>
     <?php
 
     for ($i = 0; $i < sizeof($breeds); $i++) { ?>
         <div class="breed">
             <div class="breedTop">
-                <div class="titles"> <?= $breeds[$i] ?> </div>
+                <div id="<?= $breeds[$i] ?>" class="titles"> <?= $breeds[$i] ?> </div>
                 <button class="deletebreedbtn" onclick="deleteBreed('<?php echo $breeds[$i]; ?>');">Delete</button>
             </div>
             <div class="cows">

@@ -1,5 +1,6 @@
 <main>
     <h1>Add Milk</h1>
+    
 
     <div><?php if (isset($_SESSION['msg'])) {
         echo "<h4>" . $_SESSION['msg'] . "</h4>";

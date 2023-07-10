@@ -44,19 +44,18 @@ class Model
         $result = mysqli_query($this->connection, $query);
         $recordsFound = mysqli_num_rows($result);
         if ($recordsFound > 0) {
-            $response['Code'] = false;
+            $response['Code'] = 'invalid';
             $response['Message'] = "Animal id already exist!";
-            $response['color'] = 'warning';
         } else {
             $query2 = "insert into animalinfo (id, breed, gender, color, dob, price, insemination, insdate, bullid, pregnant, startDate) values('$id', '$breed', '$gender', '$color', '$dob', '$price', '$insemination', '$insdate', '$bullid', '$pregnant', '$startDate')";
             if (mysqli_query($this->connection, $query2)) {
-                $response['Code'] = true;
+                $response['Code'] = 'success';
                 $response['Message'] = "Animal added successfully!";
-                $response['color'] = 'success';
+
             } else {
-                $response['Code'] = false;
+                $response['Code'] = 'error';
                 $response['Message'] = "Oops! Animal don't want to get in";
-                $response['color'] = 'danger';
+
             }
         }
         return $response;
@@ -274,13 +273,13 @@ class Model
         }
     }
 
-    function getTotalMilkByDay($date)
+    function getTotalMilkByDay($date, $data)
     {
         try {
-            $query = "select amount from milkperday where date = '$date'";
+            $query = "select $data from milkperday where date = '$date'";
             $result = mysqli_query($this->connection, $query);
             if ($row = mysqli_fetch_assoc($result)) {
-                return $row['amount'];
+                return $row[$data];
             } else
                 return 0;
         } catch (Exception $e) {
@@ -526,24 +525,24 @@ class Model
         }
     }
 
-    function allExpenseRecords()
-    {
-        try {
-            $query = "select * from expenseperday order by expensedate desc";
-            $result = mysqli_query($this->connection, $query);
-            $records = array();
-            if (mysqli_num_rows($result) > 0) {
-                $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
-                $response['code'] = true;
-                $response['data'] = $records;
-            } else
-                $response['code'] = false;
+    // function allExpenseRecords()
+    // {
+    //     try {
+    //         $query = "select * from expenseperday order by expensedate desc";
+    //         $result = mysqli_query($this->connection, $query);
+    //         $records = array();
+    //         if (mysqli_num_rows($result) > 0) {
+    //             $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
+    //             $response['code'] = true;
+    //             $response['data'] = $records;
+    //         } else
+    //             $response['code'] = false;
 
-            return $response;
-        } catch (Exception $e) {
-            echo "Database error: " . $e->getMessage();
-        }
-    }
+    //         return $response;
+    //     } catch (Exception $e) {
+    //         echo "Database error: " . $e->getMessage();
+    //     }
+    // }
 
     function allProfitRecords()
     {
@@ -568,7 +567,8 @@ class Model
     {
         try {
             $query = "select cowid, date, milkamount, times from milkrecords order by date desc";
-            $result = mysqli_query($this->connection, $query);$records = array();
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
             if (mysqli_num_rows($result) > 0) {
                 $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $response['code'] = true;
@@ -586,7 +586,8 @@ class Model
     {
         try {
             $query = "select cowid, date, milkamount, times from milkrecords where cowid='$id' order by date desc";
-            $result = mysqli_query($this->connection, $query);$records = array();
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
             if (mysqli_num_rows($result) > 0) {
                 $records = mysqli_fetch_all($result, MYSQLI_ASSOC);
                 $response['code'] = true;
@@ -599,6 +600,153 @@ class Model
             echo "Database error: " . $e->getMessage();
         }
     }
+
+    function searchAnimalTable($word)
+    {
+        $word = strtolower($word);
+        $query = "SELECT * FROM animalinfo WHERE LOWER(id) = '$word' OR LOWER(breed) = '$word' OR LOWER(gender) = '$word'";
+        $result = mysqli_query($this->connection, $query);
+        if (mysqli_num_rows($result) > 0) {
+            $response = array();
+            while ($row = mysqli_fetch_assoc($result)) {
+                if ($word === strtolower($row['id'])) {
+                    $response['what'] = 'id';
+                    $response['data'] = $row;
+                    return $response;
+                }
+
+                if ($word === strtolower($row['breed'])) {
+                    $response['what'] = 'breed';
+                    $response['data'][] = $row;
+                }
+
+                if ($word === strtolower($row['gender'])) {
+                    $response['what'] = 'gender';
+                    $response['data'][] = $row;
+                }
+            }
+            return $response;
+        } else {
+            $response['what'] = 'none';
+            return $response;
+        }
+    }
+
+    function getMonthlyData()
+    {
+        $currentYear = date('Y');
+
+        $query = "SELECT MONTH(date) AS month, SUM(amount) AS total_milk, SUM(expense) AS total_expense, SUM(saleprice)-SUM(expense) AS total_profit
+              FROM milkperday
+              WHERE YEAR(date) = '$currentYear'
+              GROUP BY MONTH(date)";
+
+        $result = mysqli_query($this->connection, $query);
+
+        $monthlyData = array();
+        if (mysqli_num_rows($result) > 0)
+        {
+            $monthlyData = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
+
+        return $monthlyData;
+    }
+
+    function getMonthlyTotalMilk($month, $what)
+    {
+        $currentYear = date('Y');
+        try {
+            $query = "SELECT  SUM($what) AS data
+              FROM milkperday
+              WHERE YEAR(date) = '$currentYear' AND MONTH(date) = '$month'";
+
+              $result = mysqli_query($this->connection, $query);
+              if ($row = mysqli_fetch_assoc($result))
+              {
+                return $row['data'];
+              }
+              else return 0;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function getSickAnimals()
+    {
+        try {
+            $query = "select * from sick";
+            $result = mysqli_query($this->connection, $query);
+            if (mysqli_num_rows($result) > 0)
+            {
+                $response["data"] = mysqli_fetch_all($result, MYSQLI_ASSOC);
+                $response["code"] = true;
+            } else {
+                $response["code"] = false;
+            }
+            return $response;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function deleteSick($id)
+    {
+        try {
+            $query = "delete from sick where id='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if ($result)
+                return true;
+            else
+                return false;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function addSick($id, $dis, $med, $temp, $date)
+    {
+        try {
+            $checkQuery = "SELECT * FROM sick WHERE id = '$id'";
+            $result = mysqli_query($this->connection, $checkQuery);
+
+            if (mysqli_num_rows($result) > 0) 
+            {
+                $query = "update sick set disease='$dis', medications='$med', 
+                            temperature='$temp', date='$date' 
+                            where id='$id'";
+                mysqli_query($this->connection, $query);
+                return "updated";
+            } 
+            else 
+            {
+                $query = "insert into sick (id, disease, medications, temperature, date) 
+                            values('$id', '$dis', '$med', '$temp', '$date')";
+                mysqli_query($this->connection, $query);
+                return "added";
+            }
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function getSickCount()
+    {
+        try {
+            $query = "select * from sick";
+            $result = mysqli_query($this->connection, $query);
+            if (mysqli_num_rows($result) > 0)
+            {
+                $size = mysqli_num_rows($result);
+                return $size;
+            } else {
+                return 0;
+            }
+            
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
 
 }
 ?>
