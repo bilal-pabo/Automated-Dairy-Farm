@@ -44,11 +44,11 @@
                     <h3>Health</h3>
                 </a>
 
-                <a href="notifications">
+                <!-- <a href="notifications">
                     <span class="material-icons-sharp">notifications</span>
                     <h3>Notifications</h3>
                     <span class="notifications-count">7</span>
-                </a>
+                </a> -->
 
                 <a href="logout">
                     <span class="material-icons-sharp">logout</span>

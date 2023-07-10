@@ -27,7 +27,7 @@
                 </div>
 
                 <div class="iconBx">
-                    <img src=<?php echo $dots . './components/icons/thumb-down.png' ?> alt="">
+                    <img src=<?php echo $dots . './components/icons/thumb-down.png' ?> alt="img">
                 </div>
             </div>
             <?php

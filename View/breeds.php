@@ -1,4 +1,31 @@
 <main>
+<?php 
+    if (isset($_SESSION['Msg'])) {
+        $msg = $_SESSION['Msg'];
+        $type = $_SESSION['type'];
+        unset($_SESSION['Msg']);
+        unset($_SESSION['type']); ?>
+        <script>
+            var msg = '<?php echo $msg; ?>';
+            var type = '<?php echo $type; ?>';
+            showToast(msg, type); 
+        </script> <?php
+
+    }
+    if (isset($_SESSION['msg'])) {
+        $msg = $_SESSION['msg'];
+        $type = $_SESSION['type'];
+        unset($_SESSION['msg']);
+        unset($_SESSION['type']); ?>
+        <script>
+            var msg = '<?php echo $msg; ?>';
+            var type = '<?php echo $type; ?>';
+            showToast(msg, type); 
+        </script> <?php
+
+    }
+    ?>
+
     <div class="titles">Breeds</div>
 
     <div class="addnewbreed">
@@ -11,13 +38,6 @@
 
             </div>
         </form>
-        <span id="addbreedmsg"><?php
-        if (isset($_SESSION['msg'])) {
-            echo $_SESSION['msg'];
-            unset($_SESSION['msg']);
-
-        }
-        ?></span>
     </div>
     <?php
 

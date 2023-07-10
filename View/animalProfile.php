@@ -1,18 +1,24 @@
 <main>
-    <?php
-    $_SESSION['animalid'] = $animalInfo->id;
-    ?>
+    
     <div class="titles">Animal Profile</div>
 
 
-
+    <button onclick="Delete('<?php echo $animalInfo->id; ?>')" class="general-btn" id="profileEditButton">Delete</button>
     <button onclick="edit()" class="general-btn" id="profileEditButton">Edit</button>
 
     <div class="updatemsg">
     <?php
         if (isset($_SESSION['msg'])) {
-            echo $_SESSION['msg'];
+            $msg = $_SESSION['msg'];
+            $type = $_SESSION['type'];
             unset($_SESSION['msg']);
+            unset($_SESSION['type']); ?>
+            <script>
+                var msg = '<?php echo $msg; ?>';
+                var type = '<?php echo $type; ?>';
+                showToast(msg, type); 
+            </script> <?php
+    
         }
         ?>
     </div>
@@ -234,28 +240,19 @@
 </main>
 
 <script>
-    function showNotification(message, duration) {
-
-        console.log(message);
-        var notificationContainer = document.getElementById("notificationContainer");
-
-        var notification = document.createElement("div");
-        notification.className = "notification";
-        notification.textContent = message;
-
-        notificationContainer.appendChild(notification);
-
-        notification.classList.add("show");
-
-        setTimeout(function () {
-
-            notification.classList.remove("show");
-            notification.classList.add("hide");
-        }, duration - 1000);
-
-        setTimeout(function () {
-            notificationContainer.removeChild(notification);
-        }, duration);
+    
+  function Delete(id)
+  {
+    console.log(id);
+    var result = confirm("Are you sure?");
+    if (result)
+    {
+        window.location.href = "./deleteAnimal?animal=" + id;
     }
+    else
+    {
+        showToast("As you wish!", "success");
+    }
+  }
 
 </script>

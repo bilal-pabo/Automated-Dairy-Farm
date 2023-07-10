@@ -489,7 +489,7 @@ main form .item input[type="text"],input[type="date"],input[type="number"] {
 
 main form .item input[type="date"] {
   text-indent: 10px;
-  width: 9.3cm;
+  width: 9cm;
 }
 
 main form .item select {

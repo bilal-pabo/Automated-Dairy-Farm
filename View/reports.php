@@ -397,6 +397,84 @@
 
     <div id="page2" class="weeklyReports reportCards">
         <div class="duration">Weekly Reports</div>
+
+        <div>
+            <canvas id="cowweeklychart"></canvas>
+        </div>
+        <script>
+            var labels = <?php echo json_encode($cows); ?>;
+            var milk = <?php echo json_encode($milk); ?>;
+
+            // Create the chart
+            var ctx = document.getElementById('cowweeklychart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Milk (L)',
+                            data: milk,
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 2,
+                            pointRadius: 3,
+                            pointBackgroundColor: 'rgba(75, 192, 192, 1)',
+                            pointBorderColor: 'rgba(75, 192, 192, 1)',
+                            pointHoverRadius: 5,
+                            tension: 0.4,
+                        },
+                    ],
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false,
+                            },
+                            ticks: {
+                                display: false,
+                            },
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function (value, index, values) {
+                                    return value;
+                                },
+                            },
+                            grid: {
+                                drawOnChartArea: true,
+                            },
+                        },
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Weekly Production by Cows',
+                            font: {
+                                size: 18,
+                                weight: 'bold',
+                            },
+                        },
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                font: {
+                                    size: 14,
+                                },
+                            },
+                        },
+                        animation: {
+                            duration: 1500,
+                            easing: 'easeInOutQuart',
+                        },
+                    },
+                },
+            });
+        </script>
     </div>
 
     <!-- monthly reports -->
@@ -574,7 +652,7 @@
                                 easing: 'easeInOutQuart',
                             },
                         },
-                        
+
                     },
                 });
 

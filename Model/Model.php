@@ -747,6 +747,49 @@ class Model
         }
     }
 
+    function deleteAnimal($id)
+    {
+        try {
+            $query = "delete from animalinfo where id='$id'";
+            $result = mysqli_query($this->connection, $query);
+            if ($result)
+                return true;
+            else
+                return false;
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function deletePregnant($id)
+    {
+        try {
+            $query = "delete from pregnantCows where cowid='$id'";
+            $result = mysqli_query($this->connection, $query);
+           
+        } catch (Exception $e) {
+            echo "Database error: " . $e->getMessage();
+        }
+    }
+
+    function getWeeklyRecords($start, $end)
+    {
+        try {
+            $query = "select cowid, SUM(milkamount) as milk
+            from milkrecords 
+            where date between '$start' and '$end'
+            group by cowid";
+            $result = mysqli_query($this->connection, $query);
+            $records = array();
+            while ($row = mysqli_fetch_array($result)) {
+                $records[] = $row;
+            }
+            return $records;
+        } catch (Exception $e) {
+            echo "Database error : " . $e->getMessage();
+        }
+    }
+
 
 }
 ?>

@@ -285,6 +285,31 @@ main .reportCards .reportTable table thead {
   margin-left: 0.5rem;
 }
 
+#cowweeklychart{
+  margin-top: 4rem;
+}
+
+main .profileS {
+  margin-top: 2rem;
+  margin-left: 1cm;
+  display: grid;
+  grid-template-columns: 40% 60%;
+  gap: 2rem;
+}
+
+main .profileS l {
+  display: grid;
+  grid-template-rows: auto auto;
+}
+
+
+
+main .profileS r {
+  margin-top: 2rem;
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+}
+
 
 
 

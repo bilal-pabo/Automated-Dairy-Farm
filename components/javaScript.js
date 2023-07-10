@@ -15,6 +15,11 @@ var daily = document.getElementById("d");
 var weekly = document.getElementById("w");
 var monthly = document.getElementById("m");
 
+// function Delete(id)
+// {
+//     console.log(id);
+// }
+
 // daily.addEventListener("click", ()=>{
 //   daily.classList.add("click");
 //   dR.style.display = "block";
@@ -76,9 +81,10 @@ function edit() {
   $("#date").prop("readonly", false).addClass("glow");
   $("#pregnant").prop("disabled", false).addClass("glow");
   $("#startDate").prop("readonly", false).addClass("glow");
-  $("#deliveryDate").prop("readonly", false).addClass("glow");
-  $("#abortionDate").prop("readonly", false).addClass("glow");
+  $("#deliverydate").prop("readonly", false).addClass("glow");
+  $("#abortiondate").prop("readonly", false).addClass("glow");
   $(".general-btn").css("display", "block");
+  console.log("wtf");
 }
 
 menuBtn.addEventListener("click", () => {
@@ -94,7 +100,16 @@ function redirectToProfile(cowid) {
 }
 
 function deleteBreed(breed) {
-  window.location.href = "delete?breedName=" + breed;
+  var result = confirm("Are you sure?");
+  if (result)
+  {
+    window.location.href = "deleteBreed?breedName=" + breed;
+  } 
+  else
+  {
+    showToast("OK Fine!","success")
+  }
+  
 }
 
 function update(id) {

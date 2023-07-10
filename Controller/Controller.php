@@ -9,10 +9,18 @@ class Controller extends Model
         if (isset($_SERVER['PATH_INFO'])) {
             switch ($_SERVER['PATH_INFO']) {
                 case '/login':
+                    if (isset($_SESSION['login']) && $_SESSION['login'] == true) {
+                        ?>
+                        <script>
+                            window.location.href = 'dashboard';
+                        </script>
+                        <?php
+                    }
                     if (isset($_POST['login'])) {
                         $result = $this->verifyUser($_POST['email'], $_POST['password']);
                         if ($result['Code']) {
                             $_SESSION['user'] = $result['Data'];
+                            $_SESSION['login'] = true;
                             ?>
                             <script>
                                 window.location.href = 'dashboard';
@@ -34,13 +42,15 @@ class Controller extends Model
                     break;
 
                 case '/dashboard':
-                    if (isset($_POST['addExpense'])) {
-                        $expenseDate = $_POST['expenseDate'];
-                        $dailyExpense = $_POST['dailyExpense'];
-                        parent::addDailyExpense($expenseDate, $dailyExpense);
 
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
                     }
-
 
 
                     $today = date('Y-m-d');
@@ -95,18 +105,34 @@ class Controller extends Model
                     break;
 
                 case '/profile':
-                    if (isset($_POST['edit'])) {
-                        echo "edit mode";
-                    } else {
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+                    
                         include './View/header2.php';
                         include './View/sidebar.php';
                         include './View/profile.php';
                         include './View/rightbar.php';
                         include './View/footer.php';
-                    }
+                  
                     break;
 
                 case '/addAnimal':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $breeds = parent::getBreeds();
                     if (isset($_POST['add'])) {
                         $data = $_POST;
@@ -160,6 +186,16 @@ class Controller extends Model
                     break;
 
                 case '/allAnimals':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $records = parent::allAnimals();
                     include './View/header2.php';
                     include './View/sidebar.php';
@@ -169,6 +205,16 @@ class Controller extends Model
                     break;
 
                 case '/pregnantCows':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $pregnantCows = parent::getPregnantCows();
                     include './View/header2.php';
                     include './View/sidebar.php';
@@ -178,6 +224,16 @@ class Controller extends Model
                     break;
 
                 case '/lowYieldCows':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $lowYieldCows = array();
                     $start = date('Y-m-d', strtotime('-7 day'));
                     $end = date('Y-m-d', strtotime('-1 day'));
@@ -190,6 +246,16 @@ class Controller extends Model
                     break;
 
                 case '/animalProfile':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     if (isset($_POST["updatebtn"])) {
                         //   $array = $_POST;
                         //     print_r($array);
@@ -215,30 +281,38 @@ class Controller extends Model
                         if ($_POST['bid'])
                             $bullid = $_POST['bid'];
                         $pregnant = "";
-                        if ($_POST['pregnant'])
-                            $pregnant = $_POST['pregnant'];
                         $startdate = date('0001-01-01');
                         if ($_POST['startDate'])
-                            $startdate = $_POST['startdate'];
+                            $startdate = $_POST['startDate'];
+                        if ($_POST['pregnant']) {
+                            $pregnant = $_POST['pregnant'];
+                            if ($pregnant == "Yes") {
+                                parent::addPregnant($id, $startdate);
+                            }
+
+                        }
+
                         $deliverydate = date('0001-01-01');
-                        if ($_POST['deliverydate'])
+                        if ($_POST['deliverydate']) {
                             $deliverydate = $_POST['deliverydate'];
+                            parent::deletePregnant($id);
+                        }
                         $abortiondate = date('0001-01-01');
-                        if ($_POST['abortiondate'])
+                        if ($_POST['abortiondate']) {
                             $abortiondate = $_POST['abortiondate'];
-
+                            parent::deletePregnant($id);
+                        }
                         $result = parent::updateAnimalInfo($id, $breed, $color, $dob, $price, $insemination, $insdate, $bullid, $pregnant, $startdate, $abortiondate, $deliverydate);
-                        if ($result)
+                        if ($result) {
                             $_SESSION['msg'] = "Updation Successfull!";
-                        else
+                            $_SESSION['type'] = "success";
+                        } else {
                             $_SESSION['msg'] = "Updation Failed!";
+                            $_SESSION['type'] = "error";
+                        }
 
 
-                        ?>
-                        <script>
-                            window.location.href = <?php echo "animalProfle?cowid=" . $id ?>;
-                        </script>
-                        <?php
+
                     }
 
                     $breeds = parent::getBreeds();
@@ -265,6 +339,16 @@ class Controller extends Model
                     break;
 
                 case '/addMilkRecord':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $cows = parent::getAllCows();
                     if (isset($_POST['addRecord'])) {
                         $totalmilk = 0;
@@ -278,6 +362,7 @@ class Controller extends Model
                         $times = parent::recordValid($date);
                         if ($times == 2) {
                             $_SESSION['msg'] = "Milk records of " . $date . " are already added!";
+                            $_SESSION['type'] = "invalid";
                         } else {
                             foreach ($data as $key => $value) {
                                 if (
@@ -295,11 +380,14 @@ class Controller extends Model
                                 if ($times == 0) {
                                     parent::addMilkRecord($key, $date, $quantity, 1);
                                     $_SESSION['msg'] = "Morning milk records of " . $date . " are added successfully!";
+                                    $_SESSION['type'] = "success";
                                 } else if ($times == 1) {
                                     parent::updateMilkRecord($key, $date, $quantity, 2);
                                     $_SESSION['msg'] = "Evening milk records of " . $date . " are added successfully!";
+                                    $_SESSION['type'] = "success";
                                 } else {
-                                    $_SESSION['msg'] = "Invalid Milk Record!";
+                                    $_SESSION['msg'] = "Something went wrong!";
+                                    $_SESSION['type'] = "error";
                                 }
                             }
                             if ($times == 0) {
@@ -332,6 +420,16 @@ class Controller extends Model
                     break;
 
                 case '/groups':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $groupA = array();
                     $groupB = array();
                     $groupC = array();
@@ -350,14 +448,26 @@ class Controller extends Model
                     break;
 
                 case '/breeds':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     if (isset($_POST["addbreedbtn"])) {
                         $breed = $_POST["newbreed"];
 
                         $result = parent::addBreed($breed);
                         if ($result) {
                             $_SESSION["msg"] = "Breed added successfully!";
+                            $_SESSION["type"] = "success";
                         } else {
                             $_SESSION["msg"] = "Breed already exist!";
+                            $_SESSION["type"] = "invalid";
                         }
                     }
                     $breeds = parent::getBreeds();
@@ -369,7 +479,7 @@ class Controller extends Model
                     include './View/footer.php';
                     break;
 
-                case '/delete':
+                case '/deleteBreed':
                     if ($_GET["breedName"]) {
                         $breed = $_GET["breedName"];
                         $result = parent::deleteBreed($breed);
@@ -378,7 +488,7 @@ class Controller extends Model
                             $_SESSION['type'] = "success";
                         } else {
                             $_SESSION['Msg'] = "Something went wrong!";
-                            $_SESSION['type'] = "invalid";
+                            $_SESSION['type'] = "error";
                         }
                         ?>
                         <script>
@@ -386,7 +496,8 @@ class Controller extends Model
                         </script>
                         <?php
                     }
-
+                    break;
+                case '/deleteSick':
                     if ($_GET["sickid"]) {
                         $id = $_GET["sickid"];
                         $result = parent::deleteSick($id);
@@ -395,11 +506,29 @@ class Controller extends Model
                             $_SESSION['type'] = "success";
                         } else {
                             $_SESSION['Msg'] = "Something went wrong!";
-                            $_SESSION['type'] = "invalid";
+                            $_SESSION['type'] = "error";
                         }
                         ?>
                         <script>
                             window.location.href = "health";
+                        </script>
+                        <?php
+                    }
+                    break;
+                case '/deleteAnimal':
+                    if ($_GET["animal"]) {
+                        $id = $_GET["animal"];
+                        $result = parent::deleteAnimal($id);
+                        if ($result) {
+                            $_SESSION['Msg'] = $id . " deleted successfully!";
+                            $_SESSION['type'] = "success";
+                        } else {
+                            $_SESSION['Msg'] = "Something went wrong!";
+                            $_SESSION['type'] = "error";
+                        }
+                        ?>
+                        <script>
+                            window.location.href = "allAnimals";
                         </script>
                         <?php
                     }
@@ -451,17 +580,36 @@ class Controller extends Model
                     break;
 
                 case '/reports':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $cowRecords = parent::cowRecordsPerDay();
                     $breeds = parent::getBreeds();
                     $cows = parent::getAllCows();
                     $dailyMilkRecords = parent::allMilkRecords();
                     $profit = parent::allProfitRecords();
                     //$expense = parent::allExpenseRecords();
-                    $cows = parent::getAllCows();
+                    //$cows = parent::getAllCows();
                     $monthlyRecords = parent::getMonthlyData();
                     $monthlyMilk = array();
                     $monthlyExpense = array();
                     $monthlyProfit = array();
+                    $start = date('Y-m-d', strtotime('-7 day'));
+                    $end = date('Y-m-d', strtotime('-1 day'));
+                    $weeklyRecords = parent::getWeeklyRecords($start, $end);
+                    $Cows = array(); $milk = array();
+                    for ($i = 0; $i < sizeof($weeklyRecords); $i++)
+                    {
+                        $cows[] = $weeklyRecords[$i]["cowid"];
+                        $milk[] = $weeklyRecords[$i]["milk"];
+                    }
                     for ($i = 0; $i < 12; $i++) {
                         $monthlyMilk[] = parent::getMonthlyTotalMilk($i + 1, 'amount');
                         $expense = parent::getMonthlyTotalMilk($i + 1, 'expense');
@@ -505,23 +653,22 @@ class Controller extends Model
                     break;
 
                 case '/addExamination':
+                    
                     $id = $_POST["id"];
                     $dis = $_POST["disease"];
                     $med = $_POST["med"];
                     $temp = $_POST["temp"];
                     $date = $_POST["date"];
                     $result = parent::addSick($id, $dis, $med, $temp, $date);
-                    if ($result == "updated")
-                    {
+                    if ($result == "updated") {
                         $_SESSION["msg"] = "Record updated!";
                     }
-                    if ($result == "added")
-                    {
+                    if ($result == "added") {
                         $_SESSION["msg"] = "Record added!";
-                    }  ?>
-                        <script>
-                            window.location.href = "health";
-                        </script>  <?php
+                    } ?>
+                    <script>
+                        window.location.href = "health";
+                    </script> <?php
 
                     break;
 
@@ -558,13 +705,22 @@ class Controller extends Model
                     break;
 
                 case '/health':
+
+                    if (!isset($_SESSION['login'])) {
+                        $_SESSION['msg'] = "Login first";
+                        ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
+                    }
+
                     $sickAnimals = parent::getSickAnimals();
-                    if ($sickAnimals["code"] == true)
-                    {
+                    if ($sickAnimals["code"] == true) {
                         $data = $sickAnimals["data"];
                         $sickSize = sizeof($data);
-                    }
-                    else $sickSize = 0;
+                    } else
+                        $sickSize = 0;
                     $totalanimals = parent::allAnimals();
                     $totalSize = sizeof($totalanimals);
                     $labels = array("Sick", "Healthy");
@@ -577,9 +733,15 @@ class Controller extends Model
                     break;
 
                 case '/logout':
-                    include './View/header2.php';
-                    include './View/sidebar.php';
-                    include './View/footer.php';
+                    $this->connection->close();
+                    $_SESSION = array();
+                    session_regenerate_id(true);
+                    session_destroy();
+                    ?>
+                        <script>
+                            window.location.href = 'login';
+                        </script>
+                        <?php
                     break;
 
 

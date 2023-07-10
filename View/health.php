@@ -86,7 +86,7 @@
             var msg = "OH. " + id + " is still SICK!";
             if (xx) {
                 console.log("yes");
-                window.location.href = "./delete?sickid=" + id;
+                window.location.href = "./deleteSick?sickid=" + id;
             }
             else showToast(msg, "error");
         }
